@@ -1,0 +1,98 @@
+/**
+ * CSS variables for use in the firetv.scss file
+ *
+ * These variables create a single theme for the application.
+ *
+ * Organization : - TYPES : varaibles are separated by type (font-face, font-size, color etc)
+ *                - NAMES : names begin with the CSS property in most cases. Some exceptions are shadow and ani, 
+ *                          which are shortened for simplicity sake
+ *                - COLORS : there are color variables that define color values, and color variables
+ *                           that call other color variables - the purpose of this is to define each color once
+ *                           and then use more specific variables that are closely related to elements within the
+ *                           app. Color variables that define a color value begin with 'color-val'
+ *               
+ * Usage : Variables are used for all colors, font-family and font-size values. Other variables may be used for
+ *         items that are repeated in the styles more than once - such as box-shadow.
+ */
+
+ //Images
+ $img-leftnav-icon : '../images/icon_leftnav_arrowDown.png';
+
+//Fonts - used by FireTV
+$font-default : 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-light   : 'Helvetica Neue Light', $font-default; 
+$font-medium  : 'Helvetica Neue Medium', $font-default; 
+$font-bold    : 'Helvetica Neue Bold', $font-default; 
+
+//font-sizes
+$font-size-tiny   : 20pt;
+$font-size-xsmall : 22pt;
+$font-size-small  : 24pt;
+$font-size-smlMed : 28pt;
+$font-size-med    : 32pt;
+$font-size-lrg    : 36pt;
+$font-size-xlrg   : 46pt;
+
+$font-size-tombstone : $font-size-xsmall;
+
+//colors 
+$color-val-app-base   : #5a656f;
+$color-val-app-static : #394149;
+
+$color-val-dark-static : #7a8590;
+$color-val-light-static : #b9bbbd;
+$color-val-light-select : #2dc9df;
+$color-val-select-highlight : #bff7fd;
+$color-val-dark-select : black;
+$color-val-shadow : #2A2A2A;
+$color-val-static : white;
+$color-val-info  : #e8e8e9;
+$color-val-key   : #7f8287;
+$color-val-title : #f0f0f0; 
+
+$color-font-leftnav-static     : $color-val-static;
+$color-font-leftnav-selected   : $color-val-light-select;
+$color-font-leftnav-highlight  : $color-val-select-highlight;
+$color-font-dark               : $color-val-dark-select;
+$color-font-button-static      : $color-val-light-static;
+$color-font-button-selected    : $color-val-light-static;
+
+$color-bg-app : $color-val-app-base; 
+
+$color-bg-button-static      : $color-val-app-static;
+$color-bg-button-selected    : $color-val-dark-select;
+
+//gradients
+$gradient-leftnav-item-selected : -webkit-linear-gradient(0deg, $color-font-leftnav-selected 0%,
+                                                                  $color-font-leftnav-selected 35%,
+                                                                  $color-font-leftnav-highlight 50%,
+                                                                  $color-font-leftnav-selected 65%,
+                                                                  $color-font-leftnav-selected 100%);
+$gradient-shiner-highlight : -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0) 0%, 
+                                                             rgba(255, 255, 255, 0) 35%, 
+                                                             rgba(255, 255, 255, 0.3) 50%, 
+                                                             rgba(255, 255, 255, 0) 65%, 
+                                                             rgba(255, 255, 255, 0) 100%);
+
+//shadows
+$shadow-row-element : 5px 5px 5px $color-val-shadow; 
+
+//dimensions
+$height-content-row : 320px;
+$width-tombstone    : 212px;
+$width-height-image : 350px;
+
+//positions
+$left-content-position : 150px;
+
+//animations
+$ani-durationspeed-fast  : 0.2s;
+$ani-durationspeed-med   : 0.25s;
+
+$ani-duration-leftnav-menu : $ani-durationspeed-med;
+$ani-duration-leftnav-item  : $ani-durationspeed-med;
+$ani-duration-maincontent-opacity : $ani-durationspeed-fast;
+$ani-duration-one-D-container : $ani-durationspeed-med;
+$ani-duration-shoveler-item : $ani-durationspeed-med;
+
+$ani-timedelay-shiner : 4.4s;

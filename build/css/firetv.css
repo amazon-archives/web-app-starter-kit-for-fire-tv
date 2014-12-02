@@ -1,0 +1,464 @@
+/**
+ * CSS variables for use in the firetv.scss file
+ *
+ * These variables create a single theme for the application.
+ *
+ * Organization : - TYPES : varaibles are separated by type (font-face, font-size, color etc)
+ *                - NAMES : names begin with the CSS property in most cases. Some exceptions are shadow and ani, 
+ *                          which are shortened for simplicity sake
+ *                - COLORS : there are color variables that define color values, and color variables
+ *                           that call other color variables - the purpose of this is to define each color once
+ *                           and then use more specific variables that are closely related to elements within the
+ *                           app. Color variables that define a color value begin with 'color-val'
+ *               
+ * Usage : Variables are used for all colors, font-family and font-size values. Other variables may be used for
+ *         items that are repeated in the styles more than once - such as box-shadow.
+ */
+/* line 7, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+body {
+  width: 1920px;
+  height: 1080px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #5a656f url("../images/bg_app.jpg") no-repeat left top; }
+
+/* line 17, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+div {
+  -webkit-box-sizing: border-box; }
+
+/* line 24, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.app-top-bar {
+  position: absolute;
+  width: 100%;
+  height: 240px;
+  z-index: 200;
+  background-color: rgba(0, 0, 0, 0.1); }
+
+/* line 32, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.app-logo {
+  position: absolute;
+  bottom: 30px;
+  right: 150px; }
+
+/* line 41, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.leftnav-main-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 760px;
+  margin: 0;
+  z-index: 0; }
+
+/* line 51, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.leftnav-menu-list, .leftnav-menulist-expanded, .leftnav-menulist-minified {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.9); }
+
+/* line 60, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.leftnav-menulist-expanded {
+  height: 100%;
+  top: 0; }
+
+/* line 66, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.leftnav-menulist-minified {
+  top: 140px;
+  height: 98px; }
+
+/* line 72, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.leftnav-menu-scrolling-list {
+  color: white; }
+
+/* line 79, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.leftnav-list-item-static {
+  word-wrap: break-word;
+  line-height: 98px;
+  max-height: 98px;
+  font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 36pt;
+  padding-left: 150px;
+  margin-bottom: 2px;
+  background-color: rgba(235, 235, 235, 0.07);
+  -webkit-transition-property: opacity;
+  -webkit-transition-duration: 0.25s; }
+
+/* line 92, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.leftnav-list-item-static:first-child {
+  margin-top: 140px; }
+
+/* line 96, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.leftnav-list-item-highlighted {
+  font-size: 46pt;
+  color: white;
+  background: black url('../images/icon_leftnav_arrowDown.png') no-repeat right 40px center; }
+
+/* line 102, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.leftnav-list-item-selected {
+  font-size: 46pt;
+  color: black;
+  background: white url('../images/icon_leftnav_arrowDown.png') no-repeat right 40px center; }
+
+/* line 108, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.leftnav-list-item-chosen {
+  font-size: 46pt;
+  color: white;
+  background: #3f484f url('../images/icon_leftnav_arrowDown.png') no-repeat right 40px center; }
+
+/* line 117, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.one-D-details-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-transition-property: opacity;
+  -webkit-transition-duration: 0.2s;
+  -webkit-transition-timing-function: linear; }
+
+/* line 128, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.one-D-details-summary-text {
+  position: absolute;
+  top: 690px;
+  left: 150px;
+  width: 80%;
+  color: #e8e8e9; }
+  /* line 134, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  .one-D-details-summary-text .one-D-summary-title {
+    font-size: 32pt;
+    font-family: 'Helvetica Neue Bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1; }
+  /* line 142, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  .one-D-details-summary-text .one-D-summary-pubdate {
+    font-size: 20pt;
+    font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  /* line 146, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  .one-D-details-summary-text .one-D-summary-description {
+    margin-top: 20px;
+    font-size: 24pt;
+    font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; }
+
+/* line 157, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.detail-row-container-buttons {
+  position: absolute;
+  bottom: 100px;
+  left: 150px;
+  height: 75px; }
+
+/* line 164, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.detail-item-button, .detail-item-button-selected, .detail-item-button-static {
+  position: relative;
+  width: 315px;
+  height: 73px;
+  padding: 15px;
+  float: left;
+  margin-right: 10px;
+  text-align: center;
+  font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 28pt;
+  border: 1px solid transparent; }
+
+/* line 177, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.detail-item-button-selected {
+  color: #b9bbbd;
+  overflow: hidden;
+  border-color: #b9bbbd;
+  margin-top: 0px;
+  background-color: black; }
+
+/* line 186, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.detail-item-button-static {
+  color: #b9bbbd;
+  background: #394149; }
+
+/* line 192, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+#one-D-shoveler-container {
+  position: absolute;
+  top: 290px;
+  left: 0px;
+  width: 100%;
+  height: 380px;
+  -webkit-transform: translateZ(0);
+  -webkit-transition-property: -webkit-transform opacity;
+  -webkit-transition-timing-function: linear; }
+
+/* line 206, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.shoveler-dynamic-row-container {
+  position: absolute;
+  width: 1000%;
+  height: 100%;
+  left: 200px;
+  overflow: hidden;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 1s;
+  -webkit-transform: translateX(0);
+  -webkit-transition-timing-function: linear; }
+
+/* line 218, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.shoveler-row-container {
+  width: 100%;
+  height: 100%;
+  -webkit-transform-style: preserve-3d; }
+
+/* line 224, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.shoveler-rowitem-static {
+  position: absolute;
+  left: 150px;
+  height: 100%;
+  background-color: gray;
+  -webkit-transition-property: -webkit-transform, opacity;
+  -webkit-transition-duration: 0.25s;
+  -webkit-transition-timing-function: linear;
+  -webkit-transform-origin: left center; }
+  /* line 233, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  .shoveler-rowitem-static img {
+    height: 100% !important;
+    display: inline-block; }
+
+/* line 241, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.shoveler-rowitem-selected img {
+  background-blend-mode: overlay;
+  display: inline-block; }
+
+/* line 250, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-main-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+/* line 258, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-content-video {
+  position: absolute;
+  width: 100%;
+  height: 100%; }
+
+/* line 264, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-controls-container {
+  position: absolute;
+  width: 100%;
+  height: 30%;
+  padding: 0 8%;
+  bottom: 0;
+  opacity: 0;
+  -webkit-transition: 0.5s;
+  background-color: rgba(0, 0, 0, 0.8); }
+
+/* line 275, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-controls-timeline-container {
+  position: relative;
+  margin-top: 20px;
+  height: 10px; }
+
+/* line 281, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-controls-timeline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #5a5a5a;
+  border-radius: 6px;
+  background-color: #c5c5c5; }
+
+/* line 292, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-controls-timeline-playhead {
+  position: absolute;
+  width: 0%;
+  height: 10px;
+  border: 1px solid #25435a;
+  margin-top: -1px;
+  border-radius: 6px;
+  background-color: #707070; }
+
+/* line 302, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-controls-timestamp, .player-controls-timestamp-curtime, .player-controls-timestamp-totaltime {
+  margin-top: 10px;
+  font-size: 24pt;
+  font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
+/* line 308, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-controls-timestamp-curtime {
+  color: white;
+  display: inline-block;
+  float: left; }
+
+/* line 315, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-controls-timestamp-totaltime {
+  color: #9b9b9b;
+  display: inline-block;
+  float: right; }
+
+/* line 322, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-controls-content-title {
+  position: absolute;
+  bottom: 160px;
+  color: white;
+  font-size: 36pt;
+  font-family: 'Helvetica Neue Medium', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-top: 20px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1; }
+
+/* line 335, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-controls-content-subtitle {
+  position: absolute;
+  top: 170px;
+  width: 60%;
+  color: #9b9b9b;
+  font-size: 22pt;
+  font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-style: italic; }
+
+/* line 345, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.player-pause-button {
+  position: absolute;
+  top: 250px;
+  left: 870px;
+  height: 200px;
+  width: 200px;
+  opacity: 0; }
+
+/* line 357, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.app-overlay-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  z-index: 100; }
+
+/* line 367, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.app-main-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  display: inline-block;
+  margin: auto;
+  border: 1px solid #000;
+  background-color: #b9bbbd;
+  border-radius: 50%;
+  -webkit-animation: loading-spinner 1.2s infinite ease-out; }
+
+/* line 383, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.content-load-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 120px;
+  height: 160px;
+  margin: 25% auto;
+  text-align: center;
+  font-size: 10px;
+  z-index: 200; }
+
+/* line 397, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.content-load-spinner > div {
+  background-color: #333;
+  height: 100%;
+  width: 10px;
+  display: inline-block;
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out; }
+
+/* line 406, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.content-load-spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s; }
+
+/* line 411, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.content-load-spinner .rect3 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s; }
+
+/* line 416, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.content-load-spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s; }
+
+/* line 421, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+.content-load-spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s; }
+
+@-webkit-keyframes stretchdelay {
+  /* line 427, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  0%, 40%, 100% {
+    -webkit-transform: scaleY(0.4); }
+
+  /* line 428, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  20% {
+    -webkit-transform: scaleY(1); } }
+
+@keyframes stretchdelay {
+  /* line 432, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4); }
+
+  /* line 435, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  20% {
+    transform: scaleY(1);
+    -webkit-transform: scaleY(1); } }
+
+@-webkit-keyframes left-nav-hilight-animate {
+  /* line 446, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  0% {
+    background-position: -140px; }
+
+  /* line 447, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  100% {
+    background-position: -550%; } }
+
+@keyframes global-shiner-animate {
+  /* line 452, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  from {
+    background-position: 0px -1400px; }
+
+  /* line 453, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  to {
+    background-position: 0px 1000px; } }
+
+@-webkit-keyframes global-shiner-animate {
+  /* line 458, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  from {
+    background-position: 0px -1400px; }
+
+  /* line 459, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  to {
+    background-position: 0px 1000px; } }
+
+@-webkit-keyframes loading-spinner {
+  /* line 464, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  0% {
+    -webkit-transform: scale(0.1); }
+
+  /* line 465, /Users/brunnerc/web-app-starter-kit-for-fire-tv/firetv.scss */
+  100% {
+    -webkit-transform: scale(1);
+    opacity: 0; } }
+
+
+/*# sourceMappingURL=firetv.css.map */
