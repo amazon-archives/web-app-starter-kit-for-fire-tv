@@ -29,17 +29,17 @@
                 this.modelData = jsonData;
 
                 for (var i = 0; i < this.mediaData.length; i++) {
-                    var data = this.mediaData[i];
-                    var currCategories = data.categories;
-                    if (currCategories) {
-                        $.merge(this.categoryData, currCategories);
+                    var mediaCats = this.mediaData[i].categories;
+                    if (mediaCats) {
+                        for (var j = 0; j < mediaCats.length; j++) {
+                            if (this.categoryData.indexOf(mediaCats[j]) < 0) {
+                                this.categoryData.push(mediaCats[j]);
+                           }
+                        }
                     }
-                 }
-
-                 $.unique(this.categoryData);
-
-                 //this.sortAlphabetically(this.categoryData);
-                 dataLoadedCallback();
+                }
+                this.sortAlphabetically(this.categoryData);
+                dataLoadedCallback();
             }.bind(this));
         };
 
