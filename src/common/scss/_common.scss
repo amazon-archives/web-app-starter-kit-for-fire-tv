@@ -1,0 +1,644 @@
+/**
+* All of the common css rules for the entire template.
+*/
+
+* {
+    box-sizing: Border-box
+    }
+
+html, body {
+    width    : 100%;
+    height   : 100%;
+    overflow : hidden;
+}
+
+body {
+    position : absolute;
+    padding  : 0;
+    margin   : 0;
+    font-size: $font-base-size;
+    font-family : $font-family-light;
+    background: $color-app-base-bg $img-app-background no-repeat left top;
+    background-size : 100% 100%;
+}
+
+div {
+  @include box-sizing(border-box);
+}
+
+//
+//Application Styles
+//
+.app-main-container {
+    position : relative;
+    width    : inherit;
+    height   : inherit;
+    overflow : hidden;
+}
+
+.app-top-bar {
+    position : absolute;
+    width    : 100%;
+    height   : 240px;
+    background-color : $color-app-header-bg;
+}
+
+.app-logo {
+    position : absolute;
+    bottom   : -7px;
+    right    : 150px;
+}
+
+//
+// Left Nav Styles
+//
+.leftnav-main-container {
+    position : absolute;
+    top    : 0;
+    left   : 0;
+    height : 100%;
+    width  : 40%;
+    margin : 0;
+}
+
+.leftnav-menu-list {
+    position : absolute;
+    width    : 100%;
+    height   : 100%;
+    padding  : 0px;
+    overflow : hidden;
+    font-family  : $font-family-light;
+    background-color : $color-menu-base-bg;
+}
+
+.leftnav-menulist-expanded {
+    @extend .leftnav-menu-list;
+    height : 100%;
+    top    : 0;
+    z-index: 100;
+}
+
+.leftnav-menulist-collapsed {
+    @extend .leftnav-menu-list;
+    top    : $pos-top-leftnav-content;
+    height : $size-leftnav-collapsed-height;
+    z-index: 10;
+}
+
+.leftnav-menulist-collapsed .leftnav-menu-scrolling-list {
+    margin-top : -$pos-top-leftnav-content;
+}
+
+.leftnav-menu-scrolling-list {
+    color : $color-menu-item-text;
+}
+
+.leftnav-list-item-static {
+    word-wrap    : break-word;
+    line-height  : $size-leftnav-line-height;
+    font-weight: lighter;
+    font-size: 1.7em;
+    font-family: $font-family-light;
+    padding      : 0 50px 0 $pos-left-content-position;
+    overflow     : hidden;
+    margin-bottom    : 2px;
+    background-color : $color-menu-item-bg;
+    @include transition-property(opacity);
+    @include transition-duration($ani-duration-leftnav-item);
+    @include display-box;
+    @include box-orient(vertical);
+    @include line-clamp(1);
+}
+
+.leftnav-list-item-container:first-child {
+    margin-top : $pos-top-leftnav-content;
+}
+
+.leftnav-list-item-highlighted {
+    color     : $color-menu-item-highlight-text;
+    border: 1px $color-menu-item-highlight-text solid;
+    border-width: 1px 1px 1px 0px;
+    background: $color-menu-item-highlight-bg $img-icon-leftnav no-repeat $pos-right-leftnav-arrow-icon center;
+}
+
+.leftnav-list-item-container .leftnav-list-item-selected {
+    color     : $color-menu-item-selected-text;
+    background: $color-menu-item-selected-bg $img-icon-leftnav no-repeat $pos-right-leftnav-arrow-icon center;
+}
+
+.leftnav-list-item-chosen {
+    border: 1px solid $color-menu-item-chosen-bg;
+    border-width: 1px 1px 1px 0px;
+    color      : $color-menu-item-chosen-text;
+    background : $color-menu-item-chosen-bg $img-icon-leftnav no-repeat $pos-right-leftnav-arrow-icon center;
+}
+
+.search-icon {
+    height : 50px;
+    width  : 50px;
+}
+
+.leftnav-search-box {
+    border : none;
+    width  : 100%;
+    color  : $color-menu-search-text;
+    padding-left : 140px;
+    background-image    : $img-icon-search;
+    background-position : 85px 30px;
+    background-size     : 40px 40px;
+    background-repeat   : no-repeat;
+    background-origin   : initial;
+    background-clip     : initial;
+    background-attachment : initial;
+    outline-width: 0;
+}
+
+.leftnav-search-box.leftnav-list-item-highlighted {
+    color     : $color-menu-item-highlight-text;
+    border: 1px $color-menu-item-highlight-text solid;
+    border-width: 1px 1px 1px 0px;
+    background: $color-menu-item-highlight-bg $img-icon-leftnav no-repeat $pos-right-leftnav-arrow-icon center;
+}
+
+.leftnav-search-box::-webkit-input-placeholder {
+    font-family : $font-family-light;
+}
+
+//
+// Full Row View
+//
+.one-d-no-items-container {
+    position : absolute;
+    display  : none;
+    top      : 300px;
+    left     : 200px;
+    color    : $color-title-text;
+    font-size: 3em;
+}
+
+.one-D-details-container {
+    position : absolute;
+    top    : 0;
+    left   : 0;
+    width  : 100%;
+    height : 100%;
+    @include transition-property(opacity);
+    @include transition-duration($ani-duration-maincontent-opacity);
+    @include transition-timing-function(linear);
+}
+
+.one-D-details-summary-text {
+    position : absolute;
+    top      : 690px;
+    width    : 80%;
+    left     : $pos-left-content-position;
+    color    : $color-title-text;
+    .one-D-summary-title {
+        line-height: 1.4;
+        font-size: 1.4em;
+        font-weight: $font-family-bold;
+        height     : 51px;
+        overflow   : hidden;
+        margin-top : 10px;
+        @include display-box;
+        @include box-orient(vertical);
+        @include line-clamp(1);
+    }
+    .one-D-summary-pubdate {
+        font-weight: 200;
+        font-size: 1em;
+        font-family: $font-family-light;
+        color : $color-meta-secondary-text;
+    }
+    .one-D-summary-description {
+        font-size: 1.2em;
+        font-family : $font-family-light;
+        margin-top  : 20px;
+        overflow    : hidden;
+        height      : 80px;
+        color    : $color-description-text;
+        @include display-box;
+        @include box-orient(vertical);
+        @include line-clamp(2);
+    }
+}
+
+.detail-row-container-buttons {
+    position : absolute;
+    bottom   : 100px;
+    left     : $pos-left-content-position;
+    height   : 75px;
+}
+
+.detail-item-button {
+    position : relative;
+    width    : 315px;
+    height   : 73px;
+    padding  : 15px;
+    float    : left;
+    font-size    : 1.4em;
+    font-family:  $font-family-light;
+    margin-right : 10px;
+    text-align   : center;
+    border       : 1px solid transparent;
+}
+
+.detail-item-button-selected {
+    @extend .detail-item-button;
+    overflow   : hidden;
+    margin-top : 0px;
+    color            : $color-btn-selected-text;
+    border-color     : $color-btn-selected-border;
+    background-color : $color-btn-selected-bg;
+}
+
+.detail-item-button-static{
+    @extend .detail-item-button;
+    color      : $color-btn-text;
+    background-color : $color-btn-bg;
+}
+
+#one-D-shoveler-container {
+    position : absolute;
+    top      : 290px;
+    left     : 0px;
+    width    : 100%;
+    height   : 380px;
+    z-index  : 20;
+    @include transform(translateZ(0));
+    @include transition-property-transform-plus(opacity);
+    @include transition-timing-function(linear);
+}
+
+//
+// Shoveler View
+//
+.shoveler-dynamic-row-container {
+    position : absolute;
+    width    : 1000%;
+    height   : 100%;
+    left     : 200px;
+    overflow : hidden;
+    @include transition-property-transform;
+    @include transition-duration(1s);
+    @include transform(translateX(0));
+    @include transition-timing-function(linear);
+}
+
+.shoveler-row-container {
+    width  : 100%;
+    height : 100%;
+    @include transform-style(preserve-3d);
+}
+
+.shoveler-rowitem-static {
+    position : absolute;
+    left     : $pos-left-content-position;
+    height   : 100%;
+    background-color:gray;
+    @include transition-property-transform-plus(opacity);
+    @include transition-duration(0.25s);
+    @include transition-timing-function(linear);
+    @include transform-origin(left center);
+    img {
+        height  : 100% !important;
+        display : inline-block;
+    }
+}
+
+//selected elements in the shoveler view
+.shoveler-rowitem-selected {
+    img {
+        background-blend-mode : overlay;
+        display : inline-block;
+    }
+}
+
+//
+// Player View
+//
+.player-main-container {
+  position : absolute;
+  top      : 0;
+  left     : 0;
+  width    : 100%;
+  height   : 100%;
+}
+
+.player-content-video {
+    position : absolute;
+    width    : 100%;
+    height   : 100%;
+}
+
+.player-controls-container {
+    position : absolute;
+    width    : 100%;
+    height   : 30%;
+    padding  : 0 8%;
+    bottom   : 0;
+    opacity  : 0;
+    background-color : $color-player-controls-bg;
+    @include transition(0.5s);
+    z-index: 100;
+}
+
+.player-controls-timeline-container {
+    position   : relative;
+    height     : 10px;
+    margin-top : 20px;
+}
+
+.player-controls-timeline {
+    position : absolute;
+    top      : 0;
+    left     : 0;
+    width    : 100%;
+    height   : 100%;
+    border           : 1px solid $color-timeline-border;
+    border-radius    : 6px;
+    background-color : $color-timeline-bg;
+}
+
+.player-controls-timeline-playhead {
+    position : absolute;
+    width  : 0%;
+    height : 10px;
+    border : 1px solid $color-playhead-border;
+    margin-top       : -1px;
+    border-radius    : 6px;
+    background-color : $color-playhead-bg;
+}
+
+.player-controls-skip-indicator {
+    position : absolute;
+    height   : 100px;
+    top      : -100px;
+    left     : 60px;
+    font-size      : 1.8em;
+    color          : $color-meta-primary-text;
+    display        : flex;
+    background-size : 100% 100%;
+    background-image: $img-skip-indicator;
+    min-width: 200px;
+    margin-left: -20px;
+
+    img {
+        height : 22px;
+        width  : 30px;
+        margin-left : 25px;
+        margin-top  : 30px;
+    }
+
+    .player-controls-skip-symbol {
+        margin-left : 15px;
+        margin-top  : 15px;
+    }
+
+    .player-controls-skip-number {
+        margin-top  : 15px;
+        font-weight : bold;
+    }
+
+    .player-controls-skip-text {
+        margin-top  : 16px;
+        margin-left : 5px;
+        margin-right: 20px;
+        font-weight : lighter;
+    }
+}
+
+#forward-indicator {
+    display : none;
+}
+
+#rewind-indicator {
+    display : none;
+}
+
+.player-controls-timestamp {
+    margin-top  : 10px;
+    font-size        : 1.6em;
+    font-family: $font-family-light;
+}
+
+.player-controls-timestamp-curtime {
+    @extend .player-controls-timestamp;
+    color   : $color-meta-primary-text;
+    display : inline-block;
+    float   : left;
+}
+
+.player-controls-timestamp-totaltime {
+    @extend .player-controls-timestamp;
+    color   : $color-meta-secondary-text;
+    display : inline-block;
+    float   : right;
+}
+
+.player-controls-content-title {
+    position    : absolute;
+    top         : 80px;
+    height      : 59px;
+    color       : $color-title-text;
+    font-size       : 1.8em;
+    font-family   : $font-family-medium;
+    margin-top  : 20px;
+    overflow    : hidden;
+    @include display-box;
+    @include box-orient(vertical);
+    @include line-clamp(1);
+}
+
+.player-controls-button-back {
+    display : none;
+}
+
+.player-controls-content-subtitle {
+    position : absolute;
+    top      : 170px;
+    width    : 60%;
+    height   : 72px;
+    color    : $color-description-text;
+    font-style: italic;
+    font-size: 1.1em;
+    font-family: $font-family-light;
+    @include display-box;
+    @include box-orient(vertical);
+    @include line-clamp(2);
+}
+
+.player-pause-button {
+    position   : absolute;
+    top        : 250px;
+    left       : 870px;
+    height     : 200px;
+    width      : 200px;
+    opacity    : 0;
+}
+
+//
+// Next Video View
+//
+.next-video-main-container {
+    position : absolute;
+    height   : 100%;
+    width    : 30%;
+    right    : 0;
+    display  : flex;
+    color    : $color-meta-secondary-text;
+    background-color : $color-player-controls-bg;
+    flex-direction : column;
+}
+
+.next-video-text {
+    margin-top : 60px;
+    margin-left: 50px;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: $color-meta-primary-text;
+}
+
+.next-video-thumbnail {
+    height: 250px;
+    max-width: 425px;
+    margin-left: 50px;
+    margin-top: 30px;
+    width: auto;
+    img {
+        width : 100%;
+        height: 100%;
+        border: solid 1px $color-thumbnail-border;
+    }
+}
+
+.next-video-thumbnail:after {
+    position : relative;
+    top      : -250px;
+    height   : 100%;
+    width    : 100%;
+    z-index  : 90;
+    content  : " ";
+    display  : block;
+    background-position : center;
+    background-repeat   : no-repeat;
+    background-image    : $img-nextvideo-preview-play;
+}
+
+.next-video-playingtext {
+    margin-left : 50px;
+    margin-top  : 15px;
+}
+
+.next-video-title {
+    margin-left : 50px;
+    margin-top  : 30px;
+    color       : $color-title-text;
+    font-weight : lighter;
+    font-size       : 2.5em;
+    line-height: 1;
+}
+
+.next-video-description {
+    margin-top  : 30px;
+    margin-left : 50px;
+    overflow    : hidden;
+    font-size   :  1.1em;
+    color: $color-description-text;
+    text-overflow : ellipsis;
+    display       : -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
+//
+// Overlay and Spinner
+//
+ .app-overlay-container {
+    position : absolute;
+    top      : 0;
+    left     : 0;
+    width    : 100%;
+    height   : 100%;
+    z-index  : 500;
+    background-color : $color-overlay-bg;
+}
+
+.app-overlay-message {
+    color      : $color-overlay-text;
+    text-align : center;
+    margin-top : 25%;
+}
+
+.content-load-spinner {
+    position: absolute;
+    top   : 0;
+    left  : 0;
+    bottom: 0;
+    right : 0;
+    width : 120px;
+    height: 160px;
+    margin: 25% auto;
+    z-index    : 600;
+    text-align : center;
+}
+
+.content-load-spinner > div {
+    height  : 100%;
+    width   : 12px;
+    display : inline-block;
+    background-color : $color-spinner-bg;
+    @include animation(stretchdelay 1.2s infinite ease-in-out);
+    animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.content-load-spinner .rect2 {
+    @include animation-delay(-1.1s);
+}
+
+.content-load-spinner .rect3 {
+    @include animation-delay(-1.0s);
+}
+
+.content-load-spinner .rect4 {
+    @include animation-delay(-0.9s);
+}
+
+.content-load-spinner .rect5 {
+    @include animation-delay(-0.8s);
+}
+
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% {
+    @include transform(scaleY(0.4));
+  }
+  20% {
+    @include transform(scaleY(1.0))
+  }
+}
+
+@keyframes stretchdelay {
+  0%, 40%, 100% {
+    @include transform(scaleY(0.4));
+  }
+  20% {
+    @include transform(scaleY(1.0));
+  }
+}
+
+//Media queries for tablets
+//
+@media (-webkit-min-device-pixel-ratio: 1.5) {
+    .player-controls-button-back {
+        position: absolute;
+        display : block;
+        float   : left;
+        top     : 10px;
+        left    : 30px;
+    }
+
+    .detail-row-container-buttons {
+        bottom : 10px;
+    }
+}
+

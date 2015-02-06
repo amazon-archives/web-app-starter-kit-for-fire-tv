@@ -1,0 +1,96 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700,900,100italic,300italic,400italic,700italic,900italic);
+
+$img-app-background : none;
+$img-icon-leftnav   : none;
+$img-icon-search: none;
+
+$font-family-default : 'Lato', serif;
+$font-family-light   : 'Lato', serif;
+$font-family-medium  : 'Lato', serif;
+$font-family-bold    : 'Lato', serif;
+
+$size-leftnav-collapsed-height: 84px !default;
+
+$custom-color-base-bg: #000000;
+$custom-color-base-fg: #F2E5D5;
+
+$custom-color-component-bg: #555C73;
+$custom-color-component-fg: lighten(#B3DAF2, 30%);
+
+
+$color-app-base-bg      : $custom-color-base-bg;
+$color-app-header-bg    : transparent;
+
+$color-overlay-bg    : $custom-color-base-bg;
+$color-overlay-text : $custom-color-base-fg;
+
+$color-title-text : #B3DAF2;
+$color-meta-primary-text : darken($custom-color-base-fg, 50%);
+$color-meta-secondary-text: darken($custom-color-base-fg, 30%);
+$color-description-text : $custom-color-base-fg;
+
+$color-menu-base-bg : transparent;
+
+$color-menu-item-text :  $custom-color-component-fg;
+$color-menu-item-bg: transparent;
+$color-menu-item-chosen-text    : $custom-color-component-fg;
+$color-menu-item-chosen-bg: transparent;
+$color-menu-item-highlight-text: $custom-color-component-fg;
+$color-menu-item-highlight-bg: $custom-color-component-bg;
+$color-menu-item-selected-text: $custom-color-component-fg;
+$color-menu-item-selected-bg: $custom-color-component-bg;
+
+$color-menu-search-text: $custom-color-component-fg;
+$color-menu-search-bg: transparent;
+
+$color-btn-text: $custom-color-component-fg;
+$color-btn-bg : $custom-color-component-bg;
+$color-btn-selected-text: $custom-color-component-bg;
+$color-btn-selected-bg: $custom-color-component-fg;
+$color-btn-selected-border: $custom-color-component-fg;
+
+$color-spinner-bg : #394149;
+
+$color-player-controls-bg: rgba($custom-color-base-bg, 0.7);
+$color-timeline-border : $custom-color-component-bg;
+$color-timeline-bg   : $custom-color-component-bg;
+$color-playhead-border : $custom-color-component-fg;
+$color-playhead-bg   : $custom-color-component-fg;
+
+$color-thumbnail-border: $custom-color-component-fg;
+
+/* style overrides */
+
+body{
+    font-weight: lighter;
+    background: linear-gradient(to bottom, #000000 0%, #000000 20%, #4c4c4c 100%) !important;
+}
+.app-logo img{
+    display: none;
+}
+.app-logo:before{
+    content: "SAMPLE THEME 4";
+}
+.app-logo {
+    font-size: 2.2em;
+    font-weight: lighter;
+    text-align: right;
+    color: $custom-color-component-fg;
+}
+.leftnav-list-item-highlighted{
+    border: none !important;
+}
+.leftnav-list-item-static{
+    text-transform: uppercase;
+    font-size: 1.5em !important;
+}
+.summaryTitle{
+    text-transform: uppercase;
+}
+.leftnav-menu-list{
+    background: linear-gradient(to right, #000000 0%, #000000 40%, transparent 100%) !important;
+}
+.leftnav-list-item-highlighted:before, .leftnav-list-item-selected:before, .leftnav-list-item-chosen:before{
+content: "▸"
+}
+

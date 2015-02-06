@@ -1,0 +1,95 @@
+/**
+ * SCSS mixins for use in the firetv.scss file
+ *
+ */
+
+@mixin animation($value) {
+  -webkit-animation: $value;
+     -moz-animation: $value;
+          animation: $value;
+}
+@mixin animation-delay($value) {
+  -webkit-animation-delay: $value;
+     -moz-animation-delay: $value;
+          animation-delay: $value;
+}
+
+@mixin display-box {
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+}
+
+@mixin box-sizing($value) {
+  -webkit-box-sizing: $value;
+     -moz-box-sizing: $value;
+          box-sizing: $value;
+}
+@mixin box-orient($value) {
+  -webkit-box-orient: $value;
+     -moz-box-orient: $value;
+          box-orient: $value;
+}
+
+@mixin line-clamp($value) {
+  -webkit-line-clamp: $value;
+     -moz-line-clamp: $value;
+          line-clamp: $value;
+}
+
+@mixin transition($value) {
+  -webkit-transition: $value;
+     -moz-transition: $value;
+          transition: $value;
+}
+
+@mixin transform($value) {
+  -webkit-transform: $value;
+     -moz-transform: $value;
+          transform: $value;
+}
+
+@mixin transition-property($value) {
+  -webkit-transition-property: $value;
+     -moz-transition-property: $value;
+          transition-property: $value;
+}
+
+@mixin transition-property-transform {
+  -webkit-transition-property: -webkit-transform;
+     -moz-transition-property: -moz-transform;
+          transition-property: transform;
+}
+
+@mixin transition-property-transform-plus($additions) {
+  -webkit-transition-property: -webkit-transform $additions;
+     -moz-transition-property: -moz-transform $additions;
+          transition-property: transform $additions;
+}
+
+@mixin transition-duration($value) {
+  -webkit-transition-duration: $value;
+     -moz-transition-duration: $value;
+          transition-duration: $value;
+}
+
+@mixin transition-timing-function($value) {
+  -webkit-transition-timing-function: $value;
+     -moz-transition-timing-function: $value;
+          transition-timing-function: $value;
+}
+
+@mixin transform-style($value) {
+  -webkit-transform-style: $value;
+     -moz-transform-style: $value;
+          transform-style: $value;
+}
+
+@mixin transform-origin($value) {
+  -webkit-transform-origin: $value;
+     -moz-transform-origin: $value;
+          transform-origin: $value;
+}
+
