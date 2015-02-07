@@ -1,0 +1,112 @@
+/**
+ * CSS variables for use in the firetv.scss file
+ *
+ * These variables create a single theme for the application.
+ *
+ * Organization :
+ * - TYPES : Variables are separated by type (font-family, font-size, color etc)
+ * - NAMES : Are descriptive of the CSS class name they modify
+ * - VALUES : All variables below will only be set if they have not be set before.
+ *
+ * Usage : Variables are used for all colors, font-family and animation speed values. Other variables may be used for
+ *         items that are repeated in the styles more than once .
+ *
+ */
+
+//
+//Images
+//
+$img-app-background : url('assets/bg_app.jpg') !default;
+$img-icon-leftnav   : url('assets/icon_leftnav_arrowDown.png') !default;
+$img-icon-search    : url('assets/search.png') !default;
+$img-player-indicator-forward : url('assets/forward-arrow.png') !default;
+$img-player-indicator-reverse : url('assets/rewind-arrow.png') !default;
+$img-nextvideo-preview-play   : url('assets/btn_previewPlay.png') !default;
+$img-skip-indicator: url('assets/skip_indicator.png') !default;
+
+
+//
+//Fonts - used by FireTV
+//
+
+//font-size
+$font-base-size : 20pt !default;
+
+//font-family
+$font-family-default : 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
+$font-family-light   : 'Helvetica Neue Light' !default;
+$font-family-medium  : 'Helvetica Neue Medium' !default;
+$font-family-bold    : 'Helvetica Neue Bold' !default;
+
+
+//Colors
+//
+
+$color-app-base-bg      : #5a656f !default;
+$color-app-header-bg    : rgba(#000000, 0.1) !default;
+
+$color-overlay-bg    : #000000 !default;
+$color-overlay-text : #e8e8e8 !default;
+
+$color-title-text : #e8e8e8 !default;
+$color-meta-primary-text : #e8e8e8 !default;
+$color-meta-secondary-text: #b9bbbd !default;
+$color-description-text : #e8e8e8 !default;
+
+$color-menu-base-bg : rgba(#000000, 0.9) !default;
+
+$color-menu-item-text :  #b9bbbd !default;
+$color-menu-item-bg: rgba(#e8e8e8, 0.1) !default;
+$color-menu-item-chosen-text    : #e8e8e8 !default;
+$color-menu-item-chosen-bg: #3f484f !default;
+$color-menu-item-highlight-text: #e8e8e8 !default;
+$color-menu-item-highlight-bg: #000000 !default;
+$color-menu-item-selected-text: #000000 !default;
+$color-menu-item-selected-bg: #ffffff !default;
+
+$color-menu-search-text: #e8e8e8 !default;
+$color-menu-search-bg: rgba(#e8e8e8, 0.1) !default;
+
+$color-btn-text: #b9bbbd !default;
+$color-btn-bg : #394149 !default;
+$color-btn-selected-text: #b9bbbd !default;
+$color-btn-selected-bg: #000000 !default;
+$color-btn-selected-border: #ffffff !default;
+
+$color-spinner-bg : #394149 !default;
+
+$color-player-controls-bg: rgba(#000000, 0.8) !default;
+$color-timeline-border : #25435a !default;
+$color-timeline-bg   : #707070 !default;
+$color-playhead-border : #394149 !default;
+$color-playhead-bg   : #e8e8e8 !default;
+
+$color-thumbnail-border: #ffffff !default;
+
+
+
+//
+//Dimensions
+//
+$size-leftnav-line-height : 2 !default;
+$size-leftnav-collapsed-height: 92px !default;
+//
+//Positions
+//
+$pos-top-leftnav-content      : 148px !default;
+$pos-left-content-position    : 150px !default;
+$pos-right-leftnav-arrow-icon : right 40px !default;
+
+//
+//Animations
+//
+$ani-durationspeed-fast  : 0.2s !default;
+$ani-durationspeed-med   : 0.25s !default;
+
+$ani-duration-leftnav-menu : $ani-durationspeed-med !default;
+$ani-duration-leftnav-item  : $ani-durationspeed-med !default;
+$ani-duration-maincontent-opacity : $ani-durationspeed-fast !default;
+$ani-duration-one-D-container : $ani-durationspeed-med !default;
+$ani-duration-shoveler-item : $ani-durationspeed-med !default;
+
+$ani-timedelay-shiner : 4.4s !default;

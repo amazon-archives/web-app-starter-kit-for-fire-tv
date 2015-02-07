@@ -11,7 +11,7 @@ The `index.html` contains app logic to load libraries and scripts, the JS module
 ## Navigation and button Handling
 -------------------
  
-Navigation is done via button events, provided by a buttons class.  The button set and best practices for behaviors are:
+Navigation is primarily handled via button events, although there is some rudimentary touch support. The button event handling is provided by a buttons class.  The button set and best practices for behaviors are:
 
 * *UP* scrolls the selection up in the vertical list
 * *DOWN* scrolls the selection down in the vertical list
@@ -23,7 +23,7 @@ Navigation is done via button events, provided by a buttons class.  The button s
 * *REWIND* during playback will skip back 10 seconds
 * *FAST_FORWARD* during playback will skip forward 10 seconds
 
-*(Note: the HOME, MENU, and MICROPHONE buttons on the FireTV remote are not available to web applications.)*
+*(Note: the HOME, MENU, and MICROPHONE buttons on the FireTV remote are not available to web applications. While the FireTV platform supports the analog game controller, this template does not yet work with the analog joysticks)*
 
 ## User interface flow
 -------------------
@@ -32,7 +32,7 @@ The user interface for the app is described as follows:
 
 * The main page, contains a list of categories on the top left and horizontally scrolling poster elements in the middle, the user can navigate the horizontal list with the *LEFT*/*RIGHT* and *SELECT*/*PLAY* to play a respective video. *UP* or *DOWN* will bring up the vertical category menu which can be selected with *SELECT*/*RIGHT* or deselected with *LEFT*/*BACK*.
 
-* Several players are provided: the simplest is a full screen `<video>` tag with video API support, and there are players that use the embeded `<iframe>` links from several popular video sites, some of which include API examples for controlling the playback.  In all players, *BACK* exits and returns to the app (at the detail page), other media controls vary depending on the feature set available from the embedded player.
+* Several players are provided: the simplest is a full screen `<video>` tag with video API support, and there is a YouTube player that use the embeded `<iframe>` links, which include API hooks for controlling the playback.  In all players, *BACK* exits and returns to the app (at the detail page), other media controls vary depending on the feature set available from the embedded player.
 
 ![Template UI Diagram](./assets/template_views.png "Template UI Overview")
 
@@ -40,40 +40,47 @@ The user interface for the app is described as follows:
 -------------------
 controller:
 
-* `index.html` : container for app, spinner, loads library scripts and app JS and kicks off app
-* `firetv.scss` : the sass source for all the styles, see "Styling" section below for details
-* `_variables.scss` : the sass variables include file, these variables can be modified to change sizes and colors for the specific application
-* `js/app.js` : the app logic to put all the pieces together
+* `src/common/html/index.html` : container for app, spinner, loads library scripts and app JS and kicks off app
+* `src/common/js/app.js` : the app logic to put all the pieces together
+
+scss: 
+
+For more information on SCSS please refer to the [Styling Documentation](./styling.md)
 
 model:
 
-* `js/model.js` : an abstraction around the data set of items
+* `src/common/js/model.js` : our generic model which supports a JSON format we have designed
+* `src/common/js/model-mrss.js` : a model which supports Media RSS feeds, for more information please refer to the [Platform Documentation](./platforms.md)
+* `src/common/js/model-youtube-api.js` : a model which interacts with the YouTube API, for more information please read the [Platform Documentation](./platforms.md), an example can be found in the an example can be viewed in the `src/projects/youtube/` directory.
 
 views:
 
-* `js/leftnav-view.js` : the vertical category menu from the app
-* `js/one-d-view.js` : the horizontal poster area of the app
-* `js/shoveler-view.js` : provides the horizontal scrolling list of posters for the 1D view
-* `js/player-view.js` : shows the video with a full screen `<video>` tag
-* `js/embedded-player-view.js` : the simplest embedded player, uses an embed tag from JSON
-* `js/youtube-player-view.js` : a player that uses the YouTube JS API to embed video and control playback
-* `js/vimeo-player-view.js` : a player that uses the Vimeo JS API to embed video and control playback
-* `js/dailymotion-player-view.js` : a player that uses the Daily Motion JS API to embed video and control playback
+* `src/common/js/leftnav-view.js` : the vertical category menu from the app
+* `src/common/js/one-d-view.js` : the horizontal poster area of the app
+* `src/common/js/shoveler-view.js` : provides the horizontal scrolling list of posters for the 1D view
+* `src/common/js/playlist-player-view.js` : a playlist player view, which acts as a player but load multiple videos with an intermediate screen
+* `src/common/js/player-view.js` : shows the video with a full screen `<video>` tag
+* `src/common/js/search-input-view.js` : the simple search widget for the left nav list
+* `src/common/js/embedded-player-view.js` : the simplest embedded player, uses an embed tag from JSON
+* `src/common/js/controls-view.js` : the player controls view with timeline and description
+* `src/common/js/search-view.js` : the simple search input box view
+* `src/common/js/player-view-youtube.js` : a player that uses the YouTube JS API to embed video and control playback
 
 other:
 
-* `js/util.js` : some helper functions for handlebars and CSS style sheet manipulation
-* `js/events.js` : a very simple placeholder for event registry/dispatch
-* `js/buttons.js` : provides a very simple event flow for buttons on remote
+* `src/common/js/util.js` : some helper functions for handlebars and CSS style sheet manipulation
+* `src/common/js/events.js` : a very simple placeholder for event registry/dispatch
+* `src/common/js/buttons.js` : provides a very simple event flow for buttons on remote
+* `src/common/js/touches.js` : provices very simple and rudimentary touch support for tablets
 
 assets:
 
-* `assets/images/img_logo.png` : the application logo (can be overwritten through JSON theming)
+* `src/common/assets/images/img_logo.png` : the application logo (can be overwritten through JSON theming)
 
 libraries:
 
-* `libs/handlebars-v1.3.0.js` : [Handlebars](http://handlebarsjs.com/) is a minimal library for generating HTML from templates
-* `libs/jQuery.js` : [jQuery](http://jquery.com/) version 2.1.1
+* `src/libs/handlebars-v1.3.0.js` : [Handlebars](http://handlebarsjs.com/) is a minimal library for generating HTML from templates
+* `src/libs/jQuery.js` : [jQuery](http://jquery.com/) version 2.1.1
 
 ### App Structure
 -------------
@@ -83,22 +90,36 @@ We have 4 Basic Object types in the application:
 
 *`the app object` : The app object is defined on window.app, it is the instance of the application. This object is the glue that knows about the model, and all of the different views, and how views should transition between other views. The app object creates the views and binds listeners to the views events to handle transitioning from view to view. It also hides views when necessary and removes views which are no longer in use. The app init kicks off the initial view creation starting the entire app.
 
-The app object accepts an object with settings parameters that are passed in from the index.html.
-   - dataURL {String} = the URL for retrieving the application data.
+The app object accepts an object with settings parameters that are passed in from the `src/project/<project-name>/init.js`. This is how you customize your application, you can significantly flavor your app based on the settings object, for example you can switch out players, or add continuous playback support by using the PlaylistView setting. 
+
+The settings object has the following available properties:
+
+   - PlayerView {ViewObject} = this is the player view used for playing media, some examples are: PlayerView and YouTubePlayerView
+   - PlaylistView {ViewObject} = if this is set the app will use a PlaylistView in conjunction with a PlayerView for use in continuous playback situations. One PlaylistView is provided by the WebAppStarterKit, which is the PlaylistPlayerView. If this is not set continuous playback will be disabled. 
+   - previewTime {Number} - if using the PlaylistPlayerView you can set the preview time to tell the app how long the Preview Next Video View is shown before the current video completes. 
    - displayButtons {Boolean} = in the '1D' view (described below) there are optional buttons that appear under the content information. This is a flag to show/hide these buttons.
+   - showSearch {Boolean} = enables Simple Search in the 1D menu, please note the model must implement the `getDataFromSearch` function for this to work correctly.
 
-   EXAMPLE :
-   var settings = {}
-       settings.dataURL = "./assets/genericMediaData.json";
-       settings.displayButtons = true;
+The settings object can also additionally have some options that are model specific such as the following for the generic JSON model:
 
-       var app = new App(settings);
+- dataURL {String} = the URL for retrieving the application data.
+
+
+EXAMPLE :
+   
+		var settings = {
+			dataURL: "./assets/genericMediaData.json",
+			displayButtons: true
+		};
+		var app = new App(settings);
+
+For more information on model specific settings please refer to the []Platforms Documentation](./platforms.md)
 
 * `the views` : There is several view objects, `left-nav`, `1D`, `video player`, in addition there is a sub view `shoveler-view`. Views are created and handled by the app object. All views are encapsulated so all communication from one view to the other is handled by the view triggering an event, and the app object handling that event and doing the corresponding action. However in the case of a subview like the `shoveler view`, this is instantiated by its parent view, which in the sample application is the `1D view`, and the events of the shoveler view are handled by the `1D` view since it is its parent. The app object can be considered the global parent to the views.
 
 * `the model object` The model object is discussed in more detail above, but it is the source of truth for data in the application. Currently this loads all the data initially, but a developer could refactor this to load data on the fly through AJAX, or modify the model in any ways needed to convert their app specific API data into the format required by the template to function. Views and the application can access the model data if necessary through `app.data`
 
-* `utility objects` We have several utility objects, such as `events`, `buttons` and `utils`, events is for event handling, buttons is for button handling, and utils is different helper functions needed on a global level. More details of these are described throughout the document.
+* `utility objects` We have several utility objects, such as `events`, `buttons`, `touches` and `utils`, events is for event handling, buttons is for button handling, and utils is different helper functions needed on a global level. More details of these are described throughout the document.
 
 * `object creation`: throughout the application we use an object creation method to encapsulate all the objects and the parent which the object is attached to, this allows the code to be reusable in other projects, our standard object creation is in the code block below:
 
@@ -131,8 +152,14 @@ We use a simple event handling system which is implemented in `events.js`. Each 
 * `indexChange` - triggered when an the selected element in the view has changed
 * `stopScroll` - triggered with the scrolling has stopped within a view(button released)
 * `select` - triggered when a view is selected as the current view
-* `loadComplete` - triggered when a view is finished loading
+* `deselect` - triggered when a view is deselected as the current view
+* `loadingComplete` - triggered when a view is finished loading
 * `bounce` - triggered when a boundary is hit when navigating a view
+* `makeActive` - triggered when an element is set as the active element
+* `noContent` - triggered when a no content is returned for a given search or category
+* `videoError` - triggered when there is a problem with loading or playing a video
+* `searchQueryEntered` - triggered when the user enters a search query  
+* `videoStatus` - triggered by the player view to update the video status
 
 Events are triggered by calling a view's `trigger` method, passing the event name and optional arguments:
 
@@ -147,7 +174,10 @@ Event handlers are registered by calling the view's `on` method, passing a callb
                 //code here
             }, app);
 
-The event library does not provide any service for unregistering handlers, the project does not need it.  It could be added, but we suggest replacing the events class with a more capable library if you need this feature.
+Event handlers can be removed with the `off` function passing the same arguments as the `on` function with a reference to the callback to remove:
+
+		 // inside app - deregister for the startScroll event from the container view
+        app.mainContentView.off('startScroll', myCallBack, app);
 
 ** Button Handling **
 
@@ -213,6 +243,7 @@ The JSON gets loaded by the application at the time of document load, and conver
 * `loadInitialData` - This function loads the initial data needed to start the app and calls the provided callback with the data when it is fully loaded.
 * `setCurrentCategory` - how the view sets the currently selected category, from the left nav
 * `getCategoryData` - gets the currently selected category data for loading into the horizontal 1D/Shoveler view. This function uses a callback to return the data so the data can potentially be loaded through an asynchronous request, although our template model provided does not load it asychronously. 
+* `getDataFromSearch` - gets the data from search results for the current search term for loading into the horizontal 1D/Shoveler view. This function uses a callback to return the data so the data can potentially be loaded through an asynchronous request, although our template model provided does not load it asychronously. This is necessary to be implemented for the search functionality in the left nav menu. See information on the settings object to remove this functionality. 
 * `setCurrentItem` - how you set the currently selected media element, from the 1D view
 * `getCurrentItem` - gets the currently selected media element as an object with its meta data, for display on the 1D view
 

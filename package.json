@@ -1,44 +1,32 @@
 {
-    "name":"web-app-starter-kit-fire-tv",
-    "version":"0.0.1",
-    "description":"Web App Starter Kit for Fire TV",
-    "license":"CC0-1.0",
-      "files": [
-        "images/bg_app.png",
-        "images/btn_pause.png",
-        "images/icon_leftnav_arrowDown.png",
-        "images/img_logo.png",
-        "libs/jquery.js",
-        "libs/handlebars-v1.3.0.js",
-        "js/util.js",
-        "js/events.js",
-        "js/buttons.js",
-        "js/button-view.js",
-        "js/leftnav-view.js",
-        "js/one-d-view.js",
-        "js/shoveler-view.js",
-        "js/model.js",
-        "js/app.js",
-        "js/player-view.js",
-        "_variables.scss",
-        "firetv.scss",
-        "index.html",
-        "gulpfile.js",
-        "README.md",
-        "assets/*"
-      ],
-      "scripts": {
-          "start": "node_modules/serve/bin/serve -p 3000"
-      },
-      "devDependencies": {
-        "gulp": "^3.8.10",
-        "gulp-concat-sourcemap": "^1.3.1",
-        "gulp-inline-source": "^1.1.0",
-        "gulp-rsync": "0.0.4",
-        "gulp-sass": "^1.1.0",
-        "gulp-sourcemaps": "^1.2.8",
-        "gulp-uglifyjs": "^0.5.0",
-        "gulp-html-replace": "^1.4.0",
-        "serve": "^1.4.0"
-      }
+  "name": "web-app-starter-kit-for-fire-tv",
+  "version": "1.1.0",
+  "description": "Web App Starter Kit for Fire TV",
+  "license": "CC0-1.0",
+  "repository":"https://github.com/amzn/web-app-starter-kit-for-fire-tv",
+  "files": [
+    "src/**/*",
+    "docs/**/*",
+    "gulpfile.js",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "serve -p 3000 out",
+    "build" : "gulp build",
+    "clean" : "gulp clean"
+  },
+  "devDependencies": {
+    "del": "^1.1.0",
+    "gulp": "^3.8.8",
+    "gulp-debug": "^1.0.1",
+    "gulp-help": "^1.3.1",
+    "gulp-html-replace": "^1.4.0",
+    "gulp-inline-source": "^1.1.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass-binaries": "^1.2.4-binaries",
+    "gulp-sourcemaps": "^1.2.8",
+    "gulp-uglifyjs": "^0.5.0",
+    "merge-stream": "^0.1.6",
+    "vinyl-paths": "^1.0.0"
+  }
 }
