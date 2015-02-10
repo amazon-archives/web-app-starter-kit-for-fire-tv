@@ -229,7 +229,7 @@
          * @description truncate subtitle with elipsis
          */
         this.truncateSubtitle = function(string) {
-           if (string.length > 150) {
+           if (string && string.length > 150) {
               return string.substring(0,147)+'...';
            } else {
               return string;
