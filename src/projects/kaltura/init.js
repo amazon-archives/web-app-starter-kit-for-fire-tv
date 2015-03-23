@@ -13,7 +13,7 @@
         partnerId: '811441',
         uiconfId: '28732831',
         topCategoryId: '9059671',
-        ksService: 'http://localhost/list-ks.php?partner_id=811441',
+        ksService: 'http://50.19.86.65/list-ks/list-ks.php?partner_id=811441',
         maxEntries: 100,
         
         // the playlist to load all the syndicated content
