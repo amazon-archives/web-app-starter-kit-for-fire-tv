@@ -33,6 +33,7 @@
         "../../common/js/shoveler-view.js",
         "../../common/js/player-view.js",
         "../../common/js/playlist-player-view.js",
+        "../../common/js/player-view-kaltura.js",
         "../../common/js/controls-view.js",
         "../../common/js/search-input-view.js",
         "../../common/js/model-kaltura.js",

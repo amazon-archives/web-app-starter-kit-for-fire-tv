@@ -126,7 +126,7 @@
                     "videoURL": entry.dataUrl,
                     //"subtitlesURL" : "assets/sample_video-en.vtt",
                     "categories": entryCategories[entry.id],
-                    "description": entry.description
+                    "description": entry.description || ""
                 });
             }
             this.deferredData.resolve();
@@ -142,13 +142,14 @@
                 return ;
             }
             var _this = this;
-            var scirptUrl =  'http://cdnapi.kaltura.com/p/' +
+            var scriptUrl =  'http://cdnapi.kaltura.com/p/' +
                 appSettings.partnerId + '/sp/' + appSettings.partnerId + 
                 '00/embedIframeJs/uiconf_id/' + appSettings.uiconfId + 
                 '/partner_id/' + appSettings.partnerId;
+            var scriptUrl = '/html5.kaltura/mwEmbed/mwEmbedLoader.php';
             // Load the kaltura version of the library based on app settings
             // replace the kalturaWidgetLoader Deferred with an getScript call to get the script library: 
-            this.appendScriptUrl( scirptUrl, function(){
+            this.appendScriptUrl( scriptUrl, function(){
                 _this.kalturaWidgetLoader.resolve();
             }, null, function(){
                 _this.kalturaWidgetLoader.fail();

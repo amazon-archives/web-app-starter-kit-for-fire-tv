@@ -85,8 +85,8 @@
         this.dataLoaded = function() {
 
             // quick template render to add the logo to the app, probably doesnt need an entire view since its one line
-            if (app.data.appLogo) {
-                var logo = app.data.appLogo;
+            if (settingsParams.appLogo) {
+                var logo = settingsParams.appLogo;
             } 
             else {
                 var logo = "assets/img_logo.png";
