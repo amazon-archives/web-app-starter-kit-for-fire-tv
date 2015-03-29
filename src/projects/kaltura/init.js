@@ -1,28 +1,30 @@
 (function(exports) {
     'use strict';
     
+    function getParam(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    
     //initialize the app
     var settings = {
         Model: KalturaMediaModel,
         //PlayerView: PlayerView,
         PlayerView: KalturaPlayerView,
         PlaylistView: PlaylistPlayerView,
-        dataURL: "./assets/genericMediaData.json",
-        showSearch: true,
-        displayButtons: true,
-        appLogo: 'https://cdnsecakmi.kaltura.com/p/811441/sp/81144100/raw/entry_id/1_19ou6fg0/version/100000/',
+        showSearch: false,
+        displayButtons: false,
         
-        partnerId: '811441', // videos.kaltura.com .. 
-        uiconfId: '28732831',
-        topCategoryId: '9059671',
-        ksService: 'http://50.19.86.65/amtv/list-ks.php?partner_id=811441',
-        maxEntries: 150,
+        // provide fallbacks to "video.kaltura.com"
+        partnerId: getParam( 'partnerId') || '811441', 
+        uiconfId: getParam( 'uiconfId') || '28732831',
+        topCategoryId: getParam( 'topCategoryId') ||'9059671',
+        ksService: 'http://50.19.86.65/amtv/list-ks.php?partner_id=' + ( getParam( 'partnerId') || '811441' ),
+        appLogo: getParam( 'appLogo') || 'https://cdnsecakmi.kaltura.com/p/811441/sp/81144100/raw/entry_id/1_19ou6fg0/version/100000/',
         
-        // the playlist to load all the syndicated content
-        playlistId: '0_aqpaqb4c'
-        
-        //, // the top level category to define TV App ( "galleries" in mediaSapce ) 
-        // // a playlist that should include all entries in the app
+        maxEntries: 150
     };
 
     var app = new App(settings);
