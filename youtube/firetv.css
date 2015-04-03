@@ -16,6 +16,9 @@
  * SCSS mixins for use in the firetv.scss file
  *
  */
+/**
+* All of the common css rules for the entire template.
+*/
 * {
   box-sizing: Border-box; }
 
@@ -60,7 +63,7 @@ div {
   top: 0;
   left: 0;
   height: 100%;
-  width: 40%;
+  width: 44%;
   margin: 0; }
 
 .leftnav-menu-list, .leftnav-menulist-expanded, .leftnav-menulist-collapsed {
@@ -80,7 +83,10 @@ div {
 .leftnav-menulist-collapsed {
   top: 148px;
   height: 92px;
-  z-index: 10; }
+  z-index: 10;
+  -webkit-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44); }
 
 .leftnav-menulist-collapsed .leftnav-menu-scrolling-list {
   margin-top: -148px; }
@@ -88,11 +94,19 @@ div {
 .leftnav-menu-scrolling-list {
   color: #b9bbbd; }
 
+.leftnav-list-item-static.leftnav-list-item-chosen.subcat-header {
+  position: absolute;
+  top: 148px;
+  width: 40%;
+  background: none;
+  border: none; }
+
 .leftnav-list-item-static {
   word-wrap: break-word;
   line-height: 2;
   font-weight: lighter;
   font-size: 1.7em;
+  min-height: 90px;
   font-family: 'Helvetica Neue Light';
   padding: 0 50px 0 150px;
   overflow: hidden;
@@ -126,16 +140,19 @@ div {
 
 .leftnav-list-item-highlighted {
   color: #e8e8e8;
-  border: 1px #e8e8e8 solid;
   border-width: 1px 1px 1px 0px;
-  background: #000000 url('assets/icon_leftnav_arrowDown.png') no-repeat right 40px center; }
+  background: #000000 url('assets/icon_leftnav_arrowDown.png') no-repeat right 40px center;
+  -webkit-filter: brightness(200%);
+  -moz-filter: brightness(200%);
+  filter: brightness(200%); }
 
 .leftnav-list-item-container .leftnav-list-item-selected {
   color: #000000;
   background: #ffffff url('assets/icon_leftnav_arrowDown.png') no-repeat right 40px center; }
 
 .leftnav-list-item-chosen {
-  border: 1px solid #3f484f;
+  border-color: #3f484f;
+  border-style: solid;
   border-width: 1px 1px 1px 0px;
   color: #e8e8e8;
   background: #3f484f url('assets/icon_leftnav_arrowDown.png') no-repeat right 40px center; }
@@ -160,7 +177,8 @@ div {
 
 .leftnav-search-box.leftnav-list-item-highlighted {
   color: #e8e8e8;
-  border: 1px #e8e8e8 solid;
+  border-color: #e8e8e8;
+  border-style: solid;
   border-width: 1px 1px 1px 0px;
   background: #000000 url('assets/icon_leftnav_arrowDown.png') no-repeat right 40px center; }
 
@@ -181,9 +199,25 @@ div {
   left: 0;
   width: 100%;
   height: 100%;
-  -webkit-transition-property: opacity;
-  -moz-transition-property: opacity;
-  transition-property: opacity;
+  -webkit-transition-property: visibility;
+  -moz-transition-property: visibility;
+  transition-property: visibility;
+  -webkit-transition-duration: 0.2s;
+  -moz-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+  -webkit-transition-timing-function: linear;
+  -moz-transition-timing-function: linear;
+  transition-timing-function: linear; }
+
+.subcategory-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transition-property: visibility;
+  -moz-transition-property: visibility;
+  transition-property: visibility;
   -webkit-transition-duration: 0.2s;
   -moz-transition-duration: 0.2s;
   transition-duration: 0.2s;
@@ -199,9 +233,10 @@ div {
   color: #e8e8e8; }
   .one-D-details-summary-text .one-D-summary-title {
     line-height: 1.4;
-    font-size: 1.4em;
-    font-weight: 'Helvetica Neue Bold';
-    height: 51px;
+    color: #e8e8e8;
+    font-size: 1.8em;
+    font-family: 'Helvetica Neue Medium';
+    height: 62px;
     overflow: hidden;
     margin-top: 10px;
     display: -webkit-flex;
@@ -222,16 +257,20 @@ div {
     line-clamp: 1; }
   .one-D-details-summary-text .one-D-summary-pubdate {
     font-weight: 200;
+    height: 30px;
     font-size: 1em;
     font-family: 'Helvetica Neue Light';
     color: #b9bbbd; }
+    .one-D-details-summary-text .one-D-summary-pubdate .time-now-live {
+      color: #FF704D; }
+    .one-D-details-summary-text .one-D-summary-pubdate .time-upcoming {
+      color: #66E066; }
   .one-D-details-summary-text .one-D-summary-description {
-    font-size: 1.2em;
-    font-family: 'Helvetica Neue Light';
-    margin-top: 20px;
-    overflow: hidden;
-    height: 80px;
     color: #e8e8e8;
+    font-style: italic;
+    font-size: 1.1em;
+    font-family: 'Helvetica Neue Light';
+    overflow: hidden;
     display: -webkit-flex;
     /* NEW - Chrome */
     display: flex;
@@ -250,10 +289,8 @@ div {
     line-clamp: 2; }
 
 .detail-row-container-buttons {
-  position: absolute;
-  bottom: 100px;
-  left: 150px;
-  height: 75px; }
+  height: 75px;
+  margin: 20px 0; }
 
 .detail-item-button, .detail-item-button-selected, .detail-item-button-static {
   position: relative;
@@ -263,20 +300,23 @@ div {
   float: left;
   font-size: 1.4em;
   font-family: 'Helvetica Neue Light';
-  margin-right: 10px;
+  margin-right: 20px;
   text-align: center;
-  border: 1px solid transparent; }
+  border: 1px solid transparent;
+  -webkit-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44); }
 
 .detail-item-button-selected {
   overflow: hidden;
   margin-top: 0px;
-  color: #b9bbbd;
-  border-color: #ffffff;
+  color: #e8e8e8;
   background-color: #000000; }
 
 .detail-item-button-static {
   color: #b9bbbd;
-  background-color: #394149; }
+  background-color: #394149;
+  line-height: 45px; }
 
 #one-D-shoveler-container {
   position: absolute;
@@ -291,6 +331,12 @@ div {
   -webkit-transition-property: -webkit-transform opacity;
   -moz-transition-property: -moz-transform opacity;
   transition-property: transform opacity;
+  -webkit-transition-property: -webkit-transform visibility;
+  -moz-transition-property: -moz-transform visibility;
+  transition-property: transform visibility;
+  -webkit-transition-duration: 1s;
+  -moz-transition-duration: 1s;
+  transition-duration: 1s;
   -webkit-transition-timing-function: linear;
   -moz-transition-timing-function: linear;
   transition-timing-function: linear; }
@@ -325,7 +371,6 @@ div {
   position: absolute;
   left: 150px;
   height: 100%;
-  background-color: gray;
   -webkit-transition-property: -webkit-transform opacity;
   -moz-transition-property: -moz-transform opacity;
   transition-property: transform opacity;
@@ -342,9 +387,13 @@ div {
     height: 100% !important;
     display: inline-block; }
 
-.shoveler-rowitem-selected img {
-  background-blend-mode: overlay;
-  display: inline-block; }
+.shoveler-rowitem-selected {
+  -webkit-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44); }
+  .shoveler-rowitem-selected img {
+    background-blend-mode: overlay;
+    display: inline-block; }
 
 .player-main-container {
   position: absolute;
@@ -356,7 +405,8 @@ div {
 .player-content-video {
   position: absolute;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  background: black; }
 
 .player-controls-container {
   position: absolute;
@@ -569,7 +619,11 @@ div {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical; }
+  -moz-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical; }
 
 .app-overlay-container {
   position: absolute;
@@ -586,68 +640,47 @@ div {
   margin-top: 25%; }
 
 .content-load-spinner {
+  margin: 6em auto;
+  font-size: 10px;
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  width: 120px;
-  height: 160px;
-  margin: 25% auto;
+  top: 400px;
+  left: 900px;
   z-index: 600;
-  text-align: center; }
+  text-indent: -9999em;
+  border-top: 1.2em solid rgba(255, 255, 255, 0.2);
+  border-right: 1.2em solid #ffffff;
+  border-bottom: 1.2em solid #ffffff;
+  border-left: 1.2em solid #ffffff;
+  -webkit-animation: spin 1.3s infinite linear;
+  -moz-animation: spin 1.3s infinite linear;
+  animation: spin 1.3s infinite linear; }
 
-.content-load-spinner > div {
-  height: 100%;
-  width: 12px;
-  display: inline-block;
-  background-color: #394149;
-  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
-  -moz-animation: stretchdelay 1.2s infinite ease-in-out;
-  animation: stretchdelay 1.2s infinite ease-in-out;
-  animation: stretchdelay 1.2s infinite ease-in-out; }
+.content-load-spinner, .content-load-spinner:after {
+  border-radius: 50%;
+  width: 15em;
+  height: 15em; }
 
-.content-load-spinner .rect2 {
-  -webkit-animation-delay: -1.1s;
-  -moz-animation-delay: -1.1s;
-  animation-delay: -1.1s; }
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg); }
 
-.content-load-spinner .rect3 {
-  -webkit-animation-delay: -1s;
-  -moz-animation-delay: -1s;
-  animation-delay: -1s; }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg); } }
 
-.content-load-spinner .rect4 {
-  -webkit-animation-delay: -0.9s;
-  -moz-animation-delay: -0.9s;
-  animation-delay: -0.9s; }
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg); }
 
-.content-load-spinner .rect5 {
-  -webkit-animation-delay: -0.8s;
-  -moz-animation-delay: -0.8s;
-  animation-delay: -0.8s; }
-
-@-webkit-keyframes stretchdelay {
-  0%, 40%, 100% {
-    -webkit-transform: scaleY(0.4);
-    -moz-transform: scaleY(0.4);
-    transform: scaleY(0.4); }
-
-  20% {
-    -webkit-transform: scaleY(1);
-    -moz-transform: scaleY(1);
-    transform: scaleY(1); } }
-
-@keyframes stretchdelay {
-  0%, 40%, 100% {
-    -webkit-transform: scaleY(0.4);
-    -moz-transform: scaleY(0.4);
-    transform: scaleY(0.4); }
-
-  20% {
-    -webkit-transform: scaleY(1);
-    -moz-transform: scaleY(1);
-    transform: scaleY(1); } }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg); } }
 
 @media (-webkit-min-device-pixel-ratio: 1.5) {
   .player-controls-button-back {
@@ -665,4 +698,9 @@ div {
   position: absolute;
   bottom: -10px;
   right: 60px;
-  -webkit-transform: scale(0.75); }
+  -webkit-transform: scale(0.75);
+  -moz-transform: scale(0.75);
+  transform: scale(0.75); }
+  .app-logo img {
+    height: 240px;
+    width: 240px; }

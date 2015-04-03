@@ -8,9 +8,8 @@
         PlaylistView: PlaylistPlayerView,
         dataURL: "./assets/genericMediaData.xml",
         showSearch: true,
-        displayButtons: true
+        displayButtons: false
     };
 
-    var app = new App(settings);
-    exports.app = app;
+    exports.app = new App(settings);
 }(window));

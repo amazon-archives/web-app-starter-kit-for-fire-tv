@@ -13,7 +13,7 @@
      * @class YouTubePlayerView
      * @description Handles the media playback of YouTube videos
      */
-    var YouTubePlayerView = function (settings) {
+    function YouTubePlayerView(settings) {
         // mixin inheritance, initialize this as an event handler for these events:
         Events.call(this, ['exit', 'videoStatus', 'indexChange']);
 
@@ -27,7 +27,15 @@
         this.durationFound = false;
         this.statusInterval = null;
         this.currentState = null;
+       
+        this.SKIP_LENGTH_DEFAULT = 30;
 
+        //set skip length
+        if (settings.skipLength) {
+            this.skipLength = settings.skipLength;
+        } else {
+            this.skipLength = this.SKIP_LENGTH_DEFAULT;
+        }
        /**
         * Handler for video 'canplay' event
         */
@@ -86,6 +94,12 @@
             }
          };
 
+        this.updateTitleAndDescription = function(title, description) {
+            if(this.controlsView) {
+                this.controlsView.updateTitleAndDescription(title, description);
+            }
+        }.bind(this);
+        
         /**
          * Creates the main content view from the template and appends it to the given element
          */
@@ -111,7 +125,7 @@
                     },
                     events: {
                         'onReady': this.readyHandler,
-                        'onStateChange': this.stateChangeHandler,
+                        'onStateChange': this.stateChangeHandler
                     }
                 });
             }
@@ -160,6 +174,14 @@
             }
         };
 
+        /** 
+         * @function controlsCurrentlyShowing 
+         * Controls currently showing status indicator
+         */
+        this.controlsCurrentlyShowing = function() {
+            return this.controlsView.controlsShowing();
+        }.bind(this);
+
         /**
         * @function seekVideo
         * @description navigate to a position in the video
@@ -197,24 +219,24 @@
                     break;
                 case buttons.LEFT:
                 case buttons.REWIND:
-                    this.seekVideo(-30);
+                    this.seekVideo(-this.skipLength);
                     break;
 
                 case buttons.RIGHT:
                 case buttons.FAST_FORWARD:
-                    this.seekVideo(30);
+                    this.seekVideo(this.skipLength);
                     break;
                 case buttons.UP:
                     this.controlsView.showAndHideControls();
                     break;
                 case buttons.DOWN:
-                    if (this.currentState != YT.PlayerState.PAUSED) {
+                    if (this.currentState !== YT.PlayerState.PAUSED) {
                         this.controlsView.hide();
                     }
                     break;
             }
         }.bind(this);
-    };
+    }
 
     // 2. This code loads the IFrame Player API code asynchronously.
     var tag = document.createElement('script');
