@@ -15,7 +15,7 @@
     * @class ButtonView 
     * @description The Button view object, this handles everything about the buttons 
     */
-    var ButtonView = function () {
+    function ButtonView() {
 
         // mixin inheritance, initialize this as an event handler for these events:
         Events.call(this, ['exit', 'revoke', 'select']);
@@ -162,7 +162,7 @@
             this.selectedButton = index;
         };
 
-    };
+    }
 
     exports.ButtonView = ButtonView;
 

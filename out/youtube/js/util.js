@@ -7,6 +7,8 @@
 (function(exports) {
     "use strict";
 
+    var options = { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
+
     var Utils = function() {
         // make it a singleton
         if (exports.utils) {
@@ -17,15 +19,14 @@
 
         /**
          * @function buildTemplate
-         * @param {el} the handlebars template element
-         * @param {context} the context data for filling out the template
+         * @param {object} el handlebars template element
+         * @param {object} context data for filling out the template
          * @description Grabs the handlebars template, runs the data through it, and appends the final html to the homeview.
          */
         this.buildTemplate = function (el, context) {
             var source = el.html();
             var template = Handlebars.compile(source);
-            var html = template(context);
-            return html;
+            return template(context);
         };
 
         /**
@@ -48,14 +49,14 @@
          */
         this.vendorPrefix = function(prop) {
             return this.prefix + prop;
-        }
+        };
 
         // find the current vendor prefix
         var regex = /^(Moz|Webkit|ms)(?=[A-Z])/;
         var someScript = document.getElementsByTagName('script')[0];
 
         for (var prop in someScript.style) {
-            if (regex.test(prop))  {
+            if (someScript.style.hasOwnProperty(prop) && regex.test(prop))  {
                 this.prefix = prop.match(regex)[0];
                 break;
             }
@@ -68,6 +69,15 @@
             // unprefixed, go figure
             this.prefix = '';
         }
+
+       /**
+        * Convert timestamp to formated date
+        * @param {Number} date timestamp
+        * @return {String}
+        */
+        this.formatDate = function(date){
+            return new Date(date).toLocaleTimeString("en-us", options);
+        };
 
     };
 

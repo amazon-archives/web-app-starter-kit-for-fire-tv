@@ -8,7 +8,7 @@
 
     // the model for the Media Sample Data
     // {Object} appSettings are the user-defined settings from the index page
-    var MRSSMediaModel = function (appSettings) {
+    function MRSSMediaModel(appSettings) {
 
          this.mediaData       = [];
          this.categoryData    = [];
@@ -30,14 +30,14 @@
                  dataType: 'xml',
                  context : this,
                  cache : true,
-                 success:function() {
+                 success: function() {
                      var contentData = arguments[0];
                      this.handleXMLData(contentData);
-                 },
-                 error:function() {
+                 }.bind(this),
+                 error: function() {
                      console.log(arguments);
                  },
-                 complete:function() {
+                 complete: function() {
                      dataLoadedCallback();
                  }
              });
@@ -58,12 +58,12 @@
                     title: $this.find("title").text(),
                     link: $this.find("link").text(),
                     description: $this.find("description").eq(0).text(),
-                    pubDate: $this.find("pubdate").text(),
+                    pubDate: exports.utils.formatDate($this.find("pubdate").text()),
                     author: $this.find("author").text(),
                     imgURL: $this.find("image").text(),
                     thumbURL: $this.find("image").text(),
                     videoURL: $this.find("url").text()
-                }
+                };
 
                 $this.find("category").each(function() {
                     var category = $(this).text();
@@ -110,7 +110,7 @@
          */
          this.getAllMedia = function () {
              return mediaData;
-         },
+         };
 
        /***************************
         *
@@ -123,7 +123,7 @@
          */
          this.setCurrentCategory = function (index) {
              this.currentCategory = index;
-         },
+         };
 
        /***************************
         *
@@ -148,22 +148,7 @@
 
         /**
          * Get and return data for a search term
-         * @param {string} term to search for
-         * @param {Function} searchCallback method to call with returned requested data
-         */
-         this.getDataFromSearch = function (searchTerm, searchCallback) {
-            this.currData = [];
-            for (var i = 0; i < this.mediaData.length; i++) {
-                if (this.mediaData[i].title.toLowerCase().indexOf(searchTerm) >= 0 || this.mediaData[i].description.toLowerCase().indexOf(searchTerm) >= 0) {
-                    this.currData.push(this.mediaData[i]);
-                }
-            }
-            searchCallback(this.currData);
-         };
-
-        /**
-         * Get and return data for a search term
-         * @param {string} term to search for
+         * @param {string} searchTerm to search for
          * @param {Function} searchCallback method to call with returned requested data
          */
          this.getDataFromSearch = function (searchTerm, searchCallback) {
@@ -187,15 +172,13 @@
 
        /**
         * Retrieve the reference to the currently selected content item
-        * @param {Number} index the index of the selected item
         */
         this.getCurrentItemData = function () {
             return this.currentItemData;
         };
-    };
+    }
 
     exports.MRSSMediaModel = MRSSMediaModel;
-
 })(window);
 
 

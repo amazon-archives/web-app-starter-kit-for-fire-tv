@@ -1,0 +1,123 @@
+//
+//App controls for iap
+//
+.app-container-buttons {
+    position : absolute;
+    bottom   : 10px;
+    left     : 150px;
+}
+
+//
+// In-App purchase Dialog
+//
+.app-container-dialog {
+    position : absolute;
+    width   : 100%;
+    height  : 100%;
+    display : none;
+    z-index : 500;
+    background-color : $color-app-dialog-container-bg;
+}
+
+.dialog-container {
+   position:absolute;
+   border : 1px solid $color-app-dialog-border; 
+   width  : 950px;
+   margin-left :515px;
+   margin-top  :140px;
+   padding-bottom   : 20px;
+   background-color : $color-app-dialog-bg;
+}
+
+.dialog-header-container {
+    margin : 0 30px;
+    border-bottom : 1px solid $color-app-dialog-head-border;
+}
+
+.dialog-purchase-container {
+    position : relative;
+    width  : 100%;
+    height : auto;
+}
+
+.dialog-header-text {
+    margin      : 25px 0;
+    font-family : $font-family-light;
+    font-size   : 1.3em;
+    color       : $color-app-dialog-btn-text; 
+}
+
+.dialog-button {
+    position  : relative;
+    width     : 100%;
+    height    : 100px;
+    font-size : 26pt;
+    padding   : 10px;
+    color     : $color-app-dialog-btn-text;
+    margin-bottom : 10px;
+    background-color : $color-app-dialog-btn-bg; 
+}
+
+.dialog-button-highlight {
+    background : -webkit-linear-gradient($color-dialog-btn-highlight-start, $color-dialog-btn-highlight-end);
+    background : linear-gradient($color-dialog-btn-highlight-start, $color-dialog-btn-highlight-end);
+    color : $color-dialog-button-hightlight-text;
+}
+
+.dialog-button-highlight .dialog-entitlement-message {
+    color : $color-dialog-entitlement-price;
+}
+.dialog-entitlement-message {
+    width : 50%;
+    float : left;
+    color : $color-dialog-entitlement-text; 
+    text-align   : left;
+    padding-left : 10px;
+}
+
+.dialog-entitlement-price {
+    width : 40%;
+    float : right;
+    text-align    : right;
+    padding-right : 10px;
+}
+
+.dialog-thumb-container {
+    position : relative;
+    width    : 190px;
+    margin   : 30px;
+    float    : left;
+}
+
+.dialog-button-container {
+    position : relative;
+    float    : left;
+    width    : 670px;
+    margin-top : 30px;
+}
+
+.img-thumb-container {
+    position : absolute;
+    top  : 0px;
+    left : 0px;
+    display:none;
+}
+
+.img-thumb-container-display {
+    display:block;
+}
+
+.img-bg-thumb {
+    position: relative;
+    text-align:center;
+    width: 190px;
+    height: 108px;
+    padding: 15px;
+    background-position: center center;
+}
+
+.img-bg-thumb[data-lock=true] {
+    content : $img-icon-lock;
+    padding : 30px 77px;
+}
+

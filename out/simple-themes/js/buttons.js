@@ -15,7 +15,7 @@
      * @return {*}
      * @constructor
      */
-    var Buttons = function() {
+    function Buttons() {
         // make it a singleton
         if (exports.buttons) {
             return buttons;
@@ -158,7 +158,7 @@
                 window.history.pushState("backhandler", null, null); // pushing a dummy state so that popstate is always called
             }
         }.bind(this));
-    };
+    }
 
     exports.Buttons = Buttons;
     exports.buttons = new Buttons();

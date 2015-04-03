@@ -9,5 +9,9 @@
     position : absolute;
     bottom   : -10px;
     right    : 60px;
-    -webkit-transform: scale(0.75);
+    @include transform(scale(0.75));
+    img {
+        height: 240px;
+        width: 240px;
+    }
 }

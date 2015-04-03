@@ -8,9 +8,9 @@
         PlaylistView: PlaylistPlayerView,
         dataURL: "./assets/genericMediaData.json",
         showSearch: true,
-        displayButtons: true
+        displayButtons:false,
+        skipLength: 10
     };
 
-    var app = new App(settings);
-    exports.app = app;
+    exports.app = new App(settings);
 }(window));
