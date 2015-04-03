@@ -1,0 +1,127 @@
+{
+    "folders": [
+        {
+            "id": "1",
+            "title": "root",
+            "description": "",
+            "contents": [{"type": "folder", "id":"2"}, {"type": "folder", "id":"11"}]
+        },
+        {
+            "id": "2",
+            "title": "LiveStream",
+            "description": "",
+            "contents": [{"type": "media", "id": "live-id-1"}, {"type": "media", "id": "live-id-2"}, {"type": "media", "id": "live-id-3"}]
+        },
+        {
+            "id": "11",
+            "title": "Videos",
+            "description": "",
+            "contents": [{"type": "media", "id": "37a30514-f956-4da1-4063-9e5276e4b79f"}, 
+                         {"type": "media", "id": "e47f9ec3-384e-dc74-09d4-57bc60afce3f"},
+                         {"type": "media", "id": "510cf231-b858-6445-a97b-61cfeac62875"}, 
+                         {"type": "media", "id": "e0299a14-d5f4-406f-b1d0-84442e6ee557"}, 
+                         {"type": "media", "id": "9ce5e269-42b1-96e9-d121-0a4c4d1fb84f"}, 
+                         {"type": "media", "id": "e0299a14-d5f4-406f-b1d0-84442e6ee557"}, 
+                         {"type": "media", "id": "749dc567-f942-3d3b-ca31-ae800f81ef8f"}
+                        ]
+        }
+
+    ],
+    "media": [
+        {
+            "id": "live-id-1",
+            "title": "NASA Live Stream",
+            "thumbURL": "assets/l11.jpg",
+            "imgURL": "assets/nasa-logo.jpg",
+            "videoURL": "http://public.infozen.cshls.lldns.net/infozen/public/public.m3u8",
+            "type": "video-live",
+            "alwaysLive": true, 
+            "description": "The NASA Live Public TV Channel."
+        }, 
+        {
+            "id": "37a30514-f956-4da1-4063-9e5276e4b79f",
+            "title": "Luctus Et Ultrices Luctus Posuere Cubilia Luctus Curae Et Luctus Ultrices Posuere Cubilia Curae;",
+            "pubDate": "Mon, 21 Apr 2014 04:55:06 GMT",
+            "thumbURL": "assets/l11.jpg",
+            "imgURL": "assets/l11.jpg",
+            "videoURL": "assets/sample_video.mp4",
+            "type": "video",
+            "subtitlesURL" : "assets/sample_video-en.vtt",
+            "categories": [
+                "Travel",
+                "Trending Now"
+            ],
+            "description": "Nibh. phasellus nulla. integer vulputate, risus a ultricies, enim mi tempor lorem, eget mollis lectus pede et risus. quisque libero lacus, varius et, euismod et, commodo at, libero. morbi accumsan laoreet ipsum. phasellus nulla. integer vulputate, risus a ultricies, enim mi tempor lorem, eget mollis lectus pede et risus. quisque libero lacus, varius et, euismod et, commodo at, libero. morbi accumsan laoreet ipsum."
+        },          
+        {
+            "id": "e47f9ec3-384e-dc74-09d4-57bc60afce3f",
+            "title": "Mauris A Nunc In At Pede",
+            "pubDate": "Fri, 18 Jan 2013 19:05:13 GMT",
+            "thumbURL": "assets/l1.jpg",
+            "imgURL": "assets/l1.jpg",
+            "videoURL": "assets/sample_video.mp4",
+            "type": "video",
+            "categories": [
+                "Leisure",
+                "Travel"
+            ],
+            "description": "Lacinia vitae, sodales at, velit. pellentesque ultricies dignissim lacus. aliquam rutrum lorem ac risus. morbi metus. vivamus euismod urna. nullam lobortis quam a felis ullamcorper viverra. maecenas iaculis aliquet diam. sed diam lorem, auctor quis, tristique ac,"
+        },
+        {
+            "id": "510cf231-b858-6445-a97b-61cfeac62875",
+            "title": "Urna Suscipit Nonummy",
+            "pubDate": "Mon, 10 Mar 2014 19:57:54 GMT",
+            "thumbURL": "assets/l1.jpg",
+            "imgURL": "assets/l1.jpg",
+            "videoURL": "assets/sample_video.mp4",
+            "type": "video",
+            "categories": [
+                "Outdoors",
+                "Dining"
+            ],
+            "description": "Mattis. integer eu lacus. quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. in at pede. cras vulputate velit eu sem. pellentesque ut ipsum ac mi eleifend egestas. sed pharetra, felis eget varius"
+        },
+        {
+            "id": "e0299a14-d5f4-406f-b1d0-84442e6ee557",
+            "title": "Vitae Aliquam Eros Turpis Non Enim",
+            "pubDate": "Thu, 11 Apr 2013 11:09:49 GMT",
+            "thumbURL": "assets/l12.jpg",
+            "imgURL": "assets/l12.jpg",
+            "videoURL": "assets/sample_video.mp4",
+            "type": "video",
+            "categories": [
+                "Leisure",
+                "Travel"
+            ],
+            "description": "Modestis pharetra nibh. aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. morbi sit amet massa."
+        },
+        {
+            "id": "9ce5e269-42b1-96e9-d121-0a4c4d1fb84f",
+            "title": "Nec Mauris Blandit Mattis Cras Eget",
+            "pubDate": "Sun, 26 May 2013 07:22:41 GMT",
+            "thumbURL": "assets/l12.jpg",
+            "imgURL": "assets/l12.jpg",
+            "videoURL": "assets/sample_video.mp4",
+            "type": "video",
+            "categories": [
+                "Outdoors",
+                "Fantasy"
+            ],
+            "description": "Eget, dictum placerat, augue. sed Modestis. sed id risus quis diam luctus lobortis. class aptent taciti sociosqu ad litora torquent"
+        },
+        {
+            "id": "749dc567-f942-3d3b-ca31-ae800f81ef8f",
+            "title": "Enim, Gravida Sit Amet,",
+            "pubDate": "Sat, 14 Dec 2013 00:59:11 GMT",
+            "thumbURL": "assets/l12.jpg",
+            "imgURL": "assets/l12.jpg",
+            "videoURL": "assets/sample_video.mp4",
+            "type": "video",
+            "categories": [
+                "Leisure",
+                "Dining"
+            ],
+            "description": "Fusce diam nunc, ullamcorper eu, euismod ac, fermentum vel, mauris. integer sem elit, pharetra ut, pharetra sed, hendrerit a, arcu. sed et libero. proin mi. aliquam gravida mauris ut mi. duis"
+        }
+    ]
+}
