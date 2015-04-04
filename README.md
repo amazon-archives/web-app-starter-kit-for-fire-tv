@@ -94,6 +94,7 @@ New Features:
 * YouTube Hierarchy Support - Template now supports categories of YouTube playlists, which creates subcategories of the videos in the playlist. 
 * Skip forward/backward amount can now be changed by the application settings. 
 * New alternative JSON Format - A new alternative JSON format for data has been added to create more control over what is placed in each category and where.
+
 -----------
 v1.1 Release: In addition to new features, the structure of the Starter Kit changed to better organize the sources, documentation and build directory.
 
