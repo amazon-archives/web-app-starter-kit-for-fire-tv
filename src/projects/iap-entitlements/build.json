@@ -1,0 +1,60 @@
+{
+    "appTitle" : "IAP Subscription",
+    "html" : [
+        "./index.html",
+        "amazon.sdktester.json"
+    ],
+    "sass" : [
+        "../../common/scss/*.scss",
+        "firetv.scss"
+    ],
+    "assets" : [
+        "../../common/images/icon_leftnav_arrowDown.png",
+        "../../common/images/bg_app.jpg",
+        "./images/sample.theme.default.jpg",
+        "./images/sample.theme.red.jpg",
+        "./images/sample.theme.blue.jpg",
+        "./images/sample.theme.green.jpg",
+        "../../common/images/bg_iap_dialog.jpg",
+        "./images/bg_app_red.jpg",
+        "./images/bg_app_green.jpg",
+        "./images/bg_app_blue.jpg",
+        "../../common/images/icon_lock.png",
+        "../../common/images/btn_pause.png",
+        "../../common/images/btn_back.png",
+        "../../common/images/img_logo.png",
+        "../../common/images/search.png",
+        "../../common/images/forward-arrow.png",
+        "../../common/images/rewind-arrow.png",
+        "../../common/images/skip_indicator.png",
+        "../../common/images/btn_previewPlay.png",
+        "../../common/assets/video/*",
+        "../../common/assets/images/*",
+        "genericMediaData.json"
+    ],
+    "root" : [
+        "./amazon.sdktester.json"
+    ],
+    "appJS" : [
+        "../../common/js/util.js",
+        "../../common/js/button-view.js",
+        "../../common/js/events.js",
+        "../../common/js/buttons.js",
+        "../../common/js/touches.js",
+        "../../common/js/leftnav-view.js",
+        "../../common/js/one-d-view.js",
+        "../../common/js/shoveler-view.js",
+        "../../common/js/player-view.js",
+        "../../common/js/playlist-player-view.js",
+        "../../common/js/controls-view.js",
+        "../../common/js/search-input-view.js",
+        "../../common/js/model-json.js",
+        "../../common/js/entitlement-view.js",
+        "../../common/js/app.js",
+        "init.js"
+    ],
+    "libJS" : [
+        "../../libs/jquery.js",
+        "../../libs/handlebars-v1.3.0.js"
+    ]
+}

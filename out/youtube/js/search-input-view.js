@@ -11,7 +11,7 @@
     * @class SearchInputView
     * @description The search row in the left nav view. 
     */
-    var SearchInputView = function () {
+    function SearchInputView() {
         // mixin inheritance, initialize this as an event handler for these events:
         Events.call(this, ['searchQueryEntered']);
         this.currentSearchQuery = null;
@@ -24,9 +24,7 @@
 
             this.$el = $parent.children().eq(0);
             this.$el.on("change", this.searchQueryEntered);
-
-            
-        }
+        };
 
         this.searchQueryEntered = function(e) {
             this.currentSearchQuery = e.target.value;
@@ -45,8 +43,7 @@
        this.deselect = function () {
             this.$el.blur();
        }.bind(this);
-        
-    };
+    }
 
     exports.SearchInputView = SearchInputView;
 }(window));

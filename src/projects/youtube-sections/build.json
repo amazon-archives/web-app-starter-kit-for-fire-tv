@@ -1,0 +1,45 @@
+{
+    "appTitle" : "YouTube Channels Example",
+    "html" : [
+        "../../common/html/index.html"
+    ],
+    "sass" : [
+        "../../common/scss/*.scss",
+        "firetv.scss"
+    ],
+    "assets" : [
+        "../../common/images/icon_leftnav_arrowDown.png",
+        "../../common/images/bg_app.jpg",
+        "../../common/images/btn_pause.png",
+        "../../common/images/btn_back.png",
+        "../../common/images/img_logo.png",
+        "../../common/images/icon_subcat_arrowLeft.png",
+        "../../common/images/forward-arrow.png",
+        "../../common/images/rewind-arrow.png",
+        "../../common/images/btn_previewPlay.png",
+        "../../common/images/skip_indicator.png",
+        "../../common/images/search.png"
+    ],
+    "appJS" : [
+        "../../common/js/util.js",
+        "../../common/js/button-view.js",
+        "../../common/js/events.js",
+        "../../common/js/buttons.js",
+        "../../common/js/touches.js",
+        "../../common/js/leftnav-view.js",
+        "../../common/js/one-d-view.js",
+        "../../common/js/shoveler-view.js",
+        "../../common/js/player-view-youtube.js",
+        "../../common/js/playlist-player-view.js",
+        "../../common/js/subcat-view.js",
+        "../../common/js/search-input-view.js",
+        "../../common/js/controls-view.js",
+        "../../common/js/model-youtube-api.js",
+        "../../common/js/app.js",
+        "init.js"
+    ],
+    "libJS" : [
+        "../../libs/jquery.js",
+        "../../libs/handlebars-v1.3.0.js"
+    ]
+}

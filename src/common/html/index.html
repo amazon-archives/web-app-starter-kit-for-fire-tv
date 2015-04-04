@@ -2,7 +2,7 @@
 
 <!-- build:template_info -->
 <!-- endbuild -->
-
+<html lang='en'>
 <head>
     <title>
         <!-- build:app_title -->
@@ -36,11 +36,6 @@
         <div id="overlay-message" class="app-overlay-message"></div>
     </div>
     <div id="app-loading-spinner" class="content-load-spinner">
-        <div class="rect1"></div>
-        <div class="rect2"></div>
-        <div class="rect3"></div>
-        <div class="rect4"></div>
-        <div class="rect5"></div>
     </div>
 
     <!-- App Header Template -->
@@ -62,18 +57,24 @@
                         </div>
                     </div>
                     {{/each}}
-                </ul>
+                </div>
             </div>
         </div>
     </script>
 
     <!-- Search Row View Template -->
     <script id="search-input-template" type="text/x-handlebars-template">
-        <input id="search-input" class="leftnav-list-item-static leftnav-search-box" type="text" placeholder="Search">
-        </input>
+        <input id="search-input" class="leftnav-list-item-static leftnav-search-box" type="text" placeholder="Search"/>
     </script>
 
-
+    <!-- SubCategory Template  -->
+    <script id="subcategory-view-template" type="text/x-handlebars-template">
+        <div class = "subcategory-container">
+            <div class="leftnav-list-item-static leftnav-list-item-chosen subcat-header">
+                {{title}}
+            </div>
+        </div>
+    </script>
 
     <!-- 1D View Template  -->
     <script id="one-D-view-items-template" type="text/x-handlebars-template">
@@ -83,6 +84,7 @@
             <div id="one-D-summary-container" class="one-D-details-summary-text">
                 <div id="summaryTitle" class="one-D-summary-title"></div>
                 <div id="summaryDate" class="one-D-summary-pubdate"></div>
+                <div id="summary-buttons-container"></div>
                 <div id="summaryDesc" class="one-D-summary-description"></div>
             </div>
         </div>
@@ -133,27 +135,44 @@
         </div>
         <div class="player-controls-container">
             <div class="player-controls-timeline-container">
-                <div class="player-controls-timeline">
-                    <div class="player-controls-timeline-playhead"></div>
+                    <div class="player-controls-timeline">
+                        <div class="player-controls-timeline-playhead"></div>
+                    </div>
+                <div id = "forward-indicator" class="player-controls-skip-indicator">
+                    <img src="assets/forward-arrow.png" />
+                    <span class = "player-controls-skip-symbol">+</span>
+                    <span class = "player-controls-skip-number">10</span>
+                    <span class = "player-controls-skip-text">s</span>
                 </div>
-            <div id = "forward-indicator" class="player-controls-skip-indicator">
-                <img src="assets/forward-arrow.png" />
-                <span class = "player-controls-skip-symbol">+</span>
-                <span class = "player-controls-skip-number">10</span>
-                <span class = "player-controls-skip-text">s</span>
+                <div id = "rewind-indicator" class="player-controls-skip-indicator">
+                    <img src="assets/rewind-arrow.png" />
+                    <span class = "player-controls-skip-symbol">-</span>
+                    <span class = "player-controls-skip-number">10</span>
+                    <span class = "player-controls-skip-text">s</span>
+                </div>
             </div>
-            <div id = "rewind-indicator" class="player-controls-skip-indicator">
-                <img src="assets/rewind-arrow.png" />
-                <span class = "player-controls-skip-symbol">-</span>
-                <span class = "player-controls-skip-number">10</span>
-                <span class = "player-controls-skip-text">s</span>
-            </div>
+            <div class="player-controls-timestamp-curtime">00:00</div>
+            <div class="player-controls-timestamp-totaltime"></div>
+            <div class="player-controls-content-title">Content Title</div>
+            <div class="player-controls-button-back"><img class="player-back-button" src="./assets/btn_back.png" /></div>
+            <div class="player-controls-content-subtitle">Subtitle</div>
         </div>
-        <div class="player-controls-timestamp-curtime">00:00</div>
-        <div class="player-controls-timestamp-totaltime"></div>
-        <div class="player-controls-content-title">Content Title</div>
-        <div class="player-controls-button-back"><img class="player-back-button" src="./assets/btn_back.png" /></div>
-        <div class="player-controls-content-subtitle">Subtitle</div>
+    </script>
+
+    <!-- Custom Live Controls Template -->
+    <script id="controls-live-view-template" type="text/x-handlebars-template">
+        <div class="player-pause-button">
+            <img class="player-pause-indicator" src="assets/btn_pause.png"/>
+        </div>
+        <div class="player-controls-container">
+            <div class="player-controls-timeline-container">
+                    <div class="player-controls-timeline">
+                    </div>
+            </div>
+            <div class="player-controls-timestamp-curtime">LIVE</div>
+            <div class="player-controls-content-title">Content Title</div>
+            <div class="player-controls-button-back"><img class="player-back-button" src="./assets/btn_back.png" /></div>
+            <div class="player-controls-content-subtitle">Subtitle</div>
         </div>
     </script>
 
@@ -162,3 +181,4 @@
     <!-- endbuild -->
 
 </body>
+</html>

@@ -11,7 +11,7 @@
      * @class PlayerView
      * @description The detail view object, this handles everything about the detail view.
      */
-    var PlayerView = function (settings) {
+    function PlayerView(settings) {
         // mixin inheritance, initialize this as an event handler for these events:
         Events.call(this, ['exit', 'videoStatus', 'videoError', 'indexChange']);
 
@@ -21,10 +21,19 @@
         this.canplay = null;
         this.controlsView = null;
         this.durationFound = false;
+        this.isLive = false;
 
         //class variables
         this.fullscreenOpen = false;
+        
+        this.SKIP_LENGTH_DEFAULT = 10;
 
+        //set skip length
+        if (settings.skipLength) {
+            this.skipLength = settings.skipLength;
+        } else {
+            this.skipLength = this.SKIP_LENGTH_DEFAULT;
+        }
         /**
          * Handler for video 'canplay' event
          */
@@ -34,11 +43,13 @@
         }.bind(this);
 
         /**
-         * Handler for durationFound event
+         * @function pauseEventHandler
+         * @description handles video element pause event
          */
-        this.durationFoundHandler = function() {
-            this.trigger('videoStatus', this.videoElement.currentTime, this.videoElement.duration, 'playing');
-            this.trigger('videoStarted');
+        this.pauseEventHandler = function() {
+            // we trigger the video status in the pause event handler because the pause event can come from the system
+            // specifically it can be caused by the voice search functionality of Fire OS
+            this.trigger('videoStatus', this.videoElement.currentTime, this.videoElement.duration, 'paused');
         }.bind(this);
 
         /**
@@ -48,6 +59,11 @@
             this.trigger('videoStatus', this.videoElement.currentTime, this.videoElement.duration, 'ended');
         }.bind(this);
 
+        this.updateTitleAndDescription = function(title, description) {
+            if(this.controlsView) {
+                this.controlsView.updateTitleAndDescription(title, description);
+            }
+        }.bind(this);
         /**
          * Video On Event handler ONLY
          * This is the handler for the webkitfullscreen event
@@ -56,11 +72,18 @@
          */
         this.fullScreenChangeHandler = function() {
             if (this.fullscreenOpen) {
-                this.videoEndedHandler()
+                this.videoEndedHandler();
                 this.fullscreenOpen = false;
             } else {
                 this.fullscreenOpen = true;
             }
+        }.bind(this);
+
+        /*
+         * Controls currently showing status indicator
+         */
+        this.controlsCurrentlyShowing = function() {
+            return this.controlsView.controlsShowing();
         }.bind(this);
 
         /*
@@ -161,15 +184,24 @@
             this.videoElement.addEventListener("canplay", this.canPlayHandler);
             this.videoElement.addEventListener("ended", this.videoEndedHandler);
             this.videoElement.addEventListener("timeupdate", this.timeUpdateHandler);
+            this.videoElement.addEventListener("pause", this.pauseEventHandler);
             this.videoElement.addEventListener("error", this.errorHandler);
 
             //listener for visual on video playback only - remove for non-visual on implementation
             this.videoElement.addEventListener(utils.vendorPrefix('fullscreenchange').toLowerCase(), this.fullScreenChangeHandler);
 
             // create controls
-            this.controlsView = new ControlsView();
-            this.controlsView.render(this.$el, data, this);
-            this.videoElement.addEventListener('durationchange', this.durationChangeHandler)
+            if (data.type === "video-live") {
+                this.isLive = true;
+                this.controlsView = new LiveControlsView();
+                this.controlsView.render(this.$el, data, this); 
+            }
+            else {
+                this.controlsView = new ControlsView();
+                this.controlsView.render(this.$el, data, this); 
+            }
+
+            this.videoElement.addEventListener('durationchange', this.durationChangeHandler);
 
         };
 
@@ -187,8 +219,9 @@
          * @description pause the currently playing video, called when app loses focus
          */
         this.pauseVideo = function() {
+            // this no longer directly sends a video status event, as the pause can come from Fire OS and not just
+            // user input, so this strictly calls the video element pause
             this.videoElement.pause();
-            this.trigger('videoStatus', this.videoElement.currentTime, this.videoElement.duration, 'paused');
         };
 
         /**
@@ -223,12 +256,16 @@
 
                 case buttons.LEFT:
                 case buttons.REWIND:
-                    this.seekVideo(this.videoElement.currentTime - 10);
+                    if (!this.isLive) {
+                        this.seekVideo(this.videoElement.currentTime - this.skipLength);
+                    }
                     break;
 
                 case buttons.RIGHT:
                 case buttons.FAST_FORWARD:
-                    this.seekVideo(this.videoElement.currentTime + 10);
+                    if (!this.isLive) {
+                        this.seekVideo(this.videoElement.currentTime + this.skipLength);
+                    }
                     break;
 
                 case buttons.SELECT:
@@ -269,7 +306,7 @@
             }
         };
 
-    };
+    }
 
     exports.PlayerView = PlayerView;
 }(window));

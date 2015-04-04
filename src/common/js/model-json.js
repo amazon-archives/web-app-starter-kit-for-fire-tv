@@ -8,15 +8,15 @@
 
     // the model for the Media Sample Data
     // {Object} appSettings are the user-defined settings from the index page
-    var JSONMediaModel = function (appSettings) {
+    function JSONMediaModel(appSettings) {
          this.mediaData       = [];
          this.categoryData    = [];
+         this.currSubCategory = [];
          this.currData = [];
          this.currentCategory = 0;
          this.currentItem     = 0;
          this.defaultTheme    = "default";
          this.currentlySearchData = false;
-         this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
         /**
          * This function loads the initial data needed to start the app and calls the provided callback with the data when it is fully loaded
@@ -33,7 +33,7 @@
                  success:function() {
                      var contentData = arguments[0];
                      this.handleJsonData(contentData);
-                 },
+                 }.bind(this),
                  error:function() {
                      console.log(arguments);
                  },
@@ -51,25 +51,71 @@
             this.categoryData = [];
             this.currentCategory = 0;
             this.mediaData = jsonData.media;
+            if (!jsonData.folders) {
+                this.createFoldersFromMediaData(jsonData);
+            }
+            this.folders = jsonData.folders;
+            this.rootFolder = this.folders[0]; 
 
+            // create left nav based on the folder stucture object
+            for (var i = 0; i < this.rootFolder.contents.length; i++) {
+                for (var j = 0; j < this.folders.length; j++) {
+                    if (this.folders[j].id === this.rootFolder.contents[i].id) {
+                        this.categoryData.push(this.folders[j].title);
+                    }
+                }
+            }
+
+         }.bind(this);
+
+        /**
+        * Handles converting JSON data that doesn't contain a folders object into the new updated JSON format with a folders object
+        * for backwards compatability.
+        * @param {Object} jsonData data to be converted into heirarchy folders object
+        */
+        this.createFoldersFromMediaData = function (jsonData) {
             // gather all the unique category names into a single list
+            jsonData.folders = [{
+                id: "0",
+                title: "",
+                description: "",
+                contents: []
+            }];
+            // starting categories with an empty string to keep it as one to one list to the folders array
+            // the empty string represents the root folder created above
+            var categories = [""];
+            // find all unique categories to create a folder list
             for (var i = 0; i < this.mediaData.length; i++) {
                 var mediaCats = this.mediaData[i].categories;
+                // create a media reference to point to the actual media object, used in the folder list
+                var mediaReference = {type: "media", id: this.mediaData[i].id};
                 if (mediaCats) {
                     for (var j = 0; j < mediaCats.length; j++) {
-                        if (this.categoryData.indexOf(mediaCats[j]) < 0) {
-                            this.categoryData.push(mediaCats[j]);
+                        var catIndex = categories.indexOf(mediaCats[j]); 
+                        if (catIndex < 0) {
+                            categories.push(mediaCats[j]);
+                            // add the folder object for the found unique category to the overall list
+                            var folderObj = {
+                                id: categories.length,
+                                title: mediaCats[j],
+                                contents: [mediaReference]
+                            };
+                            // add the new folder to the children of the root folder, and add it as an entry in folders array to create the hierarchy
+                            jsonData.folders[0].contents.push({type: "folder", id: categories.length});
+                            jsonData.folders.push(folderObj);
+
+                        } else {
+                            // there is already a unique category so just add the media reference to it
+                            jsonData.folders[catIndex].contents.push(mediaReference);
                         }
                     }
                 }
             }
-            this.categoryData.sort();
-
-         }.bind(this);
+        };
 
        /***************************
         *
-        * Utilility Methods
+        * Utility Methods
         *
         ***************************/
        /**
@@ -79,25 +125,6 @@
         */
         this.sortAlphabetically = function (arr) {
             arr.sort();
-        };
-
-       /**
-        * Convert unix timestamp to date
-        * @param {Number} d unix timestamp
-        * @return {Date}
-        */
-        this.unixTimestampToDate = function (d) {
-
-            var unixTimestamp = new Date(d*1000);
-
-            var year   = unixTimestamp.getFullYear();
-            var month  = this.months[unixTimestamp.getMonth()];
-            var date   = unixTimestamp.getDate();
-            var hour   = unixTimestamp.getHours();
-            var minute = unixTimestamp.getMinutes();
-            var second = unixTimestamp.getSeconds();
-
-            return date + ',' + month + ' ' + year + ' ' + hour + ':' + minute + ':' + second ;
         };
 
        /***************************
@@ -110,7 +137,7 @@
          */
          this.getAllMedia = function () {
              return mediaData;
-         },
+         };
 
        /***************************
         *
@@ -123,7 +150,16 @@
          */
          this.setCurrentCategory = function (index) {
              this.currentCategory = index;
-         },
+         };
+
+        /**
+         * Function to set the current subcategory object, this be used to return the subcategory resuts in the getSubCategory method
+         * which can be modified in the model before being returned asynchrounously if the model wishes.
+         * @param {Object} data currently selected subcategory object
+         */
+         this.setCurrentSubCategory = function(data) {
+            this.currSubCategory = data;
+         };
 
        /***************************
         *
@@ -142,39 +178,129 @@
          * @param {Function} categoryCallback method to call with returned requested data
          */  
          this.getCategoryData = function (categoryCallback) {
-             this.currData = []; 
-             for (var i = 0; i < this.mediaData.length; i++) {
-                 if ($.inArray(this.categoryData[this.currentCategory], this.mediaData[i].categories) > -1) {
-                     this.currData.push(this.mediaData[i]);
-                 }   
-             }   
-             categoryCallback(this.currData);
-         };   
+             var currCat;
+             this.currData = [];
+             for (var i = 0; i < this.folders.length; i++ ){
+                if (this.rootFolder.contents[this.currentCategory].id === this.folders[i].id) {
+                    currCat = this.folders[i];
+                }   
+             }
 
-        /**
-         * Get and return data for a search term
-         * @param {string} term to search for
-         * @param {Function} searchCallback method to call with returned requested data
-         */
-         this.getDataFromSearch = function (searchTerm, searchCallback) {
-            this.currData = [];
-            for (var i = 0; i < this.mediaData.length; i++) {
-                if (this.mediaData[i].title.toLowerCase().indexOf(searchTerm) >= 0 || this.mediaData[i].description.toLowerCase().indexOf(searchTerm) >= 0) {
-                    this.currData.push(this.mediaData[i]);
+            this.currData = this.getFullContentsForFolder(currCat);
+            this.currData = this.filterLiveData(this.currData);
+            categoryCallback(this.currData);
+         }; 
+
+         /** 
+          * Filter out old broadcasts of live data, add time format for upcoming, set currently live flag
+          * @param {array} data the content
+          **/ 
+          this.filterLiveData = function(data) {
+            for (var i = 0; i < data.length; i++) {  
+                if (data[i].type === "video-live") {                  
+                    var startTime = new Date(data[i].startTime).getTime();
+                    var endTime = new Date(data[i].endTime).getTime();
+                    var currTime = Date.now();
+                    var isAlwaysLive = data[i].alwaysLive;
+                    if (currTime < endTime && currTime >= startTime)
+                    {
+                        data[i].isLiveNow = true;
+                    }
+                    else if (isAlwaysLive) {
+                        data[i].isLiveNow = true;
+                    }
+                    else if (currTime > endTime){
+                        // remove old broadcasts
+                        data.splice(i, 1);
+                        i--;
+                    }
+                    else {
+                        var upcomingTimeSeconds = Math.round((startTime - currTime) / 1000);
+                        var days = Math.floor( upcomingTimeSeconds / 86400 );
+                        data[i].isLiveNow = false;
+                        if (days > 0) {
+                            data[i].upcomingTime = exports.utils.formatDate(data[i].startTime);
+                        }
+                        else {
+                            data[i].upcomingTime = "Starts in " + this.convertSecondsToHHMMSS(upcomingTimeSeconds);
+                        }
+                    }
                 }
             }
-            searchCallback(this.currData);
+            return data;
+          };
+
+        /**
+         * @function convertSecondsToHHMMSS
+         * @description convert seconds to string format for when live broadcast start
+         */
+        this.convertSecondsToHHMM = function(seconds, alwaysIncludeHours) {
+            var hours = Math.floor( seconds / 3600 );
+            var minutes = Math.floor( seconds / 60 );
+
+            var finalString = "";
+            
+            if (hours > 0 || alwaysIncludeHours) {
+                finalString += hours + " hours ";
+            }
+            return finalString + ('00' + minutes).slice(-2) + " minutes";
+        };
+
+        /** 
+         * Get and return full contents objects for a given folder
+         * @param {object} folder object to find contents for
+         */  
+         this.getFullContentsForFolder = function(folder) {
+            var i, j, contents = [], currContents = folder.contents;
+            for (i = 0; i < currContents.length; i++) {
+                if (currContents[i].type === "folder") {
+                    for (j = 0; j < this.folders.length; j++) {
+                        if (this.folders[j].id === currContents[i].id) {
+                            this.folders[j].type = "subcategory";
+                            contents.push(this.folders[j]);  
+                        }
+                    }
+                }
+                else if (currContents[i].type === "media") {
+                    for (j = 0; j < this.mediaData.length; j++) {
+                        if (this.mediaData[j].id === currContents[i].id) {
+                            //make sure the date is in the correct format
+                            if(this.mediaData[i].pubDate) {
+                                this.mediaData[i].pubDate = exports.utils.formatDate(this.mediaData[i].pubDate);
+                            }
+                            contents.push(this.mediaData[j]);               
+                        }
+                    }
+                }
+            }
+            return contents;
+         };
+
+        /** 
+         * Get and return data for a selected sub category, modified however the model wishes. Uses an asynchrounous callback to return the data.
+         * @param {Function} subCategoryCallback method to call with returned requested data
+         */  
+         this.getSubCategoryData = function(subCategoryCallback) {
+            // clone the original object
+            var returnData = JSON.parse(JSON.stringify(this.currSubCategory));
+            returnData.contents = this.getFullContentsForFolder(this.currSubCategory);
+            returnData.contents = this.filterLiveData(returnData.contents);
+            subCategoryCallback(returnData);
          };
 
         /**
          * Get and return data for a search term
-         * @param {string} term to search for
+         * @param {string} searchTerm to search for
          * @param {Function} searchCallback method to call with returned requested data
          */
          this.getDataFromSearch = function (searchTerm, searchCallback) {
             this.currData = [];
             for (var i = 0; i < this.mediaData.length; i++) {
                 if (this.mediaData[i].title.toLowerCase().indexOf(searchTerm) >= 0 || this.mediaData[i].description.toLowerCase().indexOf(searchTerm) >= 0) {
+                    //make sure the date is in the correct format
+                    if(this.mediaData[i].pubDate) {
+                        this.mediaData[i].pubDate = exports.utils.formatDate(this.mediaData[i].pubDate);
+                    }
                     this.currData.push(this.mediaData[i]);
                 }
             }
@@ -192,12 +318,11 @@
 
        /**
         * Retrieve the reference to the currently selected content item
-        * @param {Number} index the index of the selected item
         */
         this.getCurrentItemData = function () {
             return this.currentItemData;
         };
-    };
+    }
 
     exports.JSONMediaModel = JSONMediaModel;
 
