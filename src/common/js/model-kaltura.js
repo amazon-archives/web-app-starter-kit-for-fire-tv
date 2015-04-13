@@ -147,7 +147,6 @@
                 '00/embedIframeJs/uiconf_id/' + appSettings.uiconfId + 
                 '/partner_id/' + appSettings.partnerId;
             // Load the kaltura version of the library based on app settings
-            scriptUrl = '/html5.kaltura/mwEmbed/mwEmbedLoader.php';
             // replace the kalturaWidgetLoader Deferred with an getScript call to get the script library: 
             this.appendScriptUrl( scriptUrl, function(){
                 _this.kalturaWidgetLoader.resolve();
