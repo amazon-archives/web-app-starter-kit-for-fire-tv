@@ -44,8 +44,14 @@
         }.bind(this);
 
         this.statusUpdater = function() {
-            if (this.player && this.currentState === 'playing' ) {
+            if (!this.player ){
+            	return;
+            }
+            if( this.currentState === 'playing' ) {
                 this.trigger('videoStatus', this.player.evaluate('{video.player.currentTime}'), this.player.evaluate('{duration}'), 'playing');
+            }
+            if( this.currentState === 'playing-ad' ) {
+            	this.trigger('videoStatus', this.player.evaluate('{sequenceProxy.timeRemaining}'), this.player.evaluate('{sequenceProxy.duration}'), 'playing-ad');
             }
         }.bind(this);
 
@@ -107,6 +113,13 @@
                     _this.player = $('#' + playerId )[0];
                     // setup date handler: 
                     _this.player.kBind('playerStateChange', _this.stateChangeHandler);
+                    _this.player.kBind('adStart', function(){
+                    	_this.stateChangeHandler( 'playing' );
+                    	_this.stateChangeHandler( 'playing-ad' );
+                    });
+                    _this.player.kBind('adStop', function(){
+                   		_this.stateChangeHandler( 'playing' );
+                    });
                     // kaltura player does not naturally trigger ended against stateChangeHandler. 
                     _this.player.kBind('playerPlayEnd', function(){
                     	_this.stateChangeHandler( 'ended' );
@@ -127,6 +140,7 @@
         */
         this.playVideo = function() {
             if ( this.player ) {
+            	debugger;
             	this.player.sendNotification('doPlay');
             }
         };
@@ -174,6 +188,12 @@
         // handle button events, connected to video API for a few operations
         this.handleControls = function (e) {
             if (e.type !== 'buttonpress') { return; }
+            
+            if( this.currentState === 'playing-ad' ){
+            	// ignore all keyboard input
+            	this.controlsView.showAndHideControls();
+            	return ;
+            }
             
             switch (e.keyCode) {
                 case buttons.SELECT:
