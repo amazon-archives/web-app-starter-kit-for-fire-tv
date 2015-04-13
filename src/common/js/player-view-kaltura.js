@@ -103,7 +103,7 @@
                 'entry_id': data.id,
                 // use runtime overrides to make the player "chromeless" 
                 'flashvars':{
-                    'autoPlay': true,
+                    'autoPlay': false,
                     'topBarContainer.plugin': false,
                     'controlBarContainer.plugin': false,
                     'largePlayBtn.plugin': false,
