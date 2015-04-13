@@ -140,7 +140,6 @@
         */
         this.playVideo = function() {
             if ( this.player ) {
-            	debugger;
             	this.player.sendNotification('doPlay');
             }
         };
