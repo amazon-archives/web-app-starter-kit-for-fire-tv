@@ -7,9 +7,9 @@ Amazon Fire TV includes Amazon WebView, an advanced Chromium-based web engine co
 
 We have created the Starter Kit to give web developers an easier entry into developing applications for Fire TV devices. The starter kit provides a minimal media app that uses the FireTV remote effectively and provides a user experience consistent with the rest of the device.  It can be used as-is, or as a structural piece of a richer app.
 
-A live running example can be found at: [http://amzn.github.io/web-app-starter-kit-for-fire-tv](http://amzn.github.io/web-app-starter-kit-for-fire-tv/ "Live Template Example")
+A live running example can be found at: [https://amzn.github.io/web-app-starter-kit-for-fire-tv](https://amzn.github.io/web-app-starter-kit-for-fire-tv/ "Live Template Example")
 
-A zip file of the starter kit example projects can be found here: [http://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip](http://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip "Downloadable Zip of Projects")
+A zip file of the starter kit example projects can be found here:<br> [https://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip](https://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip "Downloadable Zip of Projects")
 
 ## Setup
 -------------------
