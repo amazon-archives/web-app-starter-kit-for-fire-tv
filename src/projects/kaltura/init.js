@@ -18,11 +18,11 @@
         displayButtons: false,
         
         // provide fallbacks to "video.kaltura.com"
-        partnerId: getParam( 'partnerId') || '811441', 
-        uiconfId: getParam( 'uiconfId') || '28732831',
-        topCategoryId: getParam( 'topCategoryId') ||'9059671',
-        ksService: 'http://50.19.86.65/amtv/list-ks.php?partner_id=' + ( getParam( 'partnerId') || '811441' ),
-        appLogo: getParam( 'appLogo') || 'https://cdnsecakmi.kaltura.com/p/811441/sp/81144100/raw/entry_id/1_19ou6fg0/version/100000/',
+        partnerId: getParam( 'partnerId') || '1059491', 
+        uiconfId: getParam( 'uiconfId') || '24571261',
+        topCategoryId: getParam( 'topCategoryId') ||'6064992',
+        ksService: 'http://50.19.86.65/amtv/list-ks.php?partner_id=' + ( getParam( 'partnerId') || '1059491' ),
+        appLogo: getParam( 'appLogo') || 'assets/kms-media.jpg',
         
         maxEntries: 150
     };
