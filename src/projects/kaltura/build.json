@@ -12,7 +12,6 @@
         "../../common/images/bg_app.jpg",
         "../../common/images/btn_pause.png",
         "../../common/images/btn_back.png",
-        "../../common/images/img_logo.png",
         "../../common/images/search.png",
         "../../common/images/forward-arrow.png",
         "../../common/images/rewind-arrow.png",
@@ -20,7 +19,8 @@
         "../../common/images/btn_previewPlay.png",
         "../../common/assets/video/*",
         "../../common/assets/images/*",
-        "genericMediaData.json"
+        "genericMediaData.json",
+        "img_logo.png"
     ],
     "appJS" : [
         "../../common/js/util.js",

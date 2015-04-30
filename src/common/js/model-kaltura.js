@@ -18,6 +18,9 @@
          this.currentlySearchData = false;
          this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+         if( appSettings.appLogo ){
+        	 this.appLogo = appSettings.appLogo;
+         }
         /**
          * This function loads the initial data needed to start the app and calls the provided callback with the data when it is fully loaded
          * @param {function} the callback function to call with the loaded data
@@ -49,18 +52,10 @@
         this.loadInitialDataViaAPI = function( ks ){
             var _this = this;
             var request = [{
-                /*'service': 'baseEntry',
-                'action': 'list', 
-                'filter:categoryAncestorIdIn': appSettings.topCategoryId
-              */  
                'service': 'baseEntry',
                'action': 'list', 
                'filter:categoryAncestorIdIn': appSettings.topCategoryId,
                'pager:pageSize':appSettings.maxEntries
-                
-                /*'service': 'playlist',
-                'action': 'execute',
-                'id': '0_aqpaqb4c'*/
             }];
             // get all category names: 
             request.push({
@@ -110,7 +105,9 @@
                     if( categoryNames[ cat.categoryId ] ){
                         entryCategories[ cat.entryId ].push( categoryNames[ cat.categoryId ] );
                     }
-                    this.categoryData.push( categoryNames[ cat.categoryId ]  )
+                    if( categoryNames[ cat.categoryId ] ){
+                    	this.categoryData.push( categoryNames[ cat.categoryId ]  )
+                    }
                 }
             }
             // add all the entries: 
@@ -120,7 +117,7 @@
                 this.mediaData.push({
                     "id": entry.id,
                     "title": entry.name,
-                    "pubDate": entry.createdAt,
+                    "pubDate": this.unixTimestampToDate( entry.createdAt ),
                     "thumbURL": entry.thumbnailUrl,
                     "imgURL": entry.thumbnailUrl + '/width/640',
                     "videoURL": entry.dataUrl,
@@ -262,7 +259,7 @@
             var minute = unixTimestamp.getMinutes();
             var second = unixTimestamp.getSeconds();
 
-            return date + ',' + month + ' ' + year + ' ' + hour + ':' + minute + ':' + second ;
+            return month + ' ' + date + ', ' + year; //+ ' ' + hour + ':' + minute + ':' + second ;
         };
 
        /***************************
@@ -274,7 +271,7 @@
          * For single views just send the whole media object
          */
          this.getAllMedia = function () {
-             return mediaData;
+             return this.mediaData;
          },
 
        /***************************
@@ -312,7 +309,7 @@
                  if ($.inArray(this.categoryData[this.currentCategory], this.mediaData[i].categories) > -1) {
                      this.currData.push(this.mediaData[i]);
                  }   
-             }   
+             }
              categoryCallback(this.currData);
          };   
 
