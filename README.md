@@ -7,7 +7,9 @@ Amazon Fire TV includes Amazon WebView, an advanced Chromium-based web engine co
 
 We have created the Starter Kit to give web developers an easier entry into developing applications for Fire TV devices. The starter kit provides a minimal media app that uses the FireTV remote effectively and provides a user experience consistent with the rest of the device.  It can be used as-is, or as a structural piece of a richer app.
 
-A live running example can be found at: [http://amzn.github.io/web-app-starter-kit-for-fire-tv](http://amzn.github.io/web-app-starter-kit-for-fire-tv/ "Live Template Example")
+A live running example can be found at: [https://amzn.github.io/web-app-starter-kit-for-fire-tv](https://amzn.github.io/web-app-starter-kit-for-fire-tv/ "Live Template Example")
+
+A zip file of the Starter Kit example projects can be found here:<br> [https://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip](https://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip "Downloadable Zip of Projects")
 
 ## Setup
 -------------------
@@ -26,9 +28,8 @@ Sample data has been included to get you started, but because the template uses 
 
 * Using Node and NPM, install the [Serve package](https://www.npmjs.org/package/serve), then create the server:
 
-		npm install -g serve
+		sudo npm install -g serve
 		serve -p 3000
-* Alternatively you can use Python, create a simple local server with this command: `python -m SimpleHTTPServer 3000`
 
 Both of these methods should result in you being able to access the template in your browser or [Web App Tester](http://www.amazon.com/Amazon-Digital-Services-Inc-Tester/dp/B00DZ3I1W8) at `http://localhost:3000`.
 
@@ -44,7 +45,7 @@ To test this app on a FireTV device, please refer to the [Web App Tester](http:/
 ### Setup of the SASS script file
 -------------------
 
-The template uses SASS as its main source of CSS content. SASS is a language which compiles down to standard CSS. In the template, we have included a precompiled CSS files in the `/out/project/<project-name>` directory.
+The template uses SASS as its main source of CSS content. SASS is a language which compiles down to standard CSS. In the template, we have included a precompiled CSS file in the `/out/<project-name>` directory.
 
 You're welcome to modify the CSS directly, but we recommend working with the SASS source instead. Please refer to the [SASS Install](http://sass-lang.com/install) link for more information on setting up SASS in your development environment. We have a build system which makes it easy to deal with SASS, for more information please refer to the [Building Document](./docs/building.md)
 
@@ -53,7 +54,7 @@ More information on the SASS structure please read the [Styling Document](./docs
 ## Customizing the template
 -------------------
 
-The source is released under the Creative Commons License. The HTML templates are contained in the `src/common/html/index.html` file, the SASS files are in the `src/common/css/` directory. The scss files `firetv.scss` and `_variables.scss` which allow you to easily modify commonly used look and feel aspects through Sass. For more information on styling the template read the [Styling Document](./docs/styling.md). We reccomend creating a new project and utilizing the gulp build system. For more information see the [Building Document](./docs/building.md)
+The source is released under the Creative Commons License, which allows developers to modify, customize, and release the template without any legal barriers. The HTML templates are contained in the `src/common/html/index.html` file and the SASS files are in the `src/common/scss/` directory. The scss files `firetv.scss` and `_variables.scss` allow you to easily modify commonly used look and feel aspects through Sass. For more information on styling the template read the [Styling Document](./docs/styling.md). We recommend creating a new project and utilizing the gulp build system. For more information see the [Building Document](./docs/building.md)
 
 For information on developing using the template and modifying app functionality please refer to the [Architecture Overview](./docs/architecture.md).
 
@@ -76,6 +77,27 @@ If you have any questions, concerns or problems with the Fire TV Web App templat
 
 ## Release Notes
 -------------------
+v1.2 Release: In addition to new features, we have made many tweaks to the user experience of the starter kit and added more robust support for our previous data sources.
+
+Changes:
+
+* The first category view/feed is the first view of the application. The left navigation view is hidden when the application is launched.
+* Drop shadows have been added to image thumbnails, video stills, buttons and the menu to create an improved appearance.
+* Fonts and styles have been made consistent through the application.
+* Button placement has been changed for video contextual buttons to fit better with the title and description text.
+* There is a new loading spinner to better match the FireTV Operating System.
+
+New Features:
+
+* In App Purchase Support - Now supports Amazon’s IAP v1 API for in app purchases, and has a sample application and documentation to demonstrate.
+* Live Stream Support - Now supports Live Stream applications with HLS streams, with added support for live stream schedules.
+* Subcategories - Template now supports subcategories within main categories to add hierarchy to applications. 
+* YouTube Sections Support - Developers can now create YouTube applications based on their YouTube sections they have defined on YouTube.com.
+* YouTube Hierarchy Support - Template now supports categories of YouTube playlists, which creates subcategories of the videos in the playlist. 
+* Skip forward/backward amount can now be changed by the application settings. 
+* New alternative JSON Format - A new alternative JSON format for data has been added to create more control over what is placed in each category and where.
+
+-----------
 v1.1 Release: In addition to new features, the structure of the Starter Kit changed to better organize the sources, documentation and build directory.
 
 Changes:

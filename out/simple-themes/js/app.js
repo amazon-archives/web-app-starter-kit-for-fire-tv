@@ -9,11 +9,6 @@
     "use strict";
 
    /**
-    * Placeholder - Handle page visibility for voice search button on video
-    */
-    var visibility =  document.getElementById("appstate");
-
-   /**
     * The 'pause' event is fired when the app is sent to the background (app completely hidden) or when its partially obscured 
     */
     function onPause() {
@@ -39,9 +34,6 @@
         document.addEventListener("resume" , onResume, false);
     }
 
-    document.addEventListener("amazonPlatformReady" , onAmazonPlatformReady, false);  
-    window.addEventListener('orientationchange', handleDeviceOrientation, false); 
-
    /**
     * Handle device rotation event
     * When in portrait mode put up the app overlay div and notify the user
@@ -56,13 +48,16 @@
             if(window.innerWidth < window.innerHeight) {
                 $('#overlay-message').html('please rotate your device back to landscpe');
                 $('#app-overlay').css('display', 'block'); 
-            } else {
+            } 
+            else {
                 $('#overlay-message').html('');
                 $('#app-overlay').css('display', 'none'); 
             }
         }, 500);
     }
 
+    document.addEventListener("amazonPlatformReady" , onAmazonPlatformReady, false);  
+    window.addEventListener('orientationchange', handleDeviceOrientation, false); 
 
    /**
     * The app object : the controller for the app, it creates views, manages navigation between views
@@ -71,7 +66,7 @@
     *                 settingsParams.dataURL {String} url of the initial data request 
     *                 settingsParams.displayButtons {Boolean} flag that tells the app to display the buttons or not
     */
-    var App = function(settingsParams) {
+    function App(settingsParams) {
         //hold onto the app settings
         this.settingsParams = settingsParams;
         this.showSearch = settingsParams.showSearch;
@@ -80,31 +75,41 @@
         this.$appContainer = $("#app-container");
 
        /**
+        * Handle the call to the model to get our data 
+        */
+        this.makeInitialDataCall = function () {
+            this.data.loadInitialData(this.dataLoaded);
+        };
+
+       /**
         * Callback from XHR to load the data model, this really starts the app UX
         */
         this.dataLoaded = function() {
+            var logo;
+
+            //check for entitlement services
+            if(settingsParams.entitlement) {
+                this.initializeEntitlementView();
+            }
 
             // quick template render to add the logo to the app, probably doesnt need an entire view since its one line
             if (app.data.appLogo) {
-                var logo = app.data.appLogo;
+                logo = app.data.appLogo;
             } 
             else {
-                var logo = "assets/img_logo.png";
+                logo = "assets/img_logo.png";
             }
             
             var html = utils.buildTemplate($("#app-header-template"), {
-                img_logo:logo,
+                img_logo:logo
             });
             this.$appContainer.append(html);
-
             
             this.initializeLeftNavView();
 
-            this.selectView(this.leftNavView);
-
-            this.leftNavView.expand();
-
             this.initializeOneDView();
+
+            this.selectView(this.oneDView);
 
         }.bind(this);
 
@@ -137,7 +142,8 @@
         this.handleButton = function(e) {
             if (this.currentView) {
                 this.currentView.handleControls(e);
-            } else if (e.type === 'buttonpress' && e.keyCode == buttons.BACK) {
+            } 
+            else if (e.type === 'buttonpress' && e.keyCode === buttons.BACK) {
                 this.exitApp();
             }
         };
@@ -149,11 +155,30 @@
             if(e.type === 'swipe') {
                 if($("#left-nav-list-container").hasClass('leftnav-menulist-collapsed')) {
                     this.currentView = this.oneDView;
-                } else {
+                } 
+                else {
                     this.currentView = this.leftNavView;
                 }
             }
             this.currentView.handleControls(e);
+        };
+
+       /***************************
+        *
+        * IAP Purchase Flow 
+        *
+        **************************/
+        this.initializeEntitlementView = function() {
+            var entitlementView = this.entitlementView = new EntitlementView();
+
+           /**
+            * Event Handler - Handle leaving the entitlement view
+            */
+            entitlementView.on('exit', function() {
+                this.transitionOutOfEntitlementView();
+            }, this);
+
+            entitlementView.render(app.$appContainer);
         };
 
        /***************************
@@ -173,7 +198,7 @@
             * @param {Number} index the index of the selected item
             */
             leftNavView.on('select', function(index) {
-                if (!this.showSearch || index != 0) {
+                if (!this.showSearch || index !== 0) {
                     //remove the contents of the oneDView
                     this.oneDView.remove();
                     
@@ -222,15 +247,16 @@
             }, this);
    
            /**
-            * Event Handler - exit the application 
+            * Event Handler - exit the left nav back to oneD
             */
             leftNavView.on('exit', function() {
-               this.exitApp();
+                this.leftNavView.collapse();
+                this.transitionToLeftNavView();
             }, this);
 
             if (this.showSearch) {
                 this.searchInputView.on('searchQueryEntered', function() {
-                    if (this.leftNavView.currSelectedIndex == 0) {
+                    if (this.leftNavView.currSelectedIndex === 0) {
                     this.leftNavView.searchUpdated = true;
                     this.leftNavView.confirmNavSelection();
                     }   
@@ -247,13 +273,13 @@
             */
             leftNavView.on('indexChange', function(index) {
                 //set the newly selected category index
-                if (this.showSearch && index == 0) {
+                if (this.showSearch && index === 0) {
                     this.searchInputView.select();
                 }
                 else {
                     if (this.showSearch) {
                         app.data.setCurrentCategory(index - 1);
-                    }
+                    } 
                     else {
                         app.data.setCurrentCategory(index);
                     }
@@ -271,6 +297,7 @@
                 leftNavData.unshift(this.searchInputView);
                 startIndex = 1;
             }
+
             leftNavView.render(app.$appContainer, leftNavData, startIndex);
         };
 
@@ -289,13 +316,23 @@
             */
             oneDView.on('select', function(index) {
                 this.data.setCurrentItem(index);
-                this.transitionToPlayer(index);
+                if (this.categoryData[index].type === "subcategory") {
+                    this.transitionToSubCategory(this.categoryData, index);
+                } 
+                else if (this.categoryData[index].type === "video-live" && !this.categoryData[index].isLiveNow) {
+                    alert("This video is not yet available.");
+                    buttons.resync();
+                }
+                else {
+                    this.createLiveStreamUpdater(this.categoryData, index);
+                    this.transitionToPlayer(this.categoryData, index);
+                }
             }, this);
 
            /** 
             * Event Handler - No content found for oneD event
             */
-            oneDView.on('noContent', function(index) {
+            oneDView.on('noContent', function() {
                 window.setTimeout(function(){
                     this.transitionToLeftNavView();
                     this.leftNavView.setHighlightedElement();
@@ -306,17 +343,24 @@
             * Go back to the left-nav menu list
             * @param {String} direction keypress direction
             */
-            oneDView.on('bounce', function() {
-                this.transitionToLeftNavView();
+            oneDView.on('bounce', function(dir) {
+                if(dir === buttons.DOWN) {
+                    if(this.settingsParams.entitlement) {
+                        this.transitionToEntitlementView();
+                    }
+                } 
+                else {
+                    this.transitionToLeftNavView();
+                }
             }, this);
 
            /**
-            * Go back to the left-nav menu list if the user presses back
+            * Exit the application if they go back from the oneD view
             */
             oneDView.on('exit', function() {
-                this.transitionToLeftNavView(); 
-                this.leftNavView.expand();
+                this.exitApp();
             }, this);
+
 
            /** 
             * Event Handler - Load Complete 
@@ -341,24 +385,118 @@
             */
             oneDView.updateCategoryFromSearch = function(searchTerm) {
                 app.data.getDataFromSearch(searchTerm, successCallback);
-            }.bind(this),
+            }.bind(this);
 
             oneDView.updateCategory = function() {
                 app.data.getCategoryData(successCallback);
-            }.bind(this),
+            }.bind(this);
 
             //get the first category right now
             this.oneDView.updateCategory();
         };
+
+        this.openSubCategory = function(data) {
+            if (this.subCategoryView) {
+                if (!this.subCategoryStack) {
+                    this.subCategoryStack = [];
+                }
+                this.subCategoryStack.push(this.subCategoryView);
+                this.subCategoryView.hide();
+            }
+            var subCategoryView = this.subCategoryView = new SubCategoryView();
+            this.subCategoryView.data = data.contents;
+            this.oneDView.fadeOut();
+            this.leftNavView.fadeOut();
+            subCategoryView.render(this.$appContainer, data.title, data.contents, this.settingsParams.displayButtons);
+            subCategoryView.hide();
+            subCategoryView.fadeIn();
+            this.selectView(this.subCategoryView);
+
+           /** 
+            * Event Handler - Select shoveler item
+            * @param {Number} index the index of the selected item
+            */
+            subCategoryView.on('select', function(index) {
+                if (this.subCategoryView.data[index].type === "subcategory") {
+                    this.transitionToSubCategory(this.subCategoryView.data, index);
+                }
+                else if (this.subCategoryView.data[index].type === "video-live" && !this.subCategoryView.data[index].isLiveNow) {
+                    alert("This video is not yet available.");
+                    buttons.resync();
+                }
+                else {
+                    this.createLiveStreamUpdater(this.subCategoryView.data, index);
+                    this.transitionToPlayer(this.subCategoryView.data, index);
+                }
+            }, this);
+
+           /**
+            * Go back to the left-nav menu list if the user presses back
+            */
+            subCategoryView.on('exit', function() {
+                this.subCategoryView.remove();
+                this.subCategoryView = null;
+                if (this.subCategoryStack && this.subCategoryStack.length > 0) {
+                    this.subCategoryView = this.subCategoryStack.pop();
+                    this.subCategoryView.fadeIn();
+                    this.selectView(this.subCategoryView);
+                }
+                else {
+                    this.leftNavView.fadeIn();
+                    this.oneDView.fadeIn();
+                    this.selectView(this.oneDView);
+                }
+
+            }, this);
+        }.bind(this);
+        
+       /**
+        * Change to subcategory
+        * @param {Object} data subcategory
+        * @param {Number} index the index of the category
+        */
+        this.transitionToSubCategory = function(data, index) {
+            app.data.setCurrentSubCategory(data[index]);
+            app.data.getSubCategoryData(this.openSubCategory);
+        }.bind(this);
+
+       /** 
+        * Sets up the update function for changing the live stream title and description when the content changes on it.
+        * @param {Object} data to get the updated information from
+        * @param {Number} current index what is playing
+        */
+        this.createLiveStreamUpdater = function (data, index) {
+            if (index + 1 < data.length) {
+                var nextIndex = index + 1;
+                if (data[nextIndex].type === "video-live")
+                {             
+                    var startTime = new Date(data[nextIndex].startTime).getTime();
+                    var currTime = new Date().getTime();
+                    var updateTime = startTime - currTime;
+                    this.liveUpdater = setTimeout(function() {
+                        this.updateLiveStream(data, nextIndex);
+                    }.bind(this), updateTime);
+                }
+            }
+        }.bind(this);
+
+        /* Update the title and description of the live stream when the time has come and set up the next updator */
+        this.updateLiveStream = function(data, index) {
+            if (this.playerView) {
+                this.playerView.updateTitleAndDescription(data[index].title, data[index].description);
+            }
+            this.createLiveStreamUpdater(data, index);
+        }.bind(this);
 
        /**
         * Hide content loading spinner 
         */
         this.hideContentLoadingSpinner = function() {
             $('#app-loading-spinner').hide();
+            var $appOverlay = $('#app-overlay');
 
-            if($('#app-overlay').css('display') !== 'none') {
-                $('#app-overlay').fadeOut(250);
+            if ($appOverlay.css('display') !== 'none') {
+                $appOverlay.fadeOut(250);
             }
         };
 
@@ -405,6 +543,32 @@
             this.oneDView.shrinkShoveler();
         };
 
+       /**
+        * Set the UI appropriately for the entitlement view
+        */
+        this.transitionToEntitlementView = function() {
+            this.selectView(this.entitlementView);
+
+            //handle content buttons
+            this.oneDView.transitionToExternalView();
+
+            //set button to selected state
+            this.entitlementView.highlightButton();
+        };
+
+       /**
+        * Set the UI back to the oneDView 
+        */
+        this.transitionOutOfEntitlementView = function() {
+            this.selectView(this.oneDView);
+
+            //set active view in the oneDView
+            this.oneDView.transitionFromExternalView();
+
+            //set button to selected state
+            this.entitlementView.deselectButton();
+        };
+
        /** 
         * For touch there is no need to select the chosen left-nav
         * item, so we go directly to the expanded view
@@ -433,7 +597,7 @@
             //change size of selected shoveler item 
             this.oneDView.expandShoveler();
         };
-        
+
        /**
         * Transition from player view to one-D view 
         */
@@ -448,20 +612,35 @@
             this.showHeaderBar();
         };
 
+        /**
+        * Transition from player view to SubCategory view 
+        */
+        this.transitionFromPlayerToSubCategory = function () {
+            this.selectView(this.subCategoryView);
+            this.playerView.off('videoStatus', this.handleVideoStatus, this);
+            this.playerView.remove();
+            this.playerView = null;
+            this.subCategoryView.show();
+        };
+
        /**
         * Opens a player view and starts video playing in it. 
-        * @param {Object} itemData data for currently selected item
+        * @param {Array} data of current play list
+        * @param {integer} index of currently selected item
         */
-        this.transitionToPlayer = function (index) {
+        this.transitionToPlayer = function (data, index) {
             var playerView;
             this.playerSpinnerHidden = false;
-            if (this.settingsParams.PlaylistView) {
+            if (this.settingsParams.PlaylistView && data[index].type !== "video-live") {
                 playerView = this.playerView = new this.settingsParams.PlaylistView(this.settingsParams);
             }
             else {
                 playerView = this.playerView = new this.settingsParams.PlayerView(this.settingsParams);
             }
             this.oneDView.hide();
+            if (this.subCategoryView) {
+                this.subCategoryView.hide();
+            }
             this.leftNavView.hide();
             this.hideHeaderBar();
 
@@ -470,11 +649,24 @@
 
             playerView.on('exit', function() {
                 this.hideContentLoadingSpinner();
-                this.transitionFromPlayerToOneD();
+
+                // incase this was a livestream we need to clear the livestream updater
+                clearTimeout(this.liveUpdater);
+                if (this.subCategoryView) {
+                    this.transitionFromPlayerToSubCategory();
+                }
+                else {
+                    this.transitionFromPlayerToOneD();
+                }
             }, this);
 
             playerView.on('indexChange', function(index) {
-                this.oneDView.changeIndex(index);
+                if (this.subCategoryView) {
+                    this.subCategoryView.changeIndex(index);
+                }
+                else {
+                    this.oneDView.changeIndex(index);
+                }
             }, this);
 
 
@@ -482,7 +674,7 @@
 
             playerView.on('videoStatus', this.handleVideoStatus, this);
 
-            playerView.render(this.$appContainer, this.categoryData, index);
+            playerView.render(this.$appContainer, data, index);
         };
 
        /**
@@ -512,8 +704,9 @@
 
         //initialize the model and get the first data set
         this.data = new this.settingsParams.Model(this.settingsParams);
-        this.data.loadInitialData(this.dataLoaded);
-    };
+
+        this.makeInitialDataCall();
+    }
 
     exports.App = App;
 }(window));

@@ -22,11 +22,10 @@
     * @class LeftNavView
     * @description The left nav view object, this handles everything about the left nav menu.
     */
-    var LeftNavView = function () {
+    function LeftNavView() {
         // mixin inheritance, initialize this as an event handler for these events:
         Events.call(this, ['exit', 'deselect', 'indexChange', 'select', 'makeActive']);
         
-        //global variables
         this.scrollingContainerEle = null;
         this.leftNavContainerEle   = null;
         this.currentSelectionEle   = null;
@@ -38,13 +37,18 @@
         this.searchUpdated         = false;
         this.transformStyle = utils.vendorPrefix('Transform');
 
-        //jquery global variables
+        //jquery variables
         this.$el = null;
         this.$menuItems            = [];
 
-        //global constants
-        this.VERTICAL_MARGINS = 225;
+        this.fadeOut = function() {
+            this.$el.fadeOut();
+        };
 
+        this.fadeIn = function() {
+            this.$el.fadeIn();
+        };
+        
        /**
         * Hides the left nav view
         */
@@ -95,20 +99,6 @@
                 // TODO: Find out why this is and get a better solution.
                 setTimeout(this.leftNavItems[this.currSelectedIndex].select, 200);
             }
-        };
-
-       /**
-        * Change the style of the selected element to selected 
-        * @param {Element} ele currently selected element
-        */
-        this.setStaticElement = function (ele) {
-            ele = ele || this.currentSelectionEle;
-
-            if($(ele).hasClass(CLASS_MENU_ITEM_CHOSEN)) {
-                $(ele).removeClass(CLASS_MENU_ITEM_CHOSEN);
-            }
-
-            $(ele).addClass(CLASS_MENU_ITEM_SELECTED);
         };
 
        /**
@@ -174,13 +164,14 @@
         /**
          * Creates the left nav view from the template and appends it to the given element
          * @param {Element} $el the application container
-         * @parma {Object} catData category data
+         * @param {Array} catData category data
+         * @param {integer} startIndex initial item to select
          */
         this.render = function ($el, catData, startIndex) {
             this.leftNavItems = catData;
             var leftNavStrings = [];
             for (var i = 0; i < catData.length; i++) {
-                if (typeof catData[i] == "string") {
+                if (typeof catData[i] === "string") {
                     leftNavStrings.push(catData[i]);
                 } else {
                     leftNavStrings.push("");
@@ -193,7 +184,7 @@
             this.$el = $el.children().last();
             this.$menuItems = $(CONTAINER_SCROLLING_LIST).children();
             for (var i = 0; i < catData.length; i++) {
-                if (typeof catData[i] == "object") {
+                if (typeof catData[i] === "object") {
                     catData[i].render(this.$menuItems.eq(i));   
                 }
             }
@@ -211,6 +202,8 @@
             
             //register touch handlers for the left-nav items
             touches.registerTouchHandler("leftnav-list-item-static", this.handleListItemSelection);
+
+            this.collapse();
         };
 
 
@@ -247,13 +240,11 @@
                         }
                         break;
                     case buttons.LEFT:
+                    case buttons.BACK:
                         this.currSelectedIndex = this.confirmedSelection;
                         this.selectLeftNavItem();
                         this.collapse();
                         this.trigger('deselect');
-                        break;
-                    case buttons.BACK:
-                        this.trigger('exit');
                         break;
                     case buttons.SELECT:
                         if(!this.isDisplayed) {
@@ -264,15 +255,6 @@
                         break;
                     case buttons.RIGHT:
                         this.confirmNavSelection();
-                        break;
-                    case buttons.RIGHT:
-                        if(this.confirmedSelection !== this.currSelectedIndex) {
-                            // switch the current view state to the main content view
-                            this.confirmedSelection = this.currSelectedIndex;
-                            this.trigger('select', this.currSelectedIndex);
-                        } else {
-                            this.trigger('deselect');
-                        }
                         break;
                 }
             } else if (e.type === 'buttonrepeat') {
@@ -306,7 +288,7 @@
 
        /**
         * Explicity set the current selected index
-        * @param {Number} idx the index of the item
+        * @param {Number} index the index of the item
         */
         this.setCurrentSelectedIndex = function(index) {
             this.currSelectedIndex = index;
@@ -363,7 +345,7 @@
             this.scrollingContainerEle.style.webkitTransform = "translateY(" + translateHeight + "px)";
         };
 
-    };
+    }
 
     exports.LeftNavView = LeftNavView;
 }(window));

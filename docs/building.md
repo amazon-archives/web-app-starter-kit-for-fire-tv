@@ -52,25 +52,23 @@ Building
 ----------------
 
 The Gulp default task explains what other Gulp tasks are available
-<code><pre>
-$ gulp
-[12:08:24] Using gulpfile ~/work/web-app-starer-kit-for-fire-tv/gulpfile.js
-[12:08:24] Starting 'help'...
 
-Usage
-  gulp [task]
-
-Available tasks
-  build         minimal build and copy (default) Aliases: b, debug, d
-  clean         remove all config.dest directories Aliases: c
-  help          Display this Aliases: h, ?
-  inline        minify js and inline it and css into final html Aliases: i
-  inline-watch  execute inline when any source file changes
-  minify        generate html with minified js Aliases: m
-  minify-watch  execute minify when any source file changes
-  watch         execute the build task when any source file changes Aliases: w
-
-</pre></code>
+	$ gulp
+	[12:08:24] Using gulpfile ~/work/web-app-starer-kit-for-fire-tv/gulpfile.js
+	[12:08:24] Starting 'help'...
+	
+	Usage
+	  gulp [task]
+	
+	Available tasks
+	  build         minimal build and copy (default) Aliases: b, debug, d
+	  clean         remove all config.dest directories Aliases: c
+	  help          Display this Aliases: h, ?
+	  inline        minify js and inline it and css into final html Aliases: i
+	  inline-watch  execute inline when any source file changes
+	  minify        generate html with minified js Aliases: m
+	  minify-watch  execute minify when any source file changes
+	  watch         execute the build task when any source file changes Aliases: w
 
 
 #### Tasks

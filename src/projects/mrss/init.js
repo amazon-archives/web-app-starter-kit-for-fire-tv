@@ -8,11 +8,8 @@
         PlaylistView: PlaylistPlayerView,
         dataURL: "./assets/genericMediaData.xml",
         showSearch: true,
-        displayButtons: true,
-        partnerId: '811441',
-        uiconfId: '28732831'
+        displayButtons: false
     };
 
-    var app = new App(settings);
-    exports.app = app;
+    exports.app = new App(settings);
 }(window));

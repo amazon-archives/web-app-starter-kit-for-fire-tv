@@ -1,6 +1,6 @@
 # Styling The Template
 -------
-Styles for this app were created using Sass. If you aren't familiar with Sass you can get more information here : [Sass-Lang](http:/sass-lang.com/)
+Styles for this app were created using Sass. If you aren't familiar with Sass you can get more information here: [Sass-Lang](http:/sass-lang.com/)
 
 ## Sass
 -------
@@ -14,23 +14,23 @@ There are four Sass files that are used to create the final CSS file used by the
 * `_variables.scss` : all base Sass variables are managed in this file. By changing the style properties in this file you can customize the look and feel to suit your own needs.
 * `firetv.scss` :  each project will contain a main sass file used to load the shared scss files above, as well as providing an area to override the variables and SCSS/CSS. 
 
-	NOTE : File names of included Sass file must begin with an underscore (i.e. `_variables.scss`)
+    NOTE : File names of included Sass file must begin with an underscore (i.e. `_variables.scss`)
 
 Styles in the _common.scss file are organized by view type, in the order in which they are navigated in the app
 
-   1. All global HTML styles are defined first
-   - leftnav
-   - one-D 
-   - shoveler
-   - player
-   - spinner
-   - The CSS animations that are used in the application are defined last.
-   - Media Queries - there are a few media queries for smaller device layout handling
+   All global HTML styles are defined first
+   * leftnav-view
+   * one-D-view 
+   * shoveler-view
+   * player-view
+   * spinner
+   * The CSS animations that are used in the application are defined last.
+   * Media Queries - there are a few media queries for smaller device layout handling
 
 The SCSS files are located here:
 
 * `src/common/scss/_variables.scss` : The preset Sass variables used by the common css. 
-* `src/common/scss/_mixins.scss` : Helper mixins used throughout the common Sass, for things such as auto-prefixing, browser compatability, and other utility pieces. 
+* `src/common/scss/_mixins.scss` : Helper mixins used throughout the common Sass, for things such as auto-prefixing, browser compatibility, and other utility pieces. 
 * `src/common/scss/_common.scss` : All of the common css rules for the entire template. 
 * `src/projects/<project-name>/firetv.scss` : The main sass file for the given individual project.  
 
@@ -41,12 +41,12 @@ For additional information on installing sass go here : [Sass-install](http://sa
 
 EXAMPLE : $color-text-leftnav-search 
 
-   1. All variables begin with the dollar sign ($)
-   - The first part of the name is the CSS property in most cases. Some exceptions are shadow and ani, which are shortened for simplicity sake.
-   - The second part of the name will either be a css property or an application element(i.e. leftnav).
-   - There may be a differentiator (i.e. primary or secondary). 
-   5. The property the variable applies to (i.e. bg, text).
+   * All variables begin with the dollar sign ($)
+   * The first part of the name is the CSS property in most cases. Some exceptions are shadow and ani, which are shortened for simplicity sake.
+   * The second part of the name will either be a css property or an application element(i.e. leftnav).
+   * There may be a differentiator (i.e. primary or secondary). 
+   * The property the variable applies to (i.e. bg, text).
 
 **Theming** :
 
-For specific information on theming your template application refer the the [Theming Guide](./theming_guide.pdf)
+For specific information on theming your template application refer the [Theming Guide](./theming_guide.pdf)

@@ -10,19 +10,19 @@
      * @class PlaylistPlayerView
      * @description Handles playing videos continulously from a playlist
      */
-    var PlaylistPlayerView = function (settings) {
+    function PlaylistPlayerView(settings) {
         // mixin inheritance, initialize this as an event handler for these events:
         Events.call(this, ['exit', 'videoStatus', 'indexChange']);
 
         this.currentPlayerView = null;
         this.preloadedPlayerView = null;
         this.currentIndex = null;
+        this.nextIndex = null;
         this.items = null;
         this.$el = null;
         this.settings = settings;
         this.currentView = null;
         this.PlayerView = settings.PlayerView;
-        this.previewShowing = false;
         this.previewDismissed = false;
         this.$previewEl = null;
         this.$countdown_text = null;
@@ -56,7 +56,7 @@
             this.currentIndex = startIndex;
             this.items = items;
 
-            this.currentPlayerView.on('videoStatus', this.handleVideoStatus, this)
+            this.currentPlayerView.on('videoStatus', this.handleVideoStatus, this);
 
             this.currentView = this.currentPlayerView;
 
@@ -88,10 +88,10 @@
             if (this.preloadedPlayerView) {
                 if (this.$previewEl) {
                     this.$previewEl.remove();
+                    this.$previewEl = null;
                 }
-                this.currentIndex += 1;
+                this.currentIndex = this.nextIndex;
                 this.currentPlayerView.remove();
-                this.previewShowing = false;
                 this.previewDismissed = false;
                 this.trigger("indexChange", this.currentIndex);
                 this.startNextVideo();
@@ -103,25 +103,37 @@
 
         this.showTransitionView = function () {
             if (this.preloadedPlayerView) {
-                this.previewShowing = true;
                 var html = utils.buildTemplate($("#next-video-view-template"), this.items[this.currentIndex + 1]);
                 this.$el.append(html);
                 this.$previewEl = this.$el.children().last();
                 this.$countdown_text = this.$previewEl.find(".next-video-starttext");
                 this.$countdown_text.text("" + this.previewTime);
+                if (this.currentPlayerView.controlsCurrentlyShowing()) {
+                    this.$previewEl.hide();
+                }
             }
-        }
+        };
 
         /**
          * Helper function to set up the next player
          */
         this.setUpNextPlayer = function () {
-            if (this.items.length > this.currentIndex + 1) {
+            var foundVideo = false;
+            this.nextIndex = this.currentIndex + 1;
+            while (!foundVideo && this.items.length > this.nextIndex) {
+                if (this.items[this.currentIndex + 1].videoURL !== null) {
+                    foundVideo = true;
+                }
+                else {
+                    this.nextIndex++;
+                }
+            }
+            if (this.items.length > this.nextIndex) {
                 this.preloadedPlayerView = new this.PlayerView(settings);
-                this.preloadedPlayerView.render(this.$el, this.items, this.currentIndex + 1);
+                this.preloadedPlayerView.render(this.$el, this.items, this.nextIndex);
                 this.preloadedPlayerView.hide();
             }
-        }
+        };
 
         /**
          * @function handleVideoStatus
@@ -151,11 +163,18 @@
          */
         this.exit = function() { 
             this.trigger("exit");
-        }
+        };
 
         this.playVideo = function() {
             this.currentPlayerView.playVideo();
-        }
+        };
+
+        this.updateTitleAndDescription = function(title, description) {
+            if(this.currentPlayerView) {
+                this.currentPlayerView.updateTitleAndDescription(title, description);
+            }
+        }.bind(this);
+        
         /**
          * start the next video after the transition view is complete
          */
@@ -164,7 +183,7 @@
             this.currentPlayerView = this.preloadedPlayerView;
             this.preloadedPlayerView = null;
 
-            this.currentPlayerView.on('videoStatus', this.handleVideoStatus, this)
+            this.currentPlayerView.on('videoStatus', this.handleVideoStatus, this);
             this.setUpNextPlayer();
             this.currentView = this.currentPlayerView;
             this.currentPlayerView.show();
@@ -173,7 +192,7 @@
             }
 
             this.currentPlayerView.on('exit', this.exit, this);
-        }
+        };
 
        /**
         * Check to see if we have a seek action
@@ -181,20 +200,16 @@
         * @return {Boolean}
         */
         this.seekAction = function(key) {
-             if(key === buttons.UP || key === buttons.DOWN || key === buttons.LEFT || 
-                key === buttons.RIGHT || key === buttons.FAST_FORWARD || key === buttons.REWIND) {
-
-                 return true;
-             }
-             return false;
-        }
+             return (key === buttons.LEFT || key === buttons.RIGHT || key === buttons.FAST_FORWARD || key === buttons.REWIND);
+        };
 
         // handle button events, send them to the current playlist view that is selected.
         this.handleControls = function (e) {
             if (this.currentView) {
-                if (this.previewShowing && !this.previewDismissed && !this.seekAction(e.keyCode)) {
+                if (this.$previewEl && this.$previewEl.is(':visible') && !this.previewDismissed && !this.seekAction(e.keyCode)) {
                     switch (e.keyCode) {
                         case buttons.BACK:
+                        case buttons.DOWN:
                             this.$previewEl.remove();
                             this.previewDismissed = true;
                             break;
@@ -206,7 +221,19 @@
                             break;
                     }
                 }
+                else if (this.$previewEl && !this.currentPlayerView.controlsCurrentlyShowing() && !this.$previewEl.is(':visible') && !this.previewDismissed) {
+                    switch (e.keyCode) {
+                        case buttons.UP:
+                            this.$previewEl.show();
+                            break; 
+                    }
+                }
                 else {
+                    // hide the preview if player controls are used like skipping
+                    if (this.$previewEl && this.$previewEl.is(':visible')) {
+                        this.$previewEl.remove();
+                        this.$previewEl = null;
+                    }
                     this.currentView.handleControls(e);
                 }
             }

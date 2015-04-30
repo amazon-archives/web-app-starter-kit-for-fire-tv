@@ -33,6 +33,12 @@
           box-orient: $value;
 }
 
+@mixin filter($value) {
+    -webkit-filter: $value;
+       -moz-filter: $value;
+            filter: $value;
+}
+
 @mixin line-clamp($value) {
   -webkit-line-clamp: $value;
      -moz-line-clamp: $value;
@@ -43,6 +49,12 @@
   -webkit-transition: $value;
      -moz-transition: $value;
           transition: $value;
+}
+
+@mixin box-shadow($value) {
+  -webkit-box-shadow: $value;
+     -moz-box-shadow: $value;
+          box-shadow: $value;
 }
 
 @mixin transform($value) {

@@ -12,7 +12,7 @@
      * @return {*}
      * @constructor
      */
-    var Touches = function() {
+    function Touches() {
         // make it a singleton
         if (exports.touches) {
             return touches;
@@ -89,7 +89,7 @@
         */
         this.touchMove = function(event) {
             event.preventDefault();
-                if ( event.touches.length == 1 ) {
+                if ( event.touches.length === 1 ) {
                 this.curX = event.touches[0].pageX;
                 this.curY = event.touches[0].pageY;
             } else {
@@ -112,7 +112,7 @@
                 if ( this.swipeLength >= this.minSwipe ) {
                     this.caluculateAngle();
                     this.getSwipeDirection();
-                    this.implimentTouchEvent();
+                    this.implementTouchEvent();
                     this.reset();
                 } else {
                     this.handleTap(event);
@@ -142,7 +142,6 @@
         this.caluculateAngle = function() {
             var X = this.startX-this.curX;
             var Y = this.curY-this.startY;
-            var Z = Math.round(Math.sqrt(Math.pow(X,2)+Math.pow(Y,2)));
             var r = Math.atan2(Y,X);
             this.swipeAngle = Math.round(r*180/Math.PI);
             if ( this.swipeAngle < 0 ) { this.swipeAngle =  360 - Math.abs(this.swipeAngle); }
@@ -168,14 +167,14 @@
        /**
         * Trigger the correct touch event
         */
-        this.implimentTouchEvent = function() {
+        this.implementTouchEvent = function() {
             if ( this.swipeDirection == 'left' ) {
                 this.trigger('swipe', {type: 'swipe', keyCode: this.LEFT});
-            } else if ( this.swipeDirection == 'right' ) {
+            } else if ( this.swipeDirection === 'right' ) {
                 this.trigger('swipe', {type: 'swipe', keyCode: this.RIGHT});
-            } else if ( this.swipeDirection == 'up' ) {
+            } else if ( this.swipeDirection === 'up' ) {
                 this.trigger('swipe', {type: 'swipe', keyCode: this.UP});
-            } else if ( this.swipeDirection == 'down' ) {
+            } else if ( this.swipeDirection === 'down' ) {
                 this.trigger('swipe', {type: 'swipe', keyCode: this.DOWN});
             }
         };
@@ -190,7 +189,7 @@
         window.addEventListener("touchend", this.touchEnd, false);
         window.addEventListener("touchmove", this.touchMove, false);
 
-    };
+    }
 
     exports.Touches = Touches;
     exports.touches = new Touches();

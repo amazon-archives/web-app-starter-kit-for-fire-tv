@@ -11,7 +11,7 @@
      * @class ContolsView
      * @description The custom controls object, this handles everything about the custom controls.
      */
-    var ControlsView = function () {
+    function ControlsView() {
         // mixin inheritance, initialize this as an event handler for these events:
         Events.call(this, ['loadingComplete']);
 
@@ -37,6 +37,8 @@
         this.previousTime = null;
         this.MAX_SKIP_TIME = 30;
         this.SKIP_INDICATOR_OFFSET = 5;
+        this.PAUSE_REMOVAL_TIME = 1500;
+        this.CONTROLS_HIDE_TIME = 3000;
 
 
        /**
@@ -64,6 +66,20 @@
             // display none.
             this.containerControls.style.opacity = "0.99";
         };
+
+       /**
+        * Check if controls are currently showing
+        */
+        this.controlsShowing = function () {
+            return (this.containerControls.style.opacity !== "0");
+        };
+
+
+        /* Updates the title and description */
+        this.updateTitleAndDescription = function(title, description) {
+            this.$containerControls.find(".player-controls-content-title").text(title);
+            this.$containerControls.find(".player-controls-content-subtitle").text(this.truncateSubtitle(description));
+        }.bind(this);
 
         /**
          * Creates the main content view from the template and appends it to the given element
@@ -158,24 +174,32 @@
         * @description show the seek/rewind controls
         */
         this.seekPressed = function(currentTime) {
+            var skipTime;
+
             if (this.previousTime > currentTime) {
                 // skip forward
-                var skipTime = Math.round(Math.abs(this.previousTime - currentTime));
+                skipTime = Math.round(Math.abs(this.previousTime - currentTime));
                 if (skipTime <= this.MAX_SKIP_TIME) {
                     this.showAndHideControls();
                     this.$rewindIndicatorText.text(skipTime);
                     this.$rewindIndicator.css("display", "flex");
                     this.$forwardIndicator.hide();
+                    setTimeout(function() {
+                        this.$rewindIndicator.hide();
+                    }.bind(this), this.CONTROLS_HIDE_TIME);
                 }
             }
             else if (currentTime > this.previousTime) {
                 // skip backwards
-                var skipTime = Math.round(Math.abs(currentTime - this.previousTime));
+                skipTime = Math.round(Math.abs(currentTime - this.previousTime));
                 if (skipTime <= this.MAX_SKIP_TIME) {
                     this.showAndHideControls();
                     this.$forwardIndicatorText.text(skipTime);
                     this.$forwardIndicator.css("display", "flex");
                     this.$rewindIndicator.hide();
+                    setTimeout(function() {
+                        this.$forwardIndicator.hide();
+                    }.bind(this), this.CONTROLS_HIDE_TIME);
                 }
             }
         }.bind(this);
@@ -215,6 +239,10 @@
             this.containerControls.style.opacity = "0.99";
             // show pause icon
             this.playIcon.style.opacity = "0.99";
+            // hide the pause icon after designated time by ux
+            setTimeout(function() {
+                this.playIcon.style.opacity = "0";
+            }.bind(this), this.PAUSE_REMOVAL_TIME);
             // cancel any pending timeouts
             clearTimeout(this.removalTimeout);
 
@@ -241,7 +269,7 @@
                  this.containerControls.style.opacity = "0";
                  this.$rewindIndicator.hide();
                  this.$forwardIndicator.hide();
-            }.bind(this), 3000);
+            }.bind(this), this.CONTROLS_HIDE_TIME);
         };
 
         /**
@@ -255,7 +283,7 @@
               return string;
           }
         };
-    };
+    }
 
     exports.ControlsView = ControlsView;
 }(window));
