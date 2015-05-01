@@ -87,13 +87,14 @@
         this.render = function ($container, data, playerView) {
             // Build the  content template and add it
             var html = utils.buildTemplate($("#controls-view-template"), {});
+			
+			this.currentData = data;
 
-            this.currentData = data;
-            
             $container.append(html);
             this.$containerControls = $container.children().last();
             this.containerControls = $container.children().last()[0];
             this.playIcon = $container.find(".player-pause-button")[0];
+
             this.$containerControls.find(".player-controls-content-title").text(data.title);
             this.$containerControls.find(".player-controls-content-subtitle").text(this.truncateSubtitle(data.description));
             this.seekHead = this.$containerControls.find(".player-controls-timeline-playhead")[0];

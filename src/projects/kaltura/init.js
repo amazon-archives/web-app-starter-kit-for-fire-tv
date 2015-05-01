@@ -22,7 +22,7 @@
         uiconfId: getParam( 'uiconfId') || '28732831',
         topCategoryId: getParam( 'topCategoryId') ||'9059671',
         ksService: 'http://50.19.86.65/amtv/list-ks.php?partner_id=' + ( getParam( 'partnerId') || '811441' ),
-        appLogo: getParam( 'appLogo') || 'assets/kms-media.jpg',
+        appLogo: getParam( 'appLogo'),
         
         maxEntries: 150
     };

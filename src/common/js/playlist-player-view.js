@@ -141,7 +141,7 @@
          */
         this.handleVideoStatus = function(currentTime, duration, type) {       
             if (type === "playing" || type === "playing-ad" ) {
-                if (this.previewShowing) {
+                if (this.$previewEl) {
                     this.timeTillPlay = Math.round((duration - currentTime));
                     this.$countdown_text.text("" + this.timeTillPlay);
                 }
