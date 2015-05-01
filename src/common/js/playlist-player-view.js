@@ -140,7 +140,7 @@
          * @description status handler for video status events to convert them into showing correct controls
          */
         this.handleVideoStatus = function(currentTime, duration, type) {       
-            if (type === "playing") {
+            if (type === "playing" || type === "playing-ad" ) {
                 if (this.$previewEl) {
                     this.timeTillPlay = Math.round((duration - currentTime));
                     this.$countdown_text.text("" + this.timeTillPlay);

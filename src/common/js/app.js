@@ -681,7 +681,7 @@
         * Apps player status handler, currently just checks for playing and hides spinner and turns off the handler.
         */
         this.handleVideoStatus = function(currTime, duration, type) {
-            if (!this.playerSpinnerHidden && type === "playing") {
+            if (!this.playerSpinnerHidden && ( type === "playing" || type === 'playing-ad' ) ) {
                 this.hideContentLoadingSpinner();
                 this.playerSpinnerHidden = true;
             }

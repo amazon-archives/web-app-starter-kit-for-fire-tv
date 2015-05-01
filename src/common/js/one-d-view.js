@@ -251,7 +251,9 @@
         * Shrink the selected shoveler item for 'out of focus' effect
         */
         this.shrinkShoveler = function () {
-            this.shovelerView.shrinkSelected();
+            if( this.shovelerView ){
+                this.shovelerView.shrinkSelected();
+            }
         };
 
        /**

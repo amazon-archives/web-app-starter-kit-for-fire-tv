@@ -87,6 +87,8 @@
         this.render = function ($container, data, playerView) {
             // Build the  content template and add it
             var html = utils.buildTemplate($("#controls-view-template"), {});
+			
+			this.currentData = data;
 
             $container.append(html);
             this.$containerControls = $container.children().last();
@@ -138,7 +140,11 @@
                 this.pausePressed();
             }
             else if (type === "playing") {
+            	this.updateForContent()
                 this.timeUpdateHandler(duration, currentTime);
+            }
+            else if( type === "playing-ad"){
+            	this.updateForAd(duration, currentTime);
             }
             else if (type === "resumed") {
                 this.resumePressed();
@@ -149,6 +155,21 @@
             this.previousTime = currentTime;
         }.bind(this);
 
+        
+        /**
+         * @function updateForAd
+         * @description update the UI for ad playback.
+         */
+        this.updateForAd = function(adDuration, timeLeft){
+        	this.$containerControls.find(".player-controls-content-title").text("Advertisement for " + timeLeft );
+            this.$containerControls.find(".player-controls-content-subtitle").text("");
+        }
+        
+        this.updateForContent = function(){
+    		this.$containerControls.find(".player-controls-content-title").text(this.currentData.title);
+        	this.$containerControls.find(".player-controls-content-subtitle").text(this.truncateSubtitle(this.currentData.description));
+        }
+        
         /**
         * @function seekPressed
         * @description show the seek/rewind controls
