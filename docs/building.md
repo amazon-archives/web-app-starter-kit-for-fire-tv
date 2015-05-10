@@ -102,7 +102,7 @@ Config files
 Each project (directory in src/projects) has a `build.json` configuration file that describes that particular project.
 Each entry in the configuration lists the files needed for one part of the build
 
-* **dest** - optional, specifies output director, defaults to ./out/<em>project</em>, replace to write output files to another location
+* **dest** - optional, specifies output directory, defaults to ./out/<em>project</em>, replace to write output files to another location
 <code><pre>
     "dest" : "./example",
 </pre></code>
