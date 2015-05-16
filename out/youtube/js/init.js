@@ -7,6 +7,7 @@
         PlaylistView: PlaylistPlayerView,
         showSearch: true,
         skipLength: 30,
+        controlsHideTime: 3000,
         user: "amazonwebservices",
         devKey: "PUT-YOUTUBE-API-DEV-KEY-HERE",
         showLatestChannel: true,
