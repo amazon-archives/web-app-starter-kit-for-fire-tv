@@ -19,7 +19,7 @@
         * Hides the subcat view
         */
         this.hide = function () {
-            this.$el.hide();
+            this.$el.css("opacity", "0");
             this.oneDView.hide();
         };
 
@@ -27,17 +27,17 @@
          * Display the subcat view
          */
         this.show = function () {
-            this.$el.show();
+            this.$el.css("opacity", "");
             this.oneDView.show();
         };
 
         this.fadeIn = function() {
-            this.$el.fadeIn();
+            this.$el.css("opacity", "");
             this.oneDView.fadeIn();
         };
 
         this.fadeOut = function() {
-            this.$el.fadeOut();
+            this.$el.css("opacity", "0");
             this.oneDView.fadeOut();
         };
 

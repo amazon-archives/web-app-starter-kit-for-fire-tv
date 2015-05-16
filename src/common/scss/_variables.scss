@@ -25,6 +25,8 @@ $img-player-indicator-reverse : url('assets/rewind-arrow.png') !default;
 $img-nextvideo-preview-play   : url('assets/btn_previewPlay.png') !default;
 $img-skip-indicator : url('assets/skip_indicator.png') !default;
 $img-left-arrow     : url('assets/icon_subcat_arrowLeft.png') !default;
+$img-subcat-bg     : url('assets/bg_subcat.png') !default;
+$img-live     : url('assets/live.png') !default;
 
 
 //
@@ -35,10 +37,9 @@ $img-left-arrow     : url('assets/icon_subcat_arrowLeft.png') !default;
 $font-base-size : 20pt !default;
 
 //font-family
-$font-family-default : 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
-$font-family-light   : 'Helvetica Neue Light' !default;
-$font-family-medium  : 'Helvetica Neue Medium' !default;
-$font-family-bold    : 'Helvetica Neue Bold' !default;
+$font-family-light   : 'Helvetica Neue Light', 'HelveticaNeue-Light', Helvetica, Arial, sans-serif !default;
+$font-family-medium  : 'Helvetica Neue Medium', 'HelveticaNeue-Medium', Helvetica, Arial, sans-serif !default;
+$font-family-bold    : 'Helvetica Neue Bold', 'HelveticaNeue-Bold', Helvetica, Arial, sans-serif !default;
 
 
 //Colors
@@ -66,6 +67,7 @@ $color-title-text : #e8e8e8 !default;
 $color-meta-primary-text : #e8e8e8 !default;
 $color-meta-secondary-text: #b9bbbd !default;
 $color-description-text : #e8e8e8 !default;
+$color-box-shadow : rgba(0,0,0,0.44) !default;
 
 $color-menu-base-bg : rgba(#000000, 0.9) !default;
 

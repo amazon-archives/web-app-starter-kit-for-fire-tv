@@ -273,7 +273,7 @@
         var defaultTheme  = {
            "sku" : "sample.theme.default", 
            "title" : "Default Theme", 
-           "price" : "0.00", 
+           "price" : "", 
            "buttonId" : "button_default",
            "thumbId" : "thumb_default",
            "description" : "Apply default theme", 
@@ -422,7 +422,6 @@
            } 
            else if(e.purchaseRequestStatus === amzn_wa.IAP.PurchaseStatus.FAILED){
                 if(purchaseItemButtonPressed){
-                    //TODO - UI Direction on notifying the user
                     alert("We were unable to complete your purchase request");
                 } 
                 else {
@@ -446,7 +445,6 @@
                     this.handleReceipt(e.receipts[i]);
                 } 
                 else if(e.purchaseUpdatesRequestStatus === amzn_wa.IAP.PurchaseUpdatesStatus.FAILED){
-                    //TODO - UI Direction on notifying the user
                     alert("We were unable to complete your purchase request");
                 }
            }
@@ -527,7 +525,7 @@
            /**
             * Called as response to getUserId
             */
-            this.onGetUserIdResponse = function(resp) {
+            this.onGetUserIdResponse = function() {
                 // Provides the app-specific UserID for the user currently logged into the Amazon Client
             };
 
