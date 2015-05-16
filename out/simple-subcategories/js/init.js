@@ -8,7 +8,7 @@
         PlaylistView: PlaylistPlayerView,
         dataURL: "./assets/genericSubCategoriesData.json",
         showSearch: true,
-        displayButtons:false 
+        displayButtons:false
     };
 
     exports.app = new App(settings);

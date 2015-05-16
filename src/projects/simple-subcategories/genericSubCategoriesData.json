@@ -3,21 +3,21 @@
         {
             "id": "1",
             "title": "root",
-            "imgURL": "assets/amazon-folder.png",
+            "imgURL": "assets/l8.jpg",
             "description": "",
             "contents": [{"type": "folder", "id":"2"}, {"type": "folder", "id":"11"}]
         },
         {
             "id": "2",
             "title": "TV Shows",
-            "imgURL": "assets/amazon-folder.png",
+            "imgURL": "assets/l11.jpg",
             "description": "",
             "contents": [{"type": "folder", "id":"3"}, {"type": "folder", "id":"4"}, {"type": "folder", "id":"5"}]
         },
         {
             "id": "3",
             "title": "Show 1",
-            "imgURL": "assets/amazon-folder.png",
+            "imgURL": "assets/l5.jpg",
             "pubDate": "Sat, 29 Mar 2014 22:11:18 GMT",
             "description": "Show 1 Description",
             "contents": [{"type": "folder", "id":"6"}, {"type": "folder", "id":"7"}, {"type": "folder", "id":"8"},{"type": "folder", "id":"9"}, {"type": "folder", "id":"10"}]
@@ -25,7 +25,7 @@
         {
             "id": "4",
             "title": "Show 2",
-            "imgURL": "assets/amazon-folder.png",
+            "imgURL": "assets/l6.jpg",
             "pubDate": "Sat, 29 Mar 2014 22:11:18 GMT",
             "description": "Show 2 Description",
             "contents": [{"type": "folder", "id":"6"}, {"type": "folder", "id":"7"}, {"type": "folder", "id":"8"},{"type": "folder", "id":"9"}, {"type": "folder", "id":"10"}]
@@ -34,7 +34,7 @@
         {
             "id": "5",
             "title": "Show 3",
-            "imgURL": "assets/amazon-folder.png",
+            "imgURL": "assets/l10.jpg",
             "pubDate": "Sat, 29 Mar 2014 22:11:18 GMT",
             "description": "Show 3 Description",
             "contents": [{"type": "folder", "id":"6"}, {"type": "folder", "id":"7"}, {"type": "folder", "id":"8"},{"type": "folder", "id":"9"}, {"type": "folder", "id":"10"}]
@@ -43,7 +43,7 @@
         {
             "id": "6",
             "title": "Season 1",
-            "imgURL": "assets/amazon-folder.png",
+            "imgURL": "assets/l11.jpg",
             "pubDate": "Sun, 26 May 2013 07:22:41 GMT",
             "description": "Season 1 example description here.",
             "contents": [{"type": "media", "id": "37a30514-f956-4da1-4063-9e5276e4b79f"}, 
@@ -57,7 +57,7 @@
         {
             "id": "7",
             "title": "Season 2",
-            "imgURL": "assets/amazon-folder.png",
+            "imgURL": "assets/l8.jpg",
             "pubDate": "Sun, 26 May 2013 07:22:41 GMT",
             "description": "Season 2 example description here.",
             "contents": [{"type": "media", "id": "37a30514-f956-4da1-4063-9e5276e4b79f"}, 
@@ -70,7 +70,7 @@
         {
             "id": "8",
             "title": "Season 3",
-            "imgURL": "assets/amazon-folder.png",
+            "imgURL": "assets/l4.jpg",
             "pubDate": "Sun, 26 May 2013 07:22:41 GMT",
             "description": "Season 3 example description here.",
             "contents": [{"type": "media", "id": "37a30514-f956-4da1-4063-9e5276e4b79f"}, 
@@ -83,7 +83,7 @@
         {
             "id": "9",
             "title": "Season 4",
-            "imgURL": "assets/amazon-folder.png",
+            "imgURL": "assets/l1.jpg",
             "pubDate": "Sun, 26 May 2013 07:22:41 GMT",
             "description": "Season 4 example description here.",
             "contents": [{"type": "media", "id": "37a30514-f956-4da1-4063-9e5276e4b79f"}, 
@@ -96,7 +96,7 @@
         {
             "id": "10",
             "title": "Season 5",
-            "imgURL": "assets/amazon-folder.png",
+            "imgURL": "assets/l3.jpg",
             "pubDate": "Sun, 26 May 2013 07:22:41 GMT",
             "description": "Season 5 example description here.",
             "contents": [{"type": "media", "id": "37a30514-f956-4da1-4063-9e5276e4b79f"}, 
@@ -109,7 +109,7 @@
         {
             "id": "11",
             "title": "Newest Season",
-            "imgURL": "assets/amazon-folder.png",
+            "imgURL": "assets/l6.jpg",
             "pubDate": "Sun, 26 May 2013 07:22:41 GMT",
             "description": "Newest season example description here.",
             "contents": [{"type": "media", "id": "37a30514-f956-4da1-4063-9e5276e4b79f"}, 
@@ -129,7 +129,7 @@
             "pubDate": "Mon, 21 Apr 2014 04:55:06 GMT",
             "thumbURL": "assets/l11.jpg",
             "imgURL": "assets/l11.jpg",
-            "videoURL": "assets/sample_video.mp4",
+            "videoURL": "assets/sample_videssdasfxfgo.mp4",
             "type": "video",
             "subtitlesURL" : "assets/sample_video-en.vtt",
             "categories": [

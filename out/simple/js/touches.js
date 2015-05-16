@@ -34,10 +34,6 @@
         this.startY = 0;
         this.curX = 0;
         this.curY = 0;
-        this.deltaX = 0;
-        this.deltaY = 0;
-        this.horzDiff = 0;
-        this.vertDiff = 0;
         this.minSwipe = 70;
         this.swipeLength = 0;
         this.swipeAngle = null;
@@ -53,10 +49,6 @@
             this.startY = 0;
             this.curX = 0;
             this.curY = 0;
-            this.deltaX = 0;
-            this.deltaY = 0;
-            this.horzDiff = 0;
-            this.vertDiff = 0;
             this.swipeLength = 0;
             this.swipeAngle = null;
             this.swipeDirection = null;
@@ -168,7 +160,7 @@
         * Trigger the correct touch event
         */
         this.implementTouchEvent = function() {
-            if ( this.swipeDirection == 'left' ) {
+            if ( this.swipeDirection === 'left' ) {
                 this.trigger('swipe', {type: 'swipe', keyCode: this.LEFT});
             } else if ( this.swipeDirection === 'right' ) {
                 this.trigger('swipe', {type: 'swipe', keyCode: this.RIGHT});

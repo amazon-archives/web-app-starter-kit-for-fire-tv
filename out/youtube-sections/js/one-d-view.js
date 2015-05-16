@@ -27,12 +27,12 @@
         this.el = null;
 
         this.fadeOut = function() {
-            this.$el.css("visibility", "hidden");
+            this.$el.css("opacity", "0");
             this.shovelerView.fadeOut();
         };
 
         this.fadeIn = function() {
-            this.$el.css("visibility", "");
+            this.$el[0].style.opacity = "";
             this.shovelerView.fadeIn();
         };
        /**
@@ -40,7 +40,7 @@
         * so that we don't loose any of our dynamic items
         */
         this.hide = function () {
-            this.$el.css("visibility", "hiden");
+            this.$el[0].style.opacity = "0";
             this.shovelerView.hide();
         };
 
@@ -48,7 +48,7 @@
         * Display this view
         */
         this.show = function () {
-            this.$el.css("visibility", "");
+            this.$el.css("opacity", "");
             this.shovelerView.show();
         };
 
@@ -97,8 +97,6 @@
             }
 
             this.noItems = false;
-            //gather widths of all the row elements
-            this.$elementWidths = [];
             this.createShovelerView(rowData);
             this.createButtonView(displayButtonsParam, this.$el);
 
@@ -177,7 +175,19 @@
                 parentView.transitionToButtonView();
             };
 
-            buttonView.render(this.$el.find("#summary-buttons-container"));
+            buttonView.handleButtonCallback = function() {
+                //add button functionality here
+                console.log(arguments);
+            };
+
+            //Create a buttons array for the buttons you want to add
+            var buttonArr = [
+                {"id" : "buttonOne", "buttonValue" : "Action B1"},
+                {"id" : "buttonTwo", "buttonValue" : "Action B2"}
+            ];
+
+            buttonView.render(this.$el.find("#summary-buttons-container"), buttonArr, buttonView.handleButtonCallback);
+
         };
 
         /**
@@ -321,16 +331,21 @@
             if (this.rowElements[index].type === "video-live") {
                 if (this.rowElements[index].isLiveNow)
                 {
-                    this.$el.find(".one-D-summary-pubdate").html('<span class = "time-now-live">LIVE NOW</span>');
+                    // add the live icon and replace the pubdate with it in the live case
+                    this.$el.find(".one-D-summary-description").html('<div class="one-D-live-icon" ></div>' +
+                        '<div>'+ this.rowElements[index].description +'</div>');
+                    this.$el.find(".one-D-summary-description").css("margin-top", "-30px");
                 }
                 else {
                     this.$el.find(".one-D-summary-pubdate").html('<span class = "time-upcoming">' + this.rowElements[index].upcomingTime + '</span>');
+                    this.$el.find(".one-D-summary-description").css("margin-top", "");
                 }
             }
             else {
                 if (this.rowElements[index].pubDate) {
                     this.$el.find(".one-D-summary-pubdate").html(this.rowElements[index].pubDate.toLocaleString());
                 }
+                this.$el.find(".one-D-summary-description").css("margin-top", "");
             }
         };
 

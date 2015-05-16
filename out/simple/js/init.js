@@ -1,6 +1,5 @@
 (function(exports) {
     'use strict';
-    
     //initialize the app
     var settings = {
         Model: JSONMediaModel,
@@ -9,7 +8,10 @@
         dataURL: "./assets/genericMediaData.json",
         showSearch: true,
         displayButtons:false,
-        skipLength: 10
+        skipLength: 10,
+        controlsHideTime: 3000,
+        networkTimeout: 20,
+        retryTimes: 3
     };
 
     exports.app = new App(settings);
