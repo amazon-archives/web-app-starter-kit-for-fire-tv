@@ -19,8 +19,10 @@ see what else you can do:
 */
 
 var gulp = require('gulp-help')(require('gulp'), { description: 'Display this', aliases: ['h', '?'] });
+var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglifyjs');
 var sass = require('gulp-sass-binaries');
+var jsdoc = require("gulp-jsdoc");
 //var sourcemaps = require('gulp-sourcemaps');
 var inlinesource = require('gulp-inline-source');
 var htmlreplace = require('gulp-html-replace');
@@ -178,6 +180,19 @@ function doMinifyJS(cfg) {
         }))
         //.pipe(debug({verbose: false}))
         .pipe(gulp.dest(cfg.dest));
+}
+
+gulp.task('jshint', false, forAllTargets(doJSHint));
+function doJSHint(cfg) {
+    return gulp.src(cfg.appJS)
+      .pipe(jshint())
+      .pipe(jshint.reporter('jshint-stylish'));
+}
+
+gulp.task('jsdoc', false, forAllTargets(doJSDoc));
+function doJSDoc(cfg) {
+    return gulp.src(cfg.appJS)
+        .pipe(jsdoc('./jsdoc'))
 }
 
 

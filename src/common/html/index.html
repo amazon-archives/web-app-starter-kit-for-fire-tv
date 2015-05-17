@@ -103,8 +103,9 @@
     <!-- Buttons View Template -->
     <script id="button-view-template" type="text/x-handlebars-template">
         <div class="detail-row-container-buttons">
-            <div id="btnPlay" class="detail-item-button-static">Action 1</div>
-            <div id="btnConfirm" class="detail-item-button-static">Action 2</div>
+            {{#each items}}
+            <div id="{{id}}" class="detail-item-button-static">{{buttonValue}}</div>
+            {{/each}}
         </div>
      </script>
 
@@ -154,7 +155,7 @@
             <div class="player-controls-timestamp-curtime">00:00</div>
             <div class="player-controls-timestamp-totaltime"></div>
             <div class="player-controls-content-title">Content Title</div>
-            <div class="player-controls-button-back"><img class="player-back-button" src="./assets/btn_back.png" /></div>
+            <div class="player-controls-button-back"><img class="player-back-button" src="assets/btn_back.png" /></div>
             <div class="player-controls-content-subtitle">Subtitle</div>
         </div>
     </script>
@@ -169,13 +170,23 @@
                     <div class="player-controls-timeline">
                     </div>
             </div>
-            <div class="player-controls-timestamp-curtime">LIVE</div>
+            <div class="player-controls-timestamp-curtime">
+                <img src="assets/live.png"/>
+            </div>
             <div class="player-controls-content-title">Content Title</div>
-            <div class="player-controls-button-back"><img class="player-back-button" src="./assets/btn_back.png" /></div>
+            <div class="player-controls-button-back"><img class="player-back-button" src="assets/btn_back.png" /></div>
             <div class="player-controls-content-subtitle">Subtitle</div>
         </div>
     </script>
 
+    <!-- Dialog Template -->
+    <script id="dialog-template" type="text/x-handlebars-template">
+        <div class="modal-dialog">
+            <div class = "dialog-title">{{title}}</div>
+            <div class = "dialog-message">{{message}}</div>
+            <div class = "dialog-buttons-container"></div>
+        </div>
+    </script>
     <!-- build:js -->
     <!-- gulp will insert scripts for .js file specified in build.json here, or minified / combined / inlined versions -->
     <!-- endbuild -->
