@@ -72,6 +72,7 @@ views:
 * `src/common/js/player-view.js` : shows the video with a full screen `<video>` tag
 * `src/common/js/search-input-view.js` : the simple search widget for the left nav list
 * `src/common/js/subcat-view.js` : the subcategory list view
+* `src/common/js/dialog-view.js` : the modal dialog view with up to two buttons
 * `src/common/js/controls-view.js` : the player controls view with timeline and description
 * `src/common/js/controls-view-live.js` : the player controls view for live streamed videos
 * `src/common/js/search-input-view.js` : the simple search input box view
@@ -80,6 +81,7 @@ views:
 other:
 
 * `src/common/js/util.js` : some helper functions for handlebars and CSS style sheet manipulation
+* `src/common/js/error-handler.js` : the error handler class used for all error reporting
 * `src/common/js/events.js` : a very simple placeholder for event registry/dispatch
 * `src/common/js/buttons.js` : provides a very simple event flow for buttons on remote
 * `src/common/js/touches.js` : provides very simple and rudimentary touch support for tablets
@@ -156,7 +158,7 @@ The user interface flow is based around preserving the state of views you will r
 
 ** Event structure **
 
-We use a simple event handling system which is implemented in `events.js`. Each view can trigger 6 events:
+We use a simple event handling system which is implemented in `events.js`. A component may trigger one of the following events:
 
 * `exit` - triggered when the view is exited
 * `startScroll` - triggered when scrolling has begun within the view(button held down)
@@ -168,7 +170,7 @@ We use a simple event handling system which is implemented in `events.js`. Each 
 * `bounce` - triggered when a boundary is hit when navigating a view
 * `makeActive` - triggered when an element is set as the active element
 * `noContent` - triggered when a no content is returned for a given search or category
-* `videoError` - triggered when there is a problem with loading or playing a video
+* `error` - triggered when an error occurs for a given view or component (see [Error Handling](#error-handling) for details)
 * `searchQueryEntered` - triggered when the user enters a search query  
 * `videoStatus` - triggered by the player view to update the video status
 
@@ -440,6 +442,71 @@ Categories are displayed in the left navigation menu. The app will automatically
  * "Main Category 1"
  * "Main Category 2"
  * "Main Category 3"
+
+<a name="error-handling"></a>
+** Error Handling **
+
+The Starter Kit provides basic support for error handling through the `ErrorHandler` JavaScript object.  The `ErrorHandler` provides three basic ways of communicating errors: creating an error dialog, showing an error console message, and a mechanism for reporting the error back to the developer.
+
+The recommended way to deal with errors in the Starter Kit when developing a component is to try to deal with the error in the component, however if the error is not recoverable trigger an `error` event from the component to handle the error in the parent component, normally bubbling the event up to `app.js`. 
+
+Here is a short example of handling an unrecoverable error:
+		
+		**********************************
+		// inside the component which has encountered an unrecoverable error
+		// we will trigger an error using the global error enums, for this example we will use a parse error
+		
+		this.trigger("error", ErrorTypes.PARSING_ERROR, ErrorHandler.genStack());
+
+		
+		**********************************
+		// now we will move to the parent component that is handling the error 
+		
+		componentThatThrewError.on("error", function(type, stackTrace) {
+			var errorHandler = new ErrorHandler();
+			// here we will handle the parse error by showing a dialog, and writng a console log
+			if (type === ErrorTypes.PARSING_ERROR) {
+				// create the buttons for the error dialog with callbacks for the buttons
+				buttons = [{
+					text: "Ok",
+					id: "PARSE_ERROR_OK",
+					callback: function() {
+						// implement what the OK button should do when clicked. 
+					}.bind(this),
+				},
+				{
+					text: "Retry",
+					id: "PARSE_ERROR_RETRY",
+					callback: function() {
+						// implement what the Retry button should do when clicked.
+					}.bind(this),
+					
+				}];
+				errorDialog = errorHandler.createErrorDialog(type.errTitle, type.errToUser, buttons);
+				
+				// render the error dialog
+				errorDialog.render();
+				
+				// transition code to dialog should go here, this will vary based on component
+					...
+				// end  transition code
+				
+				// throw a console error with stack trace:
+				errorHandler.writeToConsole(type, type.errToDev, stackTrace);
+				
+				// inform the developer about the error here
+               	errorHandler.informDev(type, type.errToDev, stackTrace);
+			}
+		});
+
+Looking at the above example we can see some key points that are handled by the error handler. The Starter Kit error handler contains an enum of all errors supported, which contain `errorToDev` and `errorToUser` properties to allow for different messaging to users versus developers. Add new error types to this enum as necessary. The ErrorHandler also includes a helper function to generate a stack trace at the point the error occurred. The three main ErrorHander functions are:
+
+* `createErrorDialog` : creates the error dialog view, which is ready for rendering
+* `writeToConsole` : writes an error formatted in the Starter Kit format to the console
+* `informDev` : calls a stubbed out function in the errorHandler which can be filled out by the developer to receives errors through their own API.
+
+In the Starter Kit we have already created error handling for a variety of errors. In our example models we have handled errors for network requests, parsing, and timeouts. In our example players we have handled errors that affect video playback and performance. In our shoveler view we handle errors where the thumbnail images are unable to be loaded. In most of our error handling dialogs we have implemented retry cases to give the user a chance to attempt to fix the problem. The existing error handling implementation can be used as a reference for new or potentially unhandled error cases. It should also be noted that even if an error is recoverable, you may still want to report the error or log it, in which case you can handle the recoverable error and call the `writeToConsole` or `informDev`.
+
 
 ** Performance Considerations **
 
