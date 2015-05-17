@@ -12,7 +12,7 @@
      */
     function PlaylistPlayerView(settings) {
         // mixin inheritance, initialize this as an event handler for these events:
-        Events.call(this, ['exit', 'videoStatus', 'indexChange']);
+        Events.call(this, ['exit', 'videoStatus', 'indexChange', 'error']);
 
         this.currentPlayerView = null;
         this.preloadedPlayerView = null;
@@ -28,9 +28,15 @@
         this.$countdown_text = null;
         this.previewTime = settings.previewTime;
         this.timeTillPlay = null;
+        this.preloadedPlayerViewError = null;
+
 
         this.PREVIEW_TIME_DEFAULT = 10;
 
+        /**
+         * @function remove
+         * @description function to remove current player view and the preloaded player view
+         */
         this.remove = function () {
             if (this.currentPlayerView) {
                 this.currentPlayerView.remove();
@@ -41,7 +47,11 @@
         };
 
         /**
-         * Initial function to setup and start the playlist of media
+         * @function render
+         * @description initial function to setup and start the playlist of media
+         * @param {Object} $el the app container
+         * @param {Object} items the complete data
+         * @param {Object} startIndex the index corresponding to the data to be rendered
          */
         this.render = function($el, items, startIndex) {
             if (!this.previewTime) {
@@ -57,7 +67,7 @@
             this.items = items;
 
             this.currentPlayerView.on('videoStatus', this.handleVideoStatus, this);
-
+            this.currentPlayerView.on('error', this.errorHandlerCurrent, this);
             this.currentView = this.currentPlayerView;
 
             //touch events
@@ -69,10 +79,37 @@
             this.setUpNextPlayer();
         };
 
+        /**
+         * @function errorHandlerCurrent
+         * @description handle video errors from player view
+         * @param {Object} errType type of the error
+         * @param {String} errStack stack trace of the error
+         */
+        this.errorHandlerCurrent = function(errType, errStack) {
+            this.trigger('error', errType, errStack);
+        };
+
+        /**
+         * @function errorHandlerPreview
+         * @description handle video errors from preloaded player view
+         * @param {Object} errType type of the error
+         * @param {String} errStack stack trace of the error
+         */
+        this.errorHandlerPreview = function(errType, errStack) {
+            //different error handler for current and preloaded player view,
+            //because the preloaded player view is loaded the same time as
+            //the current player view, their errors need to be handled at different times
+            this.preloadedPlayerViewError = {
+                errType : errType,
+                errStack : errStack
+            };
+        };
+
        /**
-        * Handle Touch events for the player
-        * @param {Event} e
-        */
+         * @function handleTouchPlayer
+         * @description handle Touch events for the player
+         * @param {Event} e
+         */
         this.handleTouchPlayer = function(e) {
             if(e.target.className === "player-back-button") { //back button
                 this.currentView.handleControls({type : "touch", keyCode : buttons.BACK});
@@ -82,7 +119,8 @@
         }.bind(this);
 
         /**
-         * Handles shwoing the view to transition from playing one video to the next
+         * @function transitionToNextVideo
+         * @description handles showing the view to transition from playing one video to the next
          */
         this.transitionToNextVideo = function() {
             if (this.preloadedPlayerView) {
@@ -101,6 +139,10 @@
             }
         };
 
+        /**
+         * @function showTransitionView
+         * @description show transition view for the player
+         */
         this.showTransitionView = function () {
             if (this.preloadedPlayerView) {
                 var html = utils.buildTemplate($("#next-video-view-template"), this.items[this.currentIndex + 1]);
@@ -108,14 +150,12 @@
                 this.$previewEl = this.$el.children().last();
                 this.$countdown_text = this.$previewEl.find(".next-video-starttext");
                 this.$countdown_text.text("" + this.previewTime);
-                if (this.currentPlayerView.controlsCurrentlyShowing()) {
-                    this.$previewEl.hide();
-                }
             }
         };
 
         /**
-         * Helper function to set up the next player
+         * @function setUpNextPlayer
+         * @description helper function to set up the next player
          */
         this.setUpNextPlayer = function () {
             var foundVideo = false;
@@ -130,6 +170,7 @@
             }
             if (this.items.length > this.nextIndex) {
                 this.preloadedPlayerView = new this.PlayerView(settings);
+                this.preloadedPlayerView.on('error', this.errorHandlerPreview, this);
                 this.preloadedPlayerView.render(this.$el, this.items, this.nextIndex);
                 this.preloadedPlayerView.hide();
             }
@@ -138,6 +179,9 @@
         /**
          * @function handleVideoStatus
          * @description status handler for video status events to convert them into showing correct controls
+         * @param {Number} currentTime the current time of video playback
+         * @param {Number} duration the total duration of the video
+         * @param {Number} type the type of video status event
          */
         this.handleVideoStatus = function(currentTime, duration, type) {       
             if (type === "playing") {
@@ -145,8 +189,14 @@
                     this.timeTillPlay = Math.round((duration - currentTime));
                     this.$countdown_text.text("" + this.timeTillPlay);
                 }
-                else if (duration - currentTime <= this.previewTime) {
-                    this.showTransitionView();
+                else if (duration > 0 && duration - currentTime <= this.previewTime) {
+                    // dont show preview if its an advertisement playing
+                    if(this.currentPlayerView.adPlaying && this.currentPlayerView.adPlaying()){
+                        return;
+                    }
+                    else if (!this.currentPlayerView.controlsCurrentlyShowing()) {
+                        this.showTransitionView();
+                    }
                 }
             }
 
@@ -159,16 +209,27 @@
         }.bind(this);
         
         /**
-         * Cleanup and exit the playlist/player/next video view
+         * @function exit
+         * @description cleanup and exit the playlist/player/next video view
          */
         this.exit = function() { 
             this.trigger("exit");
         };
 
+        /**
+         * @function playVideo
+         * @description play the video in the current player
+         */
         this.playVideo = function() {
             this.currentPlayerView.playVideo();
         };
 
+        /**
+         * @function updateTitleAndDescription
+         * @description Updates the title and description 
+         * @param {string} new title to set
+         * @param {string} new description to set
+         */
         this.updateTitleAndDescription = function(title, description) {
             if(this.currentPlayerView) {
                 this.currentPlayerView.updateTitleAndDescription(title, description);
@@ -176,14 +237,21 @@
         }.bind(this);
         
         /**
-         * start the next video after the transition view is complete
+         * @function startNextVideo
+         * @description start the next video after the transition view is complete
          */
         this.startNextVideo = function () {
+            // trigger error event if there are errors
+            if (this.preloadedPlayerViewError) {
+                this.trigger('error', this.preloadedPlayerViewError.errType, this.preloadedPlayerViewError.errStack);
+                this.preloadedPlayerViewError = null;
+            }
             this.currentPlayerView.remove();
             this.currentPlayerView = this.preloadedPlayerView;
             this.preloadedPlayerView = null;
 
             this.currentPlayerView.on('videoStatus', this.handleVideoStatus, this);
+            this.currentPlayerView.on('error', this.errorHandlerCurrent, this);
             this.setUpNextPlayer();
             this.currentView = this.currentPlayerView;
             this.currentPlayerView.show();
@@ -194,16 +262,21 @@
             this.currentPlayerView.on('exit', this.exit, this);
         };
 
-       /**
-        * Check to see if we have a seek action
-        * @param {Number} key the keyCode of the event
-        * @return {Boolean}
-        */
+        /**
+         * @function seekAction
+         * @description check to see if we have a seek action
+         * @param {Number} key the keyCode of the event
+         * @return {Boolean}
+         */
         this.seekAction = function(key) {
              return (key === buttons.LEFT || key === buttons.RIGHT || key === buttons.FAST_FORWARD || key === buttons.REWIND);
         };
 
-        // handle button events, send them to the current playlist view that is selected.
+        /**
+         * @function handleControls
+         * @description handle button events, send them to the current playlist view that is selected.
+         * @param {Event} e
+         */
         this.handleControls = function (e) {
             if (this.currentView) {
                 if (this.$previewEl && this.$previewEl.is(':visible') && !this.previewDismissed && !this.seekAction(e.keyCode)) {
