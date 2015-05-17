@@ -7,9 +7,7 @@ Amazon Fire TV includes Amazon WebView, an advanced Chromium-based web engine co
 
 We have created the Starter Kit to give web developers an easier entry into developing applications for Fire TV devices. The starter kit provides a minimal media app that uses the FireTV remote effectively and provides a user experience consistent with the rest of the device.  It can be used as-is, or as a structural piece of a richer app.
 
-A live running example can be found at: [https://amzn.github.io/web-app-starter-kit-for-fire-tv](https://amzn.github.io/web-app-starter-kit-for-fire-tv/ "Live Template Example")
-
-A zip file of the Starter Kit example projects can be found here:<br> [https://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip](https://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip "Downloadable Zip of Projects")
+A live running example can be found at: [http://amzn.github.io/web-app-starter-kit-for-fire-tv](http://amzn.github.io/web-app-starter-kit-for-fire-tv/ "Live Template Example")
 
 ## Setup
 -------------------
@@ -44,7 +42,6 @@ To test this app on a FireTV device, please refer to the [Web App Tester](http:/
 
 ### Setup of the SASS script file
 -------------------
-
 The template uses SASS as its main source of CSS content. SASS is a language which compiles down to standard CSS. In the template, we have included a precompiled CSS file in the `/out/<project-name>` directory.
 
 You're welcome to modify the CSS directly, but we recommend working with the SASS source instead. Please refer to the [SASS Install](http://sass-lang.com/install) link for more information on setting up SASS in your development environment. We have a build system which makes it easy to deal with SASS, for more information please refer to the [Building Document](./docs/building.md)
@@ -53,8 +50,8 @@ More information on the SASS structure please read the [Styling Document](./docs
 
 ## Customizing the template
 -------------------
-
 The source is released under the Creative Commons License, which allows developers to modify, customize, and release the template without any legal barriers. The HTML templates are contained in the `src/common/html/index.html` file and the SASS files are in the `src/common/scss/` directory. The scss files `firetv.scss` and `_variables.scss` allow you to easily modify commonly used look and feel aspects through Sass. For more information on styling the template read the [Styling Document](./docs/styling.md). We recommend creating a new project and utilizing the gulp build system. For more information see the [Building Document](./docs/building.md)
+
 
 For information on developing using the template and modifying app functionality please refer to the [Architecture Overview](./docs/architecture.md).
 
@@ -77,6 +74,31 @@ If you have any questions, concerns or problems with the Fire TV Web App templat
 
 ## Release Notes
 -------------------
+
+v1.3 Release: Code cleanup, error handling added to players and models, UX touch ups and functionality tweaks.
+
+Changes:
+
+* Error handling added throughout the player and model code to notify end users about problems and log errors to console for developers.
+* User Interface tweaks: Made drop shadows more consistent for when something is selected, and made button selection less ambiguous with borders. 
+* Fonts and styles have been updated to work more towards the same experience in the browser as the Fire TV.
+* New live stream badging. 
+
+New Features:
+
+*  Brightcove Support: The Web App Starter Kit currently supports making
+a web app based on content from Brightcove¹s Video Cloud and uses the
+Brightcove Player to play the content. The provided sample project
+(`src/projects/brightcove`) supports analytics through Brightcove Video
+Cloud Analytics and advertising through the IMA3 Plugin. Read
+[brightcove.md](docs/brightcove.md) to learn more.
+* Simulated fast forward and rewind - You can now skip repeatedly in videos, making long videos much easier to use.
+* The Starter Kit also supports a category which can contain a one
+level deep hierarchy of playlists. This is called a multiPlaylists object
+which contains an array of playlist ids. These ids will be displayed as
+sub-categories. For details see [platforms.md](docs/platforms.md).
+
+-----------
 v1.2 Release: In addition to new features, we have made many tweaks to the user experience of the starter kit and added more robust support for our previous data sources.
 
 Changes:

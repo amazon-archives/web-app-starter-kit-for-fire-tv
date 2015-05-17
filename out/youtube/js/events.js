@@ -38,26 +38,30 @@
          * unregister for (an) event(s)
          * @param {string} event to stop listening, or undefined to match all events
          * @param {function} callback function to remove, or undefined to match all functions
-         * @param {object} context to remove, optional
+         * @param {object} context for function to remove, must match context passed to on
          * Note: implication is that calling off() with no args removes all handlers for all events
          */
         this.off = function(event, callback, context) {
             for (var evt in this.eventHandlers) {
                 if (!event || event === evt) {
-                    this.eventHandlers[evt] = this.eventHandlers[evt].filter(function(element) {
-                        return (callback && callback !== element.callback) || (context && context !== element.context);
-                    });
+                    this.eventHandlers[evt] = this.eventHandlers[evt].filter(this.createEventHandler(callback, context));
                 }
             }
 
         };
 
         /**
+         * creates event handler function
+         */
+        this.createEventHandler = function(callback, context) {
+            return function(element) {return (callback && callback !== element.callback) || (context && context !== element.context);};
+        };
+
+        /**
          * triggers an event, calling all the handlers
          * @param {string} event to trigger
-         * @param {...} args any/all remaining arguments to trigger will be passed to the handlers
          */
-        this.trigger = function(event, args) {
+        this.trigger = function(event) {
             if (this.eventSet && this.eventSet.indexOf(event) === -1) {
                 throw "Unknown event: " + event;
             }
