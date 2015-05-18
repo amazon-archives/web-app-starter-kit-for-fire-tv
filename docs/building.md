@@ -15,7 +15,7 @@ Why use a build system?
 Prerequisites
 -------------
 
-You need to first install Node/NPM and Gulp on your system - accessible globally -then install the build system support libraries to the directory where you cloned/downloaded the Starter Kit.
+You need to first install Node/NPM and Gulp on your system - accessible globally - then install the build system support libraries to the directory where you cloned/downloaded the Starter Kit.
 
 #### Step 1: Install Node/NPM Globally
 

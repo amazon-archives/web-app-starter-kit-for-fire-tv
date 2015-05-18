@@ -21,7 +21,8 @@
         Events.call(this, ['exit', 'revoke', 'select']);
 
         //global variables
-        this.selectedButton = -1;
+        this.selectedButtonIndex = 0;
+        this.handleButtonCallback = null;
         
         //jquery global variables
         this.$el = null;
@@ -42,14 +43,30 @@
         };
 
        /**
+        * Remove the button view
+        */
+        this.remove = function () {
+            this.$el.remove();
+        };
+
+       /**
+        * Remove the styling from the existing selected button
+        * and add the selected style to the newly selected button
+        */
+        this.updateSelectedButton = function () {
+            //remove hilight from last selected button
+            this.setStaticButton();
+
+            //add hilight to newly selected button
+            this.setSelectedButton();
+        };
+
+       /**
         * Change the style of the selected element to selected 
         */
         this.setSelectedButton = function () {
-            //first make sure we don't already have a selected button
-            this.setStaticButton();
-
             //apply the selected class to the newly-selected button
-            var buttonElement = $(this.$buttons[this.selectedButton]);
+            var buttonElement = $(this.getCurrentSelectedButton());
 
             buttonElement.removeClass(CLASS_BUTTON_STATIC);
             buttonElement.addClass(CLASS_BUTTON_SELECTED);
@@ -71,10 +88,18 @@
         * Event handler for remote "select" button press 
         */
         this.handleButtonEvent = function () {
-            this.showAlert(this.$buttons[this.selectedButton].innerHTML); 
+            var currentButton = this.getCurrentSelectedButton();
+            if(typeof this.handleButtonCallback === "function") {
+                this.handleButtonCallback(currentButton);
+            }
+            else {
+                console.log('no callback provided');
+                alert("You pressed the " + currentButton.innerHTML + " button"); 
+            }
+            buttons.resync();
         }.bind(this);
 
-       /**
+      /**
         * Event hander for tap
         * @param {Event} e
         */
@@ -82,28 +107,24 @@
             this.showAlert(e.target.innerHTML);
         }.bind(this);
 
-       /**
-        * Display alert for button press/select
-        * @param {String} buttonValue the innerHTML of the button
-        */
-        this.showAlert = function (buttonValue) {
-            alert("You selected the '" + buttonValue + "' button");
-
-            //resync the buttons after the alert
-            buttons.resync();
-        };
-
         /**
          * Creates the button view from the template and appends it to the given element
          * @param {Element} $el the application container
+         * @param {Array} buttonArr the buttons that need to be added
+         * @param {Function} buttonCallbackHandler callback method for button selection 
          */
-        this.render = function ($el) {
+        this.render = function ($el, buttonArr, buttonCallbackHandler) {
             // Build the left nav template and add its
-            var html = utils.buildTemplate($("#button-view-template"));
+            var html = utils.buildTemplate($("#button-view-template"), {
+                items:buttonArr 
+            });
 
             $el.append(html);
+
             this.$el = $el.children().last();
             this.$buttons = $el.find(".detail-item-button-static");
+
+            this.handleButtonCallback = buttonCallbackHandler;
 
             touches.registerTouchHandler("detail-item-button-static", this.handleButtonTap);
         };
@@ -128,11 +149,7 @@
                     case buttons.DOWN:
                         break;
                     case buttons.LEFT:
-                        //check if we are on the left button
-                        if(this.selectedButton > 0) {
-                            this.setCurrentSelectedIndex(0);
-                            this.setSelectedButton();
-                        }
+                        this.incrementCurrentSelectedIndex(-1);
                         break;
                     case buttons.BACK:
                         this.setStaticButton();
@@ -143,23 +160,47 @@
                         this.handleButtonEvent();
                         break;
                     case buttons.RIGHT:
-                        //check if we are on the right button
-                        if(this.selectedButton < this.$buttons.length) {
-                            this.setCurrentSelectedIndex(1);
-                            this.setSelectedButton();
-                        }
-                        //select right button
+                        this.incrementCurrentSelectedIndex(1);
                         break;
                 }
            }
         }.bind(this);
 
        /**
-        * Set the index of the currently selected item 
+        * Get the currently selected button
+        */
+        this.getCurrentSelectedButton = function() {
+            return this.$buttons[this.selectedButtonIndex];
+        };
+
+       /**
+        * Explicitly set the index of the currently selected item 
         * @param {number} index the index of the selected button 
         */
         this.setCurrentSelectedIndex = function(index) {
-            this.selectedButton = index;
+            this.selectedButtonIndex = index;
+        };
+
+       /**
+        * Set the index and update the button views
+        * @param {number} index the index of the selected button 
+        */
+        this.updateCurrentSelectedIndex = function(index) {
+            this.selectedButtonIndex = index;
+            this.updateSelectedButton();
+        };
+
+       /**
+        * Increment the index of the currently selected item 
+        * @param {number} increment the number to add or subtract from the currentSelectedIndex 
+        */
+        this.incrementCurrentSelectedIndex = function(increment) {
+            var newIdx = this.selectedButtonIndex + increment;
+
+            if(newIdx >= 0 && newIdx < this.$buttons.length) {
+                this.selectedButtonIndex = newIdx;
+                this.updateSelectedButton();
+             }
         };
 
     }

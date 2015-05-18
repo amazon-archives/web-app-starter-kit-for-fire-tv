@@ -67,7 +67,6 @@ div {
     height   : 100%;
     padding  : 0px;
     overflow : hidden;
-    font-family  : $font-family-light;
     background-color : $color-menu-base-bg;
 }
 
@@ -83,7 +82,13 @@ div {
     top    : $pos-top-leftnav-content;
     height : $size-leftnav-collapsed-height;
     z-index: 10;
+}
+
+.leftnav-collapsed-highlight {
     @include box-shadow(0px 10px 18px 3px rgba(0,0,0,0.44));
+    border: solid;
+    border-width: 1px;
+    border-color: $color-app-dialog-head-border;
 }
 
 .leftnav-menulist-collapsed .leftnav-menu-scrolling-list {
@@ -108,7 +113,6 @@ div {
     font-weight: lighter;
     font-size: 1.7em;
     min-height : 90px;
-    font-family: $font-family-light;
     padding      : 0 50px 0 $pos-left-content-position;
     overflow     : hidden;
     margin-bottom    : 2px;
@@ -172,9 +176,6 @@ div {
     background: $color-menu-item-highlight-bg $img-icon-leftnav no-repeat $pos-right-leftnav-arrow-icon center;
 }
 
-.leftnav-search-box::-webkit-input-placeholder {
-    font-family : $font-family-light;
-}
 
 //
 // Full Row View
@@ -205,7 +206,7 @@ div {
     position: absolute;
     top: 0;
     left: 0;
-    @include transition-property(visibility);
+    @include transition-property(opacity);
     @include transition-duration($ani-duration-maincontent-opacity);
     @include transition-timing-function(linear);
 }
@@ -232,7 +233,6 @@ div {
         font-weight: 200;
         height : 30px;
         font-size: 1em;
-        font-family: $font-family-light;
         color : $color-meta-secondary-text;
         .time-now-live {
             color: $color-time-live-text;
@@ -245,11 +245,19 @@ div {
         color       : $color-description-text;
         font-style  : italic;
         font-size   : 1.1em;
-        font-family : $font-family-light;
         overflow    : hidden;
+        align-items : center;
         @include display-box;
         @include box-orient(vertical);
         @include line-clamp(2);
+    }
+    .one-D-live-icon {
+        background-image: url(assets/live.png);
+        height: 44px;
+        width: 93px;
+        background-position-y: 5px;
+        margin-right: 15px;
+        background-repeat: no-repeat;
     }
 }
 
@@ -265,11 +273,9 @@ div {
     padding  : 15px;
     float    : left;
     font-size    : 1.4em;
-    font-family:  $font-family-light;
     margin-right : 20px;
     text-align   : center;
     border       : 1px solid transparent;
-    @include box-shadow(0px 10px 18px 3px rgba(0,0,0,0.44));
 }
 
 .detail-item-button-selected {
@@ -278,6 +284,10 @@ div {
     margin-top : 0px;
     color            : $color-btn-selected-text;
     background-color : $color-btn-selected-bg;
+    border: solid;
+    border-color: $color-app-dialog-head-border;
+    border-width: 1px;
+    @include box-shadow(0px 10px 18px 3px $color-box-shadow);
 }
 
 .detail-item-button-static{
@@ -343,7 +353,14 @@ div {
         background-blend-mode : overlay;
         display : inline-block;
     }
+}
 
+.shoveler-subcat-bg {
+    width: 91px;
+    height: 100%;
+    margin-left: -10px;
+    display: inline-block;
+    background-image: $img-subcat-bg;
 }
 
 //
@@ -415,6 +432,8 @@ div {
     background-image: $img-skip-indicator;
     min-width: 200px;
     margin-left: -20px;
+    transition: 0.05s;
+
 
     img {
         height : 22px;
@@ -452,7 +471,6 @@ div {
 .player-controls-timestamp {
     margin-top  : 10px;
     font-size        : 1.6em;
-    font-family: $font-family-light;
 }
 
 .player-controls-timestamp-curtime {
@@ -495,7 +513,6 @@ div {
     color    : $color-description-text;
     font-style: italic;
     font-size: 1.1em;
-    font-family: $font-family-light;
     @include display-box;
     @include box-orient(vertical);
     @include line-clamp(2);
@@ -623,6 +640,31 @@ div {
   border-radius: 50%;
   width: 15em;
   height: 15em;
+}
+
+.modal-dialog {
+  z-index: 650;
+  background-color: $color-app-dialog-bg;
+  color: $color-app-dialog-btn-text;
+  position: absolute;
+  left: 515px;
+  top: 30%;
+  width: 890px;
+  min-height: 500px;
+  padding: 60px;
+    .dialog-title {
+        margin-bottom: 30px;
+        font-size   : 48pt;
+        font-family : $font-family-medium;
+    }
+    .dialog-message {
+        margin-bottom: 60px;
+        font-size   : 36pt;
+    }
+    .dialog-buttons-container {
+        justify-content: center;
+        display: flex;
+    }
 }
 
 @-webkit-keyframes spin {

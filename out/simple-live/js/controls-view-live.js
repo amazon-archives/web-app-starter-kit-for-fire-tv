@@ -30,7 +30,8 @@
         this.SKIP_INDICATOR_OFFSET = 5;
         this.PAUSE_REMOVAL_TIME = 1500;
         this.CONTROLS_HIDE_TIME = 3000; 
-
+        
+        this.controlsHideTime = app.settingsParams.controlsHideTime || this.CONTROLS_HIDE_TIME;
 
        /**
         * Remove the controls element from the app
@@ -94,25 +95,7 @@
         };
 
         /**
-         * @description convert seconds to string format for custom controls
-         * @param {number} seconds to be converted
-         * @param {boolean} alwaysIncludeHours true to include hours even if 0
-         */
-        this.convertSecondsToHHMMSS = function(seconds, alwaysIncludeHours) {
-            var hours = Math.floor( seconds / 3600 );
-            var minutes = Math.floor( seconds / 60 ) % 60;
-            seconds = Math.floor( seconds % 60 );
-
-            var finalString = "";
-
-            if (hours > 0 || alwaysIncludeHours) {
-                finalString += hours + ":";
-            }
-            return finalString + ('00' + minutes).slice(-2) + ":" + ('00' + seconds).slice(-2);
-        };
-
-        /**
-        * @description status handler for video status events to convert them into showing correct controls
+        * status handler for video status events to convert them into showing correct controls
         * @param {number} current playing time
         * @param {number} total duration of video
         * @param {string} status type
@@ -121,20 +104,14 @@
             if (type === "paused") {
                 this.pausePressed();
             }
-            else if (type === "playing") {
-                // nothing in live controls
-            }
             else if (type === "resumed") {
                 this.resumePressed();
-            }
-            else if (type === "seeking") {
-               // no seek on live yet
             }
             this.previousTime = currentTime;
         }.bind(this);
 
         /**
-        * @description pause the currently playing video, called when app loses focus
+        * pause the currently playing video, called when app loses focus
         */
         this.pausePressed = function () {
             this.containerControls.style.opacity = "0.99";
@@ -150,8 +127,7 @@
         };
 
         /**
-        * @function resumeVideo
-        * @description resume the currently playing video, called when app regains focus
+        * resume the currently playing video, called when app regains focus
         */
         this.resumePressed = function() {
             // hide pause icon
@@ -160,20 +136,18 @@
         };
 
         /**
-         * @function showAndHideControls
-         * @description Shows the controls and hides them after 3s, resets the timer if this function is called again.
+         * Shows the controls and hides them after 3s, resets the timer if this function is called again.
          */
         this.showAndHideControls = function() {
             this.containerControls.style.opacity = "0.99";
             clearTimeout(this.removalTimeout);
             this.removalTimeout = setTimeout(function() {
                  this.containerControls.style.opacity = "0";
-            }.bind(this), this.CONTROLS_HIDE_TIME);
+            }.bind(this), this.controlsHideTime);
         };
 
         /**
-         * @function truncateSubtitle
-         * @description truncate subtitle with elipsis
+         * truncate subtitle with ellipsis
          */
         this.truncateSubtitle = function(string) {
            if (string.length > 150) {
