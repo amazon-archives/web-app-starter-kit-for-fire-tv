@@ -24,7 +24,7 @@
     */
     function LeftNavView() {
         // mixin inheritance, initialize this as an event handler for these events:
-        Events.call(this, ['exit', 'deselect', 'indexChange', 'select', 'makeActive']);
+        Events.call(this, ['exit', 'deselect', 'indexChange', 'select', 'makeActive', 'loadComplete']);
         
         this.scrollingContainerEle = null;
         this.leftNavContainerEle   = null;
@@ -117,6 +117,7 @@
             var highlightedEle = $("." + CLASS_MENU_ITEM_HIGHLIGHTED);
             if(highlightedEle) {
                 highlightedEle.removeClass(CLASS_MENU_ITEM_HIGHLIGHTED);
+                this.leftNavContainerEle.classList.remove('leftnav-collapsed-highlight');
             }
 
             $(ele).addClass(CLASS_MENU_ITEM_SELECTED);
@@ -133,6 +134,8 @@
                 $(ele).removeClass(CLASS_MENU_ITEM_SELECTED);
             } else if($(ele).hasClass(CLASS_MENU_ITEM_HIGHLIGHTED)) {
                 $(ele).removeClass(CLASS_MENU_ITEM_HIGHLIGHTED);
+                this.leftNavContainerEle.classList.remove('leftnav-collapsed-highlight');
+
             }
             $(ele).addClass(CLASS_MENU_ITEM_CHOSEN);
         };
@@ -147,6 +150,7 @@
 
             $(ele).removeClass(CLASS_MENU_ITEM_CHOSEN);
             $(ele).addClass(CLASS_MENU_ITEM_HIGHLIGHTED);
+            this.leftNavContainerEle.classList.add('leftnav-collapsed-highlight');
         };
 
        /**
@@ -183,7 +187,7 @@
             $el.append(html);
             this.$el = $el.children().last();
             this.$menuItems = $(CONTAINER_SCROLLING_LIST).children();
-            for (var i = 0; i < catData.length; i++) {
+            for (i = 0; i < catData.length; i++) {
                 if (typeof catData[i] === "object") {
                     catData[i].render(this.$menuItems.eq(i));   
                 }
@@ -204,6 +208,9 @@
             touches.registerTouchHandler("leftnav-list-item-static", this.handleListItemSelection);
 
             this.collapse();
+
+            //send loadComplete event
+            this.trigger('loadComplete');
         };
 
 
@@ -302,7 +309,9 @@
         this.confirmNavSelection = function() {
             if(this.confirmedSelection !== this.currSelectedIndex) {
                 // switch the current view state to the main content view
-                if (typeof this.leftNavItems[this.currSelectedIndex] === "object" && (this.leftNavItems[this.currSelectedIndex].currentSearchQuery === null || this.leftNavItems[this.currSelectedIndex].currentSearchQuery.length === 0)) {
+                var isObject = typeof this.leftNavItems[this.currSelectedIndex] === "object"; 
+                var emptySearch = isObject && (this.leftNavItems[this.currSelectedIndex].currentSearchQuery === null || this.leftNavItems[this.currSelectedIndex].currentSearchQuery.length === 0);
+                if (emptySearch) {
                     return;
                 }
                 this.confirmedSelection = this.currSelectedIndex;

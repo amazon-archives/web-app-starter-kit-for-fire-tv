@@ -3,7 +3,7 @@
 //
 .app-container-buttons {
     position : absolute;
-    bottom   : 10px;
+    bottom   : 80px;
     left     : 150px;
 }
 
@@ -23,8 +23,8 @@
    position:absolute;
    border : 1px solid $color-app-dialog-border; 
    width  : 950px;
-   margin-left :515px;
-   margin-top  :140px;
+   margin-left :485px;
+   margin-top  :247px;
    padding-bottom   : 20px;
    background-color : $color-app-dialog-bg;
 }
@@ -116,8 +116,4 @@
     background-position: center center;
 }
 
-.img-bg-thumb[data-lock=true] {
-    content : $img-icon-lock;
-    padding : 30px 77px;
-}
 
