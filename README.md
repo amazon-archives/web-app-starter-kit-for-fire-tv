@@ -9,6 +9,9 @@ We have created the Starter Kit to give web developers an easier entry into deve
 
 A live running example can be found at: [http://amzn.github.io/web-app-starter-kit-for-fire-tv](http://amzn.github.io/web-app-starter-kit-for-fire-tv/ "Live Template Example")
 
+A zip file of the Starter Kit example projects can be found here:<br> [https://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip](https://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip "Downloadable Zip of Projects")
+
+
 ## Setup
 -------------------
 
