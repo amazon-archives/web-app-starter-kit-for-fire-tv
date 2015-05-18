@@ -25,22 +25,21 @@
         this.loadingImages = 0;
 
         //global jquery variables 
-        this.$parentEle = null;
         this.$el = null;
         this.$rowElements = null;
         this.rowsData = null;
 
         //constants
         this.MARGIN_WIDTH = 40;
-        this.STARTING_SIZE = 216;
+        this.DEFAULT_IMAGE = "assets/default-image.png";
         this.transformStyle = utils.vendorPrefix('Transform');
 
         this.fadeOut = function() {
-            this.$el.css("visibility", "hidden");
+            this.$el.css("opacity", "0");
         };
 
         this.fadeIn = function() {
-            this.$el.css("visibility", "");
+            this.$el.css("opacity", "");
         };
 
         /**
@@ -55,14 +54,14 @@
          * Hides the shoveler view
          */
         this.hide = function () {
-            this.$el.css("visibility", "hidden");
+            this.$el.css("opacity", "0");
         };
 
         /**
          * Shows the shoveler view
          */
         this.show = function () {
-            this.$el.css("visibility", "");
+            this.$el.css("opacity", "");
         };
 
        /**
@@ -134,21 +133,39 @@
                 }
 
                 //set a callback to make sure all images are loaded 
-                (function($elt, $currImage) {
-                    $currImage.on("load", function () {
-                        $elt.children("img.shoveler-full-img")[0].style.opacity = "";
-                        this.relayoutOnLoadedImages();
-                    }.bind(this));
-                    // handle error case for loading screen
-                    $currImage.on("error", function () {
-                        $elt.children("img.shoveler-full-img")[0].style.opacity = "";
-                        this.relayoutOnLoadedImages();
-                    }.bind(this));
-                }.bind(this))($currElt, $currImage);
+                this.createImageLoadHandlers($currElt, $currImage, i);
 
                 this.loadingImages++;
             }
         };
+
+        this.createImageLoadHandlers = function($elt, $currImage, index) {
+            $currImage.on("load", this.imageLoadHandler($elt, this.rowsData[index].type));
+            // handle error case for loading screen
+            $currImage.on("error", this.imageLoadErrorHandler(this.rowsData[index].type));
+        }.bind(this);
+
+        this.imageLoadHandler = function($elt, itemType) {
+            return function () {
+                if (itemType === "subcategory") {
+                    // add the 'stacks' asset if this is a subcategory type
+                    $elt.append('<div class = "shoveler-subcat-bg"></div>');
+                }
+                $elt.children("img.shoveler-full-img")[0].style.opacity = "";
+                this.relayoutOnLoadedImages();
+            }.bind(this);
+        };
+
+        this.imageLoadErrorHandler = function(itemType) {
+            return function (event) {
+                var $elt = $(event.currentTarget).parent();
+                $elt.children("img.shoveler-full-img").remove();
+                $elt.prepend('<img class = "shoveler-full-img" src="'+ this.DEFAULT_IMAGE + '" style="opacity:0"/>');
+                var $currImage = $elt.children("img.shoveler-full-img");
+                $currImage.on("load", this.imageLoadHandler($elt, itemType));
+                errorHandler.writeToConsole(ErrorTypes.IMAGE_LOAD_ERROR, ErrorTypes.IMAGE_LOAD_ERROR.errorToDev,  errorHandler.genStack());
+            }.bind(this);
+        }.bind(this);
 
        /**
         * Performs secondary layout of the elements of the row, after images load for the first time
@@ -211,9 +228,7 @@
          * @param {event} the keydown event
          */
         this.handleControls = function (e) {
-            if (e.type === 'touch') {
-                //do nothing for now
-            } else if (e.type === 'swipe') {
+            if (e.type === 'swipe') {
                 if(e.keyCode === buttons.RIGHT) {
                     if(this.currSelection !== 0) {
                         this.shovelMove(-1);
@@ -291,7 +306,7 @@
          */
         this.prepareSelectionForAnimation = function() {
             // remove drop shadow and z-index before moving to speed up FPS on animation
-            $(this.$rowElements[this.currSelection]).find(".shoveler-full-img").removeClass(SHOVELER_ROW_ITEM_SELECTED);
+            $(this.$rowElements[this.currSelection]).removeClass(SHOVELER_ROW_ITEM_SELECTED);
             $(this.$rowElements[this.currSelection]).css("z-index", "");
         }.bind(this);
 
@@ -301,7 +316,7 @@
          */
         this.finalizeSelection = function(currSelection) {
             // add drop shadow to inner image
-            $(this.$rowElements[currSelection]).find(".shoveler-full-img").addClass(SHOVELER_ROW_ITEM_SELECTED);
+            $(this.$rowElements[currSelection]).addClass(SHOVELER_ROW_ITEM_SELECTED);
             // raise the outermost selected element div for the drop shadow to look right
             $(this.$rowElements[currSelection]).css("z-index", "100");
         }.bind(this);

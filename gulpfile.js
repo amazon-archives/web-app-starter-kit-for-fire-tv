@@ -18,23 +18,36 @@ see what else you can do:
 
 */
 
-var gulp = require('gulp-help')(require('gulp'), { description: 'Display this', aliases: ['h', '?'] });
-var uglify = require('gulp-uglifyjs');
-var sass = require('gulp-sass-binaries');
-//var sourcemaps = require('gulp-sourcemaps');
-var inlinesource = require('gulp-inline-source');
-var htmlreplace = require('gulp-html-replace');
-var debug = require('gulp-debug');
-var merge = require('merge-stream');
-var del = require('del');
-var vinylPaths = require('vinyl-paths');
-var rename = require("gulp-rename");
-var fs = require('fs');
-var packageJSON = require('./package.json');
-var template_info = '<!-- \n   Web App Starter Kit for Fire TV \n\n   Name: ' + packageJSON.name + '\n   Version: ' + packageJSON.version +
-    '\n\n   https://github.com/amzn/web-app-starter-kit-for-fire-tv \n\n   The project is released as open source under the Creative Commons License CC0 \n\n   http://creativecommons.org/publicdomain/zero/1.0/\n-->';
+try {
+    var gulp = require('gulp-help')(require('gulp'), { description: 'Display this', aliases: ['h', '?'] });
+    var jshint = require('gulp-jshint');
+    var uglify = require('gulp-uglifyjs');
+    var sass = require('gulp-sass');
+    var jsdoc = require("gulp-jsdoc");
+    //var sourcemaps = require('gulp-sourcemaps');
+    var inlinesource = require('gulp-inline-source');
+    var htmlreplace = require('gulp-html-replace');
+    var debug = require('gulp-debug');
+    var merge = require('merge-stream');
+    var del = require('del');
+    var vinylPaths = require('vinyl-paths');
+    var rename = require("gulp-rename");
+    var fs = require('fs');
+    var packageJSON = require('./package.json');
+    var template_info = '<!-- \n   Web App Starter Kit for Fire TV \n\n   Name: ' + packageJSON.name + '\n   Version: ' + packageJSON.version +
+        '\n\n   https://github.com/amzn/web-app-starter-kit-for-fire-tv \n\n   The project is released as open source under the Creative Commons License CC0 \n\n   http://creativecommons.org/publicdomain/zero/1.0/\n-->';
 
-var path = require('path');
+    var path = require('path');
+} catch (e) {
+    if (e.code && e.code === "MODULE_NOT_FOUND") {
+        // one of the dependencies couldn't be found, suggest that the user run npm install
+        console.log(e.message + ". Please try the command 'npm install' to resolve this dependency.");
+        process.exit();
+    } else {
+        // unknown error occurred, rethrow
+        throw e;
+    }
+}
 
 // from https://github.com/gulpjs/gulp/blob/master/docs/recipes/using-external-config-file.md
 
@@ -178,6 +191,19 @@ function doMinifyJS(cfg) {
         }))
         //.pipe(debug({verbose: false}))
         .pipe(gulp.dest(cfg.dest));
+}
+
+gulp.task('jshint', false, forAllTargets(doJSHint));
+function doJSHint(cfg) {
+    return gulp.src(cfg.appJS)
+      .pipe(jshint())
+      .pipe(jshint.reporter('jshint-stylish'));
+}
+
+gulp.task('jsdoc', false, forAllTargets(doJSDoc));
+function doJSDoc(cfg) {
+    return gulp.src(cfg.appJS)
+        .pipe(jsdoc('./jsdoc'))
 }
 
 

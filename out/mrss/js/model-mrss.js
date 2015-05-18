@@ -9,6 +9,8 @@
     // the model for the Media Sample Data
     // {Object} appSettings are the user-defined settings from the index page
     function MRSSMediaModel(appSettings) {
+         // mixin inheritance, initialize this as an event handler for these events:
+         Events.call(this, ['error']);
 
          this.mediaData       = [];
          this.categoryData    = [];
@@ -18,27 +20,48 @@
          this.defaultTheme    = "default";
          this.currentlySearchData = false;
 
+         //timeout default to 1 min
+         this.TIMEOUT = 60000;
+
         /**
          * This function loads the initial data needed to start the app and calls the provided callback with the data when it is fully loaded
          * @param {function} the callback function to call with the loaded data
          */
         this.loadInitialData = function (dataLoadedCallback) {
-             $.ajax({
+             utils.ajaxWithRetry({
                  url: appSettings.dataURL,
                  type: 'GET',
                  crossDomain: true,
                  dataType: 'xml',
                  context : this,
                  cache : true,
+                 timeout: this.TIMEOUT,
                  success: function() {
                      var contentData = arguments[0];
                      this.handleXMLData(contentData);
                  }.bind(this),
-                 error: function() {
-                     console.log(arguments);
-                 },
+                 error: function(jqXHR, textStatus) {
+                    if (jqXHR.status === 0) {
+                        this.trigger("error", ErrorTypes.INITIAL_NETWORK_ERROR, errorHandler.genStack());
+                        return;
+                    }
+                    switch (textStatus) {
+                        case "timeout" :
+                            this.trigger("error", ErrorTypes.INITIAL_FEED_TIMEOUT, errorHandler.genStack());
+                            break;
+                        case "parsererror" :
+                            this.trigger("error", ErrorTypes.INITIAL_PARSING_ERROR, errorHandler.genStack());
+                            break;
+                        default:
+                            this.trigger("error", ErrorTypes.INITIAL_FEED_ERROR, errorHandler.genStack());
+                            break;
+                    }
+                    dataLoadedCallback = null;
+                 }.bind(this),
                  complete: function() {
-                     dataLoadedCallback();
+                    if (dataLoadedCallback) {
+                        dataLoadedCallback();
+                    }
                  }
              });
         }.bind(this);
