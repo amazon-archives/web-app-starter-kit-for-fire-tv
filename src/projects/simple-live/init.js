@@ -8,7 +8,8 @@
         PlaylistView: PlaylistPlayerView,
         dataURL: "./assets/genericLiveData.json",
         showSearch: true,
-        displayButtons: false
+        displayButtons: false,
+        controlsHideTime: 3000
     };
 
     exports.app = new App(settings);

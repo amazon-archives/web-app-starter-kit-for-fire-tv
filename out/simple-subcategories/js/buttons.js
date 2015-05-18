@@ -48,6 +48,8 @@
         this.currentKey = 0;
         this.scrollTimerId = 0;
         this.suspended = false;
+        this.buttonIntervals = this.BUTTON_INTERVALS;
+        this.currentInterval = 0;
 
         /**
          * reset abandons any subsequent events from the current button press, no more buttonrepeat or buttonrelease events
@@ -82,13 +84,15 @@
 
         // gets the next delay interval, pass reset=true to start over
         this.getButtonInterval = function(reset) {
-            if (reset) {
-                this.intervalIndex = this.BUTTON_INTERVALS.length;
-            }
-            if (this.intervalIndex > 0) {
-                this.intervalIndex--;
-            }
-            return this.BUTTON_INTERVALS[this.intervalIndex];
+                if (reset) {
+                    this.intervalIndex = this.buttonIntervals.length;
+                }
+                
+                if (this.intervalIndex > 0) {
+                    this.intervalIndex--;
+                }
+                this.currentInterval = this.buttonIntervals[this.intervalIndex];
+                return this.currentInterval;
         };
 
         // browser integration, de-bounce and de-duplicate key events, only allow one button at a time to be handled
@@ -131,6 +135,17 @@
             if (!this.suspended && this.currentKey && this.startHeldDown[this.currentKey]) {
                 this.scrollTimerId = window.setTimeout(this.doRepeat, this.getButtonInterval());
                 this.trigger('buttonrepeat', {type: 'buttonrepeat', keyCode: this.currentKey});
+            }
+        }.bind(this);
+
+        this.resetButtonIntervals = function() {
+            this.setButtonIntervals(this.BUTTON_INTERVALS);
+        }.bind(this);
+
+        this.setButtonIntervals = function(interval) {
+            if (this.buttonIntervals !== interval) {
+                this.buttonIntervals = interval;
+                this.intervalIndex = this.buttonIntervals.length;
             }
         }.bind(this);
 

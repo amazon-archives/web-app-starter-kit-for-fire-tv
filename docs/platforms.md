@@ -25,7 +25,7 @@ Here are the steps to getting a YouTube based application up and running:
 
 ###Acquire a YouTube Developer Key
 
-To utilize the YouTube functionality of the starter kit you must acquire a valid YouTube Developer key. This is a string hash which uniquely identifies your application to YouTube. All you need to acquire this key is a valid Google account. To obtain the key please follow the [Getting Started Guide from Google](https://developers.google.com/youtube/v3/getting-started#before-you-start).
+To utilize the YouTube functionality of the starter kit you must acquire a valid YouTube Developer key. This is a string hash which uniquely identifies your application to YouTube. All you need to acquire this key is a valid Google account. To obtain the key please view the video on the [Getting Started Guide from Google](https://developers.google.com/youtube/v3/getting-started#before-you-start).
 
 ###Customizing the YouTube Project
 
@@ -38,7 +38,8 @@ In the `init.js` file you will find a settings object similar to:
         showSearch: true,
         user: "xxxx",
         devKey: "XXXXXXXXXXX",
-        showLatestChannel: true
+        hasLatestChannel: true // creates a category with the user's latest videos
+        createCategoriesFromSections: true // pull categories from the YouTube Sections API
     };
 
 This is the settings object you should modify to make your YouTube application.
@@ -54,10 +55,18 @@ If you do no more customization the App will pull the first 30 playlists from th
 You can also use our API to automatically create categories from the channel's YouTube sections which are created through the YouTube user interface. To generate these categories add the setting `createCategoriesFromSections: true` to your `init.js`.
 
 
-To further customize your application you can create an object in the settings called `channels`. Channels will be displayed in the left navigation menu of the template.
+To handcraft the left nav category list you can use the `channels` object in the `init.js` file under the settings object. Please note this can not be used if you are using the `createCategoriesFromSections` feature. 
 
 The format would look like this:
-
+     
+     var settings = {
+        Model: YouTubeAPIModel,
+        PlayerView: YouTubePlayerView,
+        PlaylistView: PlaylistPlayerView,
+        showSearch: true,
+        user: "xxxx",
+        devKey: "XXXXXXXXXXX",
+        hasLatestChannel: true // creates a category with the user's latest videos
         channels: [
             {
                 type: "playlist",
@@ -89,7 +98,15 @@ The format would look like this:
                 id: "XXXXX",
                 title: "Channel A"
             },
+            {
+                type: "multiPlaylists",
+                ids: ["xxx",
+                      "yyy",
+                      "zzz"],
+                title: "Many Playlists"
+            }
         ],
+     }
 
 
  As you can see channels is an array of objects. There are two valid types of channel objects.
@@ -123,7 +140,8 @@ The format would look like this:
             }
         ],
 
-We also support a category which contains multiple playlists, the `type` for this channel is `multiPlaylists` and it is handled the same way as the `playlist` type, except that the `ids` contains an array of playlist ids. For example:
+We also support a category which can contain a one level deep hierarchy of playlists. This is called a `multiPlaylists` object which contains an array of playlist ids. These ids will be displayed as sub-categories.
+For example:
 
         channels: [
             {
@@ -139,9 +157,7 @@ That is all you need to get your YouTube based application up and running with t
 
 ##MRSS
 ---------------------------
-The Web App Starter Kit supports MRSS feeds. There is a mrss project already in the projects directory which can be copied or edited directly.
-
-The template's mrss project supports standard MRSS feeds, so there should be minimal work to get your feed working in the application. If any references do need to be changed to support your feed, you will need to edit the model-mrss.js file. This file is located in the src/common/js directory, but we recommend that you copy this file to your specific project folder and make your changes in there. For this you will also need to change your build.json file to point to the new model-mrss.js that now resides in your project folder.
+The Web App Starter Kit has an mrss project which supports MRSS feeds.
 
 ###Setting the MRSS Feed URL
 To point the app to your content feed, you must edit the `init.js` in your project directory. The file contains a very simple object for application settings. Set the `dataURL` parameter to point to your MRSS feed URL.
@@ -153,13 +169,13 @@ To point the app to your content feed, you must edit the `init.js` in your proje
         PlaylistView: PlaylistPlayerView,
         dataURL: "<YourDataFeedURL>",
         showSearch: true,
-        displayButtons: true
+        displayButtons:false 
     };
 
 ###Editing the model-mrss
-The data object used by the application is created using the `handleXMLData` method.
-The first thing that happens is the data that is returned is immediately cast as a jQuery object to make use of jQuery's object methods such as find.
-Using the jQuery object we use the find method to iterate through each item and save the necessary fields to an item object.
+There may be data transformation needed to get your content working in the application, these changes will need to be made in the model-mrss.js file that is located in the /src/common/js/directory. 
+In the model-mrss file you will find a method called `handleXMLData`, which is where you will make your adjustments. Note that this function casts the object as a jQuery object, this is so that we can take advantage of jQuery methods to easily traverse the XML DOM.
+In the below example you will see the data object that the application expects, to map your data, change any of the DOM references needed.
 
 EXAMPLE :
     var $xml = $(xmlData);
@@ -176,7 +192,7 @@ EXAMPLE :
              videoURL: $this.find("content").attr("url")
          }
 
-For each item we iterate through the categories, creating a new one if it has not yet been created, then we add the newly created `item` object to the category array.
+In this same method you will see, as we iterate through the items, we also store categories, creating a new one if it has not yet been created, then we add the newly created `item` object to the category array.
 
 EXAMPLE :
      $this.find("category").each(function() {

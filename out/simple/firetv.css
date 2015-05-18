@@ -32,8 +32,8 @@ body {
   padding: 0;
   margin: 0;
   font-size: 20pt;
-  font-family: 'Helvetica Neue Light';
-  background: #5a656f url('assets/bg_app.jpg') no-repeat left top;
+  font-family: "Helvetica Neue Light", "HelveticaNeue-Light", Helvetica, Arial, sans-serif;
+  background: #5a656f url("assets/bg_app.jpg") no-repeat left top;
   background-size: 100% 100%; }
 
 div {
@@ -72,7 +72,6 @@ div {
   height: 100%;
   padding: 0px;
   overflow: hidden;
-  font-family: 'Helvetica Neue Light';
   background-color: rgba(0, 0, 0, 0.9); }
 
 .leftnav-menulist-expanded {
@@ -83,10 +82,15 @@ div {
 .leftnav-menulist-collapsed {
   top: 148px;
   height: 92px;
-  z-index: 10;
+  z-index: 10; }
+
+.leftnav-collapsed-highlight {
   -webkit-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
   -moz-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
-  box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44); }
+  box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  border: solid;
+  border-width: 1px;
+  border-color: #dadada; }
 
 .leftnav-menulist-collapsed .leftnav-menu-scrolling-list {
   margin-top: -148px; }
@@ -107,7 +111,6 @@ div {
   font-weight: lighter;
   font-size: 1.7em;
   min-height: 90px;
-  font-family: 'Helvetica Neue Light';
   padding: 0 50px 0 150px;
   overflow: hidden;
   margin-bottom: 2px;
@@ -118,16 +121,14 @@ div {
   -webkit-transition-duration: 0.25s;
   -moz-transition-duration: 0.25s;
   transition-duration: 0.25s;
-  display: -webkit-flex;
-  /* NEW - Chrome */
-  display: flex;
-  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   display: -webkit-box;
-  /* OLD - iOS 6-, Safari 3.1-6 */
+  /* NEW - Chrome */
   display: -moz-box;
   /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flexbox;
   /* TWEENER - IE 10 */
+  display: box;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
@@ -141,21 +142,21 @@ div {
 .leftnav-list-item-highlighted {
   color: #e8e8e8;
   border-width: 1px 1px 1px 0px;
-  background: #000000 url('assets/icon_leftnav_arrowDown.png') no-repeat right 40px center;
+  background: #000000 url("assets/icon_leftnav_arrowDown.png") no-repeat right 40px center;
   -webkit-filter: brightness(200%);
   -moz-filter: brightness(200%);
   filter: brightness(200%); }
 
 .leftnav-list-item-container .leftnav-list-item-selected {
   color: #000000;
-  background: #ffffff url('assets/icon_leftnav_arrowDown.png') no-repeat right 40px center; }
+  background: #ffffff url("assets/icon_leftnav_arrowDown.png") no-repeat right 40px center; }
 
 .leftnav-list-item-chosen {
   border-color: #3f484f;
   border-style: solid;
   border-width: 1px 1px 1px 0px;
   color: #e8e8e8;
-  background: #3f484f url('assets/icon_leftnav_arrowDown.png') no-repeat right 40px center; }
+  background: #3f484f url("assets/icon_leftnav_arrowDown.png") no-repeat right 40px center; }
 
 .search-icon {
   height: 50px;
@@ -166,7 +167,7 @@ div {
   width: 100%;
   color: #e8e8e8;
   padding-left: 140px;
-  background-image: url('assets/search.png');
+  background-image: url("assets/search.png");
   background-position: 85px 30px;
   background-size: 40px 40px;
   background-repeat: no-repeat;
@@ -180,10 +181,7 @@ div {
   border-color: #e8e8e8;
   border-style: solid;
   border-width: 1px 1px 1px 0px;
-  background: #000000 url('assets/icon_leftnav_arrowDown.png') no-repeat right 40px center; }
-
-.leftnav-search-box::-webkit-input-placeholder {
-  font-family: 'Helvetica Neue Light'; }
+  background: #000000 url("assets/icon_leftnav_arrowDown.png") no-repeat right 40px center; }
 
 .one-d-no-items-container {
   position: absolute;
@@ -215,9 +213,9 @@ div {
   position: absolute;
   top: 0;
   left: 0;
-  -webkit-transition-property: visibility;
-  -moz-transition-property: visibility;
-  transition-property: visibility;
+  -webkit-transition-property: opacity;
+  -moz-transition-property: opacity;
+  transition-property: opacity;
   -webkit-transition-duration: 0.2s;
   -moz-transition-duration: 0.2s;
   transition-duration: 0.2s;
@@ -235,20 +233,18 @@ div {
     line-height: 1.4;
     color: #e8e8e8;
     font-size: 1.8em;
-    font-family: 'Helvetica Neue Medium';
+    font-family: "Helvetica Neue Medium", "HelveticaNeue-Medium", Helvetica, Arial, sans-serif;
     height: 62px;
     overflow: hidden;
     margin-top: 10px;
-    display: -webkit-flex;
-    /* NEW - Chrome */
-    display: flex;
-    /* NEW, Spec - Opera 12.1, Firefox 20+ */
     display: -webkit-box;
-    /* OLD - iOS 6-, Safari 3.1-6 */
+    /* NEW - Chrome */
     display: -moz-box;
     /* OLD - Firefox 19- (buggy but mostly works) */
     display: -ms-flexbox;
     /* TWEENER - IE 10 */
+    display: box;
+    /* NEW, Spec - Opera 12.1, Firefox 20+ */
     -webkit-box-orient: vertical;
     -moz-box-orient: vertical;
     box-orient: vertical;
@@ -259,7 +255,6 @@ div {
     font-weight: 200;
     height: 30px;
     font-size: 1em;
-    font-family: 'Helvetica Neue Light';
     color: #b9bbbd; }
     .one-D-details-summary-text .one-D-summary-pubdate .time-now-live {
       color: #FF704D; }
@@ -269,24 +264,29 @@ div {
     color: #e8e8e8;
     font-style: italic;
     font-size: 1.1em;
-    font-family: 'Helvetica Neue Light';
     overflow: hidden;
-    display: -webkit-flex;
-    /* NEW - Chrome */
-    display: flex;
-    /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    align-items: center;
     display: -webkit-box;
-    /* OLD - iOS 6-, Safari 3.1-6 */
+    /* NEW - Chrome */
     display: -moz-box;
     /* OLD - Firefox 19- (buggy but mostly works) */
     display: -ms-flexbox;
     /* TWEENER - IE 10 */
+    display: box;
+    /* NEW, Spec - Opera 12.1, Firefox 20+ */
     -webkit-box-orient: vertical;
     -moz-box-orient: vertical;
     box-orient: vertical;
     -webkit-line-clamp: 2;
     -moz-line-clamp: 2;
     line-clamp: 2; }
+  .one-D-details-summary-text .one-D-live-icon {
+    background-image: url(assets/live.png);
+    height: 44px;
+    width: 93px;
+    background-position-y: 5px;
+    margin-right: 15px;
+    background-repeat: no-repeat; }
 
 .detail-row-container-buttons {
   height: 75px;
@@ -299,19 +299,21 @@ div {
   padding: 15px;
   float: left;
   font-size: 1.4em;
-  font-family: 'Helvetica Neue Light';
   margin-right: 20px;
   text-align: center;
-  border: 1px solid transparent;
-  -webkit-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
-  -moz-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
-  box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44); }
+  border: 1px solid transparent; }
 
 .detail-item-button-selected {
   overflow: hidden;
   margin-top: 0px;
   color: #e8e8e8;
-  background-color: #000000; }
+  background-color: #000000;
+  border: solid;
+  border-color: #dadada;
+  border-width: 1px;
+  -webkit-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44); }
 
 .detail-item-button-static {
   color: #b9bbbd;
@@ -395,6 +397,13 @@ div {
     background-blend-mode: overlay;
     display: inline-block; }
 
+.shoveler-subcat-bg {
+  width: 91px;
+  height: 100%;
+  margin-left: -10px;
+  display: inline-block;
+  background-image: url("assets/bg_subcat.png"); }
+
 .player-main-container {
   position: absolute;
   top: 0;
@@ -454,9 +463,10 @@ div {
   color: #e8e8e8;
   display: flex;
   background-size: 100% 100%;
-  background-image: url('assets/skip_indicator.png');
+  background-image: url("assets/skip_indicator.png");
   min-width: 200px;
-  margin-left: -20px; }
+  margin-left: -20px;
+  transition: 0.05s; }
   .player-controls-skip-indicator img {
     height: 22px;
     width: 30px;
@@ -482,8 +492,7 @@ div {
 
 .player-controls-timestamp, .player-controls-timestamp-curtime, .player-controls-timestamp-totaltime {
   margin-top: 10px;
-  font-size: 1.6em;
-  font-family: 'Helvetica Neue Light'; }
+  font-size: 1.6em; }
 
 .player-controls-timestamp-curtime {
   color: #e8e8e8;
@@ -501,19 +510,17 @@ div {
   height: 59px;
   color: #e8e8e8;
   font-size: 1.8em;
-  font-family: 'Helvetica Neue Medium';
+  font-family: "Helvetica Neue Medium", "HelveticaNeue-Medium", Helvetica, Arial, sans-serif;
   margin-top: 20px;
   overflow: hidden;
-  display: -webkit-flex;
-  /* NEW - Chrome */
-  display: flex;
-  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   display: -webkit-box;
-  /* OLD - iOS 6-, Safari 3.1-6 */
+  /* NEW - Chrome */
   display: -moz-box;
   /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flexbox;
   /* TWEENER - IE 10 */
+  display: box;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
@@ -532,17 +539,14 @@ div {
   color: #e8e8e8;
   font-style: italic;
   font-size: 1.1em;
-  font-family: 'Helvetica Neue Light';
-  display: -webkit-flex;
-  /* NEW - Chrome */
-  display: flex;
-  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   display: -webkit-box;
-  /* OLD - iOS 6-, Safari 3.1-6 */
+  /* NEW - Chrome */
   display: -moz-box;
   /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flexbox;
   /* TWEENER - IE 10 */
+  display: box;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
@@ -596,7 +600,7 @@ div {
   display: block;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('assets/btn_previewPlay.png'); }
+  background-image: url("assets/btn_previewPlay.png"); }
 
 .next-video-playingtext {
   margin-left: 50px;
@@ -655,17 +659,38 @@ div {
   -moz-animation: spin 1.3s infinite linear;
   animation: spin 1.3s infinite linear; }
 
-.content-load-spinner, .content-load-spinner:after {
+.content-load-spinner,
+.content-load-spinner:after {
   border-radius: 50%;
   width: 15em;
   height: 15em; }
+
+.modal-dialog {
+  z-index: 650;
+  background-color: #242527;
+  color: #dadada;
+  position: absolute;
+  left: 515px;
+  top: 30%;
+  width: 890px;
+  min-height: 500px;
+  padding: 60px; }
+  .modal-dialog .dialog-title {
+    margin-bottom: 30px;
+    font-size: 48pt;
+    font-family: "Helvetica Neue Medium", "HelveticaNeue-Medium", Helvetica, Arial, sans-serif; }
+  .modal-dialog .dialog-message {
+    margin-bottom: 60px;
+    font-size: 36pt; }
+  .modal-dialog .dialog-buttons-container {
+    justify-content: center;
+    display: flex; }
 
 @-webkit-keyframes spin {
   0% {
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
     transform: rotate(0deg); }
-
   100% {
     -webkit-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
@@ -676,7 +701,6 @@ div {
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
     transform: rotate(0deg); }
-
   100% {
     -webkit-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
@@ -689,7 +713,5 @@ div {
     float: left;
     top: 10px;
     left: 30px; }
-
   .detail-row-container-buttons {
-    bottom: 10px; }
- }
+    bottom: 10px; } }
