@@ -7,6 +7,7 @@
         PlaylistView: PlaylistPlayerView,
         showSearch: true,
         skipLength: 30,
+        controlsHideTime: 3000,
         user: "amazonwebservices",
         devKey: "AIzaSyA7AUJZMxx4PPngptCblPxqMTfHdZt8EQA",
         showLatestChannel: true,
