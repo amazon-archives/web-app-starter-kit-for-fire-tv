@@ -8,7 +8,7 @@ The Web App Starter Kit currently supports making a web app based on content fro
 
 The Brightcove example is in the src/projects/brightcove directory. You can quickly get this project up and running on Fire TV by following these steps:
 
-Create a zip package with the sample brightcove app that can be found in `out/brightcove/` directory.  This is just a standard zip, but the index.html must be at the top level of the zip directory - so that there if you unzip the package there is no folder. 
+Create a zip package with the sample brightcove app that can be found in `out/brightcove/` directory.  This is just a standard zip, but the index.html must be at the top level of the zip directory - so that there if you unzip the package there is no folder.
 
     EXAMPLE :
     - index.html
@@ -16,7 +16,7 @@ Create a zip package with the sample brightcove app that can be found in `out/br
     - firetv.css
     - js/
 
-    THIS WILL NOT WORK : 
+    THIS WILL NOT WORK :
     - folder/
         - index.html
         - assets/
@@ -24,14 +24,14 @@ Create a zip package with the sample brightcove app that can be found in `out/br
         - js/
 
 **NOTE: the sample project uses our Brightcove Test account that has sample content**
- 
-###Testing on Fire TV
- 
-After this you can test your app by following the instructions below : 
 
- * Install the Amazon Web App Tester on your Fire TV device. The web app tester can be found by searching through the app store on the Fire TV or you can do a Voice Search to find the app. 
+###Testing on Fire TV
+
+After this you can test your app by following the instructions below :
+
+ * Install the Amazon Web App Tester on your Fire TV device. The web app tester can be found by searching through the app store on the Fire TV or you can do a Voice Search to find the app.
  * Make sure your FireTV device and your desktop are on the same network
- * Launch the WAT (Web app tester) on your FireTV 
+ * Launch the WAT (Web app tester) on your FireTV
  * In the landing page for the WAT on the top right there are selections for "Test Hosted App" or "Test Packaged App" - Select the "Test Packaged App"
  * There are two ways to point to a package in the WAT. Type in a URL that points to a .zip file containing your app or sideload your .zip file to the /sdcard/amazonwebapps directory on the host device. More information can be found in our online developer docs for [Installing and Using the Amazon Web App Tester](https://developer.amazon.com/public/solutions/platforms/webapps/docs/tester.html).
  * For a package that was pushed to the 'amazonwebapps' folder, in the WAT select the "Sync" option in the web app tester to show the package in the list.
@@ -43,7 +43,7 @@ You will need to enable CORS requests in the browser for this example to work. I
 
 **Note**: You may see a "Video Playback Error" dialog during the playback of advertisements. A Chrome plugin can be used to partially work around this issue by blocking ads entirely, for example this [plugin](https://chrome.google.com/webstore/detail/adblock/gighmmpiobklfepjocnamgkkbiglidom?hl=en) should disable the video ads.
 
-##Customizing the Brightcove Project  
+##Customizing the Brightcove Project
 ---------------------------
 
 To customize the sample project to use content from your Brightcove Video Cloud account, you will need to set up the following in your account:
@@ -55,10 +55,10 @@ To customize the sample project to use content from your Brightcove Video Cloud 
 
 At this point you should have the Brightcove Media API Read Token, Account ID and Player ID information with you.
 
-Refer to [building documentation](./building.md) on how to build this project. 
+Refer to [building documentation](./building.md) on how to build this project.
 
 To build your own Brightcove app you need to modify the `init.js` file. In the `init.js` file you will find a settings object similar to:
-    
+
     //initialize the app
     var settings = {
         Model: BrightcoveAPIModel,
@@ -90,7 +90,7 @@ To build your own Brightcove app you need to modify the `init.js` file. In the `
 **NOTE: Subcategory structure is not supported**
 
 
-## Brightcove Architecture Overview 
+## Brightcove Architecture Overview
 ------------------
 
 ### Brightcove Model and Content Hierarchy
@@ -171,7 +171,7 @@ Read through the Web App Starter Kit [architecture](./architecture.md), [buildin
 ###Theming
 
 There is a `firetv.scss` file that resides in the brightcove project directory. You can add custom variables and styles to this file. For more information on theming see our [styling documentation](./styling.md)
-    
+
 ###model-brightcove.js
 
 **BrightcoveAPIModel** : this refers to the Brightcove model which resides in the `src/common/js` directory before the application is built. This module is responsible for making ajax requests for feed data as well as managing the data for the app.
@@ -188,25 +188,25 @@ The player handles ad playback and the following ad specific events are handled:
 
 NOTE: During Ad playback, the title and description of videos are hidden and play/pause, select and skip actions on the remote are disabled. Only the progress bar is displayed.
 
-###playlist-player-view.js  
+###playlist-player-view.js
 
 **PlaylistPlayerView** : this module handles continuous play for the app. This module can be found in the `src/projects/brightcove` directory. For more information on continuous play see our [architecture documentation](./architecture.md). The primary difference between this PlaylistPlayerView and the existing PlaylistPlayerView located in the `src/common/js` directory is that this view does not preload the next PlayerView. In order to enable the Continuous Play feature for the Brightcove Player, the player needs to be configured to autoplay using the Brightcove Studio UI. Without the 'autoplay' configuration the app would require an additional button click to play the video. With the 'autoplay' option enabled, we cannot preload the second player as this would result in two videos playing at the same time. Additionally, this view disables the preview if an ad is playing.
 
 ## Known Issues
 -----------------------------
 * During HLS video playback, if the user selects the pause button, then the first time pause button is pressed the controls are not overlaid. This is a Fire TV platform limitation and will be resolved in a future release.
-* Changes in your Brightcove Video Cloud account could take upto 30 minutes to get reflected in your app. 
+* Changes in your Brightcove Video Cloud account could take upto 30 minutes to get reflected in your app.
 
 
 ## Testing and App Submission
 -----------------------------
 
-We strongly suggest that your application be thoroughly tested before submitting to the app store. There is detailed documentation on testing your app in the [Testing and Submission](./testingAndSubmission.md) documentation.
+We strongly suggest that your application be thoroughly tested before submitting to the app store. There is detailed documentation on testing your app in the [Testing and Submission](./testing-and-submission.md) documentation.
 
 NOTE: You will need to submit your app as a packaged app to the Amazon App Store. CORS issues prevent the app from being a hosted app.
 
-	
-## Developer Support	
+
+## Developer Support
 ----------------------------
 
 For all account and app setup/development issues contact BrightCove Technical support or your account manager. This includes:
