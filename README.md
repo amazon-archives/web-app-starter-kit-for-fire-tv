@@ -9,6 +9,9 @@ We have created the Starter Kit to give web developers an easier entry into deve
 
 A live running example can be found at: [http://amzn.github.io/web-app-starter-kit-for-fire-tv](http://amzn.github.io/web-app-starter-kit-for-fire-tv/ "Live Template Example")
 
+A zip file of the Starter Kit example projects can be found here:<br> [https://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip](https://amzn.github.io/web-app-starter-kit-for-fire-tv/web-app-starter-kit-for-fire-tv-projects.zip "Downloadable Zip of Projects")
+
+
 ## Setup
 -------------------
 
@@ -26,9 +29,8 @@ Sample data has been included to get you started, but because the template uses 
 
 * Using Node and NPM, install the [Serve package](https://www.npmjs.org/package/serve), then create the server:
 
-		npm install -g serve
+		sudo npm install -g serve
 		serve -p 3000
-* Alternatively you can use Python, create a simple local server with this command: `python -m SimpleHTTPServer 3000`
 
 Both of these methods should result in you being able to access the template in your browser or [Web App Tester](http://www.amazon.com/Amazon-Digital-Services-Inc-Tester/dp/B00DZ3I1W8) at `http://localhost:3000`.
 
@@ -39,12 +41,11 @@ We recommend testing the template with Chrome when developing on a desktop compu
 
 The template is designed for a 1080p display, and will be most accurately viewed by using Chrome's emulation to specify the screen size. Insructions to enable this can be found here: [Device Mode & Mobile Emulation](https://developer.chrome.com/devtools/docs/device-mode) The resolution should be set to 1920x1080 and the Device Pixel Ratio should be 1. (Use "Shrink to fit" on smaller screens.)
 
-To test this app on a FireTV device, please refer to the [Web App Tester](http://www.amazon.com/Amazon-Digital-Services-Inc-Tester/dp/B00DZ3I1W8).
+To test this app on a FireTV device, please refer to the [Web App Tester](https://developer.amazon.com/public/solutions/platforms/webapps/docs/tester.html).
 
 ### Setup of the SASS script file
 -------------------
-
-The template uses SASS as its main source of CSS content. SASS is a language which compiles down to standard CSS. In the template, we have included a precompiled CSS files in the `/out/project/<project-name>` directory.
+The template uses SASS as its main source of CSS content. SASS is a language which compiles down to standard CSS. In the template, we have included a precompiled CSS file in the `/out/<project-name>` directory.
 
 You're welcome to modify the CSS directly, but we recommend working with the SASS source instead. Please refer to the [SASS Install](http://sass-lang.com/install) link for more information on setting up SASS in your development environment. We have a build system which makes it easy to deal with SASS, for more information please refer to the [Building Document](./docs/building.md)
 
@@ -52,8 +53,8 @@ More information on the SASS structure please read the [Styling Document](./docs
 
 ## Customizing the template
 -------------------
+The source is released under the Creative Commons License, which allows developers to modify, customize, and release the template without any legal barriers. The HTML templates are contained in the `src/common/html/index.html` file and the SASS files are in the `src/common/scss/` directory. The scss files `firetv.scss` and `_variables.scss` allow you to easily modify commonly used look and feel aspects through Sass. For more information on styling the template read the [Styling Document](./docs/styling.md). We recommend creating a new project and utilizing the gulp build system. For more information see the [Building Document](./docs/building.md)
 
-The source is released under the Creative Commons License. The HTML templates are contained in the `src/common/html/index.html` file, the SASS files are in the `src/common/css/` directory. The scss files `firetv.scss` and `_variables.scss` which allow you to easily modify commonly used look and feel aspects through Sass. For more information on styling the template read the [Styling Document](./docs/styling.md). We reccomend creating a new project and utilizing the gulp build system. For more information see the [Building Document](./docs/building.md)
 
 For information on developing using the template and modifying app functionality please refer to the [Architecture Overview](./docs/architecture.md).
 
@@ -76,6 +77,44 @@ If you have any questions, concerns or problems with the Fire TV Web App templat
 
 ## Release Notes
 -------------------
+
+v1.3 Release: Code cleanup, error handling added to players and models, UX touch ups and functionality tweaks.
+
+Changes:
+
+* Error handling added throughout the player and model code to notify end users about problems and log errors to console for developers.
+* User Interface tweaks: Made drop shadows more consistent for when something is selected, and made button selection less ambiguous with borders.
+* Fonts and styles have been updated to work more towards the same experience in the browser as the Fire TV.
+* New live stream badging.
+
+New Features:
+
+* Brightcove Support: The Web App Starter Kit currently supports making a web app based on content from Brightcove¹s Video Cloud and uses the Brightcove Player to play the content. The provided sample project (`src/projects/brightcove`) supports analytics through Brightcove Video Cloud Analytics and advertising through the IMA3 Plugin. Read [brightcove.md](docs/brightcove.md) to learn more.
+* Simulated fast forward and rewind - You can now skip repeatedly in videos, making long videos much easier to use.
+* The Starter Kit also supports a category which can contain a one level deep hierarchy of playlists. This is called a multiPlaylists object which contains an array of playlist ids. These ids will be displayed as sub-categories. For details see [platforms.md](docs/platforms.md).
+
+-----------
+v1.2 Release: In addition to new features, we have made many tweaks to the user experience of the starter kit and added more robust support for our previous data sources.
+
+Changes:
+
+* The first category view/feed is the first view of the application. The left navigation view is hidden when the application is launched.
+* Drop shadows have been added to image thumbnails, video stills, buttons and the menu to create an improved appearance.
+* Fonts and styles have been made consistent through the application.
+* Button placement has been changed for video contextual buttons to fit better with the title and description text.
+* There is a new loading spinner to better match the FireTV Operating System.
+
+New Features:
+
+* In App Purchase Support - Now supports Amazon’s IAP v1 API for in app purchases, and has a sample application and documentation to demonstrate.
+* Live Stream Support - Now supports Live Stream applications with HLS streams, with added support for live stream schedules.
+* Subcategories - Template now supports subcategories within main categories to add hierarchy to applications.
+* YouTube Sections Support - Developers can now create YouTube applications based on their YouTube sections they have defined on YouTube.com.
+* YouTube Hierarchy Support - Template now supports categories of YouTube playlists, which creates subcategories of the videos in the playlist.
+* Skip forward/backward amount can now be changed by the application settings.
+* New alternative JSON Format - A new alternative JSON format for data has been added to create more control over what is placed in each category and where.
+
+-----------
 v1.1 Release: In addition to new features, the structure of the Starter Kit changed to better organize the sources, documentation and build directory.
 
 Changes:

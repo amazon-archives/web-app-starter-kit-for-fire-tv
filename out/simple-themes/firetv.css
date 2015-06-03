@@ -30,7 +30,7 @@ body {
   font-size: 1.6em !important;
   -webkit-transition-property: opacity;
   -webkit-transition-duration: 0.25s;
-  opacity: 0.4;
+  opacity: 0.40;
   border: none !important; }
 
 .leftnav-list-item-highlighted, .leftnav-list-item-selected {
@@ -40,7 +40,7 @@ body {
   opacity: 0.65; }
 
 .leftnav-list-item-highlighted {
-  background: transparent url('assets/icon_leftnav_arrowDown.png') no-repeat left 100px center !important; }
+  background: transparent url("assets/icon_leftnav_arrowDown.png") no-repeat left 100px center !important; }
 
 /* End Custom Styles */
 /**
@@ -61,6 +61,9 @@ body {
  * SCSS mixins for use in the firetv.scss file
  *
  */
+/**
+* All of the common css rules for the entire template.
+*/
 * {
   box-sizing: Border-box; }
 
@@ -74,7 +77,7 @@ body {
   padding: 0;
   margin: 0;
   font-size: 20pt;
-  font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue Light", "HelveticaNeue-Light", Helvetica, Arial, sans-serif;
   background: #000000 none no-repeat left top;
   background-size: 100% 100%; }
 
@@ -105,7 +108,7 @@ div {
   top: 0;
   left: 0;
   height: 100%;
-  width: 40%;
+  width: 44%;
   margin: 0; }
 
 .leftnav-menu-list, .leftnav-menulist-expanded, .leftnav-menulist-collapsed {
@@ -114,7 +117,6 @@ div {
   height: 100%;
   padding: 0px;
   overflow: hidden;
-  font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: transparent; }
 
 .leftnav-menulist-expanded {
@@ -127,18 +129,33 @@ div {
   height: 86px;
   z-index: 10; }
 
+.leftnav-collapsed-highlight {
+  -webkit-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  border: solid;
+  border-width: 1px;
+  border-color: #dadada; }
+
 .leftnav-menulist-collapsed .leftnav-menu-scrolling-list {
   margin-top: -148px; }
 
 .leftnav-menu-scrolling-list {
   color: white; }
 
+.leftnav-list-item-static.leftnav-list-item-chosen.subcat-header {
+  position: absolute;
+  top: 148px;
+  width: 40%;
+  background: none;
+  border: none; }
+
 .leftnav-list-item-static {
   word-wrap: break-word;
   line-height: 2;
   font-weight: lighter;
   font-size: 1.7em;
-  font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  min-height: 90px;
   padding: 0 50px 0 150px;
   overflow: hidden;
   margin-bottom: 2px;
@@ -149,16 +166,14 @@ div {
   -webkit-transition-duration: 0.25s;
   -moz-transition-duration: 0.25s;
   transition-duration: 0.25s;
-  display: -webkit-flex;
-  /* NEW - Chrome */
-  display: flex;
-  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   display: -webkit-box;
-  /* OLD - iOS 6-, Safari 3.1-6 */
+  /* NEW - Chrome */
   display: -moz-box;
   /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flexbox;
   /* TWEENER - IE 10 */
+  display: box;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
@@ -171,16 +186,19 @@ div {
 
 .leftnav-list-item-highlighted {
   color: white;
-  border: 1px white solid;
   border-width: 1px 1px 1px 0px;
-  background: transparent none no-repeat right 40px center; }
+  background: transparent none no-repeat right 40px center;
+  -webkit-filter: brightness(200%);
+  -moz-filter: brightness(200%);
+  filter: brightness(200%); }
 
 .leftnav-list-item-container .leftnav-list-item-selected {
   color: white;
   background: transparent none no-repeat right 40px center; }
 
 .leftnav-list-item-chosen {
-  border: 1px solid transparent;
+  border-color: transparent;
+  border-style: solid;
   border-width: 1px 1px 1px 0px;
   color: white;
   background: transparent none no-repeat right 40px center; }
@@ -205,12 +223,10 @@ div {
 
 .leftnav-search-box.leftnav-list-item-highlighted {
   color: white;
-  border: 1px white solid;
+  border-color: white;
+  border-style: solid;
   border-width: 1px 1px 1px 0px;
   background: transparent none no-repeat right 40px center; }
-
-.leftnav-search-box::-webkit-input-placeholder {
-  font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 .one-d-no-items-container {
   position: absolute;
@@ -226,6 +242,22 @@ div {
   left: 0;
   width: 100%;
   height: 100%;
+  -webkit-transition-property: visibility;
+  -moz-transition-property: visibility;
+  transition-property: visibility;
+  -webkit-transition-duration: 0.2s;
+  -moz-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+  -webkit-transition-timing-function: linear;
+  -moz-transition-timing-function: linear;
+  transition-timing-function: linear; }
+
+.subcategory-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   -webkit-transition-property: opacity;
   -moz-transition-property: opacity;
   transition-property: opacity;
@@ -244,21 +276,20 @@ div {
   color: #B3DAF2; }
   .one-D-details-summary-text .one-D-summary-title {
     line-height: 1.4;
-    font-size: 1.4em;
-    font-weight: "Helvetica Neue Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    height: 51px;
+    color: #B3DAF2;
+    font-size: 1.8em;
+    font-family: "Helvetica Neue Medium", "HelveticaNeue-Medium", Helvetica, Arial, sans-serif;
+    height: 62px;
     overflow: hidden;
     margin-top: 10px;
-    display: -webkit-flex;
-    /* NEW - Chrome */
-    display: flex;
-    /* NEW, Spec - Opera 12.1, Firefox 20+ */
     display: -webkit-box;
-    /* OLD - iOS 6-, Safari 3.1-6 */
+    /* NEW - Chrome */
     display: -moz-box;
     /* OLD - Firefox 19- (buggy but mostly works) */
     display: -ms-flexbox;
     /* TWEENER - IE 10 */
+    display: box;
+    /* NEW, Spec - Opera 12.1, Firefox 20+ */
     -webkit-box-orient: vertical;
     -moz-box-orient: vertical;
     box-orient: vertical;
@@ -267,38 +298,44 @@ div {
     line-clamp: 1; }
   .one-D-details-summary-text .one-D-summary-pubdate {
     font-weight: 200;
+    height: 30px;
     font-size: 1em;
-    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #b3b3b3; }
+    .one-D-details-summary-text .one-D-summary-pubdate .time-now-live {
+      color: #FF704D; }
+    .one-D-details-summary-text .one-D-summary-pubdate .time-upcoming {
+      color: #66E066; }
   .one-D-details-summary-text .one-D-summary-description {
-    font-size: 1.2em;
-    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    margin-top: 20px;
-    overflow: hidden;
-    height: 80px;
     color: #FFFFFF;
-    display: -webkit-flex;
-    /* NEW - Chrome */
-    display: flex;
-    /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    font-style: italic;
+    font-size: 1.1em;
+    overflow: hidden;
+    align-items: center;
     display: -webkit-box;
-    /* OLD - iOS 6-, Safari 3.1-6 */
+    /* NEW - Chrome */
     display: -moz-box;
     /* OLD - Firefox 19- (buggy but mostly works) */
     display: -ms-flexbox;
     /* TWEENER - IE 10 */
+    display: box;
+    /* NEW, Spec - Opera 12.1, Firefox 20+ */
     -webkit-box-orient: vertical;
     -moz-box-orient: vertical;
     box-orient: vertical;
     -webkit-line-clamp: 2;
     -moz-line-clamp: 2;
     line-clamp: 2; }
+  .one-D-details-summary-text .one-D-live-icon {
+    background-image: url(assets/live.png);
+    height: 44px;
+    width: 93px;
+    background-position-y: 5px;
+    margin-right: 15px;
+    background-repeat: no-repeat; }
 
 .detail-row-container-buttons {
-  position: absolute;
-  bottom: 100px;
-  left: 150px;
-  height: 75px; }
+  height: 75px;
+  margin: 20px 0; }
 
 .detail-item-button, .detail-item-button-selected, .detail-item-button-static {
   position: relative;
@@ -307,8 +344,7 @@ div {
   padding: 15px;
   float: left;
   font-size: 1.4em;
-  font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin-right: 10px;
+  margin-right: 20px;
   text-align: center;
   border: 1px solid transparent; }
 
@@ -316,12 +352,18 @@ div {
   overflow: hidden;
   margin-top: 0px;
   color: #555C73;
-  border-color: white;
-  background-color: white; }
+  background-color: white;
+  border: solid;
+  border-color: #dadada;
+  border-width: 1px;
+  -webkit-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44); }
 
 .detail-item-button-static {
   color: white;
-  background-color: #555C73; }
+  background-color: #555C73;
+  line-height: 45px; }
 
 #one-D-shoveler-container {
   position: absolute;
@@ -336,6 +378,12 @@ div {
   -webkit-transition-property: -webkit-transform opacity;
   -moz-transition-property: -moz-transform opacity;
   transition-property: transform opacity;
+  -webkit-transition-property: -webkit-transform visibility;
+  -moz-transition-property: -moz-transform visibility;
+  transition-property: transform visibility;
+  -webkit-transition-duration: 1s;
+  -moz-transition-duration: 1s;
+  transition-duration: 1s;
   -webkit-transition-timing-function: linear;
   -moz-transition-timing-function: linear;
   transition-timing-function: linear; }
@@ -370,7 +418,6 @@ div {
   position: absolute;
   left: 150px;
   height: 100%;
-  background-color: gray;
   -webkit-transition-property: -webkit-transform opacity;
   -moz-transition-property: -moz-transform opacity;
   transition-property: transform opacity;
@@ -387,9 +434,20 @@ div {
     height: 100% !important;
     display: inline-block; }
 
-.shoveler-rowitem-selected img {
-  background-blend-mode: overlay;
-  display: inline-block; }
+.shoveler-rowitem-selected {
+  -webkit-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44);
+  box-shadow: 0px 10px 18px 3px rgba(0, 0, 0, 0.44); }
+  .shoveler-rowitem-selected img {
+    background-blend-mode: overlay;
+    display: inline-block; }
+
+.shoveler-subcat-bg {
+  width: 91px;
+  height: 100%;
+  margin-left: -10px;
+  display: inline-block;
+  background-image: url("assets/bg_subcat.png"); }
 
 .player-main-container {
   position: absolute;
@@ -401,7 +459,8 @@ div {
 .player-content-video {
   position: absolute;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  background: black; }
 
 .player-controls-container {
   position: absolute;
@@ -449,9 +508,10 @@ div {
   color: gray;
   display: flex;
   background-size: 100% 100%;
-  background-image: url('assets/skip_indicator.png');
+  background-image: url("assets/skip_indicator.png");
   min-width: 200px;
-  margin-left: -20px; }
+  margin-left: -20px;
+  transition: 0.05s; }
   .player-controls-skip-indicator img {
     height: 22px;
     width: 30px;
@@ -477,8 +537,7 @@ div {
 
 .player-controls-timestamp, .player-controls-timestamp-curtime, .player-controls-timestamp-totaltime {
   margin-top: 10px;
-  font-size: 1.6em;
-  font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  font-size: 1.6em; }
 
 .player-controls-timestamp-curtime {
   color: gray;
@@ -496,19 +555,17 @@ div {
   height: 59px;
   color: #B3DAF2;
   font-size: 1.8em;
-  font-family: "Helvetica Neue Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue Medium", "HelveticaNeue-Medium", Helvetica, Arial, sans-serif;
   margin-top: 20px;
   overflow: hidden;
-  display: -webkit-flex;
-  /* NEW - Chrome */
-  display: flex;
-  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   display: -webkit-box;
-  /* OLD - iOS 6-, Safari 3.1-6 */
+  /* NEW - Chrome */
   display: -moz-box;
   /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flexbox;
   /* TWEENER - IE 10 */
+  display: box;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
@@ -527,17 +584,14 @@ div {
   color: #FFFFFF;
   font-style: italic;
   font-size: 1.1em;
-  font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  display: -webkit-flex;
-  /* NEW - Chrome */
-  display: flex;
-  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   display: -webkit-box;
-  /* OLD - iOS 6-, Safari 3.1-6 */
+  /* NEW - Chrome */
   display: -moz-box;
   /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flexbox;
   /* TWEENER - IE 10 */
+  display: box;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
@@ -591,7 +645,7 @@ div {
   display: block;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('assets/btn_previewPlay.png'); }
+  background-image: url("assets/btn_previewPlay.png"); }
 
 .next-video-playingtext {
   margin-left: 50px;
@@ -614,7 +668,11 @@ div {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical; }
+  -moz-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical; }
 
 .app-overlay-container {
   position: absolute;
@@ -631,68 +689,67 @@ div {
   margin-top: 25%; }
 
 .content-load-spinner {
+  margin: 6em auto;
+  font-size: 10px;
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  width: 120px;
-  height: 160px;
-  margin: 25% auto;
+  top: 400px;
+  left: 900px;
   z-index: 600;
-  text-align: center; }
+  text-indent: -9999em;
+  border-top: 1.2em solid rgba(255, 255, 255, 0.2);
+  border-right: 1.2em solid #ffffff;
+  border-bottom: 1.2em solid #ffffff;
+  border-left: 1.2em solid #ffffff;
+  -webkit-animation: spin 1.3s infinite linear;
+  -moz-animation: spin 1.3s infinite linear;
+  animation: spin 1.3s infinite linear; }
 
-.content-load-spinner > div {
-  height: 100%;
-  width: 12px;
-  display: inline-block;
-  background-color: #394149;
-  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
-  -moz-animation: stretchdelay 1.2s infinite ease-in-out;
-  animation: stretchdelay 1.2s infinite ease-in-out;
-  animation: stretchdelay 1.2s infinite ease-in-out; }
+.content-load-spinner,
+.content-load-spinner:after {
+  border-radius: 50%;
+  width: 15em;
+  height: 15em; }
 
-.content-load-spinner .rect2 {
-  -webkit-animation-delay: -1.1s;
-  -moz-animation-delay: -1.1s;
-  animation-delay: -1.1s; }
+.modal-dialog {
+  z-index: 650;
+  background-color: #242527;
+  color: #dadada;
+  position: absolute;
+  left: 515px;
+  top: 30%;
+  width: 890px;
+  min-height: 500px;
+  padding: 60px; }
+  .modal-dialog .dialog-title {
+    margin-bottom: 30px;
+    font-size: 48pt;
+    font-family: "Helvetica Neue Medium", "HelveticaNeue-Medium", Helvetica, Arial, sans-serif; }
+  .modal-dialog .dialog-message {
+    margin-bottom: 60px;
+    font-size: 36pt; }
+  .modal-dialog .dialog-buttons-container {
+    justify-content: center;
+    display: flex; }
 
-.content-load-spinner .rect3 {
-  -webkit-animation-delay: -1s;
-  -moz-animation-delay: -1s;
-  animation-delay: -1s; }
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg); } }
 
-.content-load-spinner .rect4 {
-  -webkit-animation-delay: -0.9s;
-  -moz-animation-delay: -0.9s;
-  animation-delay: -0.9s; }
-
-.content-load-spinner .rect5 {
-  -webkit-animation-delay: -0.8s;
-  -moz-animation-delay: -0.8s;
-  animation-delay: -0.8s; }
-
-@-webkit-keyframes stretchdelay {
-  0%, 40%, 100% {
-    -webkit-transform: scaleY(0.4);
-    -moz-transform: scaleY(0.4);
-    transform: scaleY(0.4); }
-
-  20% {
-    -webkit-transform: scaleY(1);
-    -moz-transform: scaleY(1);
-    transform: scaleY(1); } }
-
-@keyframes stretchdelay {
-  0%, 40%, 100% {
-    -webkit-transform: scaleY(0.4);
-    -moz-transform: scaleY(0.4);
-    transform: scaleY(0.4); }
-
-  20% {
-    -webkit-transform: scaleY(1);
-    -moz-transform: scaleY(1);
-    transform: scaleY(1); } }
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg); } }
 
 @media (-webkit-min-device-pixel-ratio: 1.5) {
   .player-controls-button-back {
@@ -701,7 +758,5 @@ div {
     float: left;
     top: 10px;
     left: 30px; }
-
   .detail-row-container-buttons {
-    bottom: 10px; }
- }
+    bottom: 10px; } }

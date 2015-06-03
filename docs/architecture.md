@@ -1,14 +1,34 @@
 # Architecture Overview
 -------------------
-The app loosely follows the MVC (Model View Controller) pattern, when started the page displays a spinner while JS modules are loaded and then the app is started.  The app makes an initial XHR request to get the data set.  The XHR result then initializes the model, and the app creates the views for the navigation and main content display and renders the elements.
+The Web App Starter Kit is an open source project meant to be a template for creating a wide variety of video applications for FireTV and FireTV Stick. It is designed so that common components can be mixed and matched, and customized to tailor the user experience as desired. We provide pre-made examples which can be used as is, or modified to support typical media app features. The Starter Kit is designed to cover many video content delivery application possibilities, and set up structure for easily reusing common code and allowing developers to expand on what we have created to suit their individual needs. 
 
-The project aims to be framework agnostic, so makes minimal use of libraries.  [jQuery](http://jquery.com/) is used mainly for CSS related class/style changes and DOM manipulation, [Handlebars](http://handlebarsjs.com/) is used to combine HTML templates and model data into DOM content.  A minimal event handler utility is provided to maintain the separation of responsibility between the app and the views: views `trigger` events that the app listens for, so all of the code to move between views is kept in the app itself.
+Each component of this project can be overriden as long as the overridden code adheres to the basic API endpoints we have describe below. We use [gulp](http://gulpjs.com/) to create a project build structure, and provide several different project examples. Please refer to the [Building Document](./building.md) for more information on how the projects are structured.
 
-The `index.html` contains app logic to load libraries and scripts, the JS modules are AMD(Asynchrounous Module Definition) friendly but are loaded by hand, all of the handlebars templates are also contained in the main HTML file.
+The Starter Kit follows the MVC (Model View Controller) pattern to help with customization. The main components of applications built using the starter kit would typically include:
 
-![Template Architecture Diagram](./assets/template_overview.png "Template Architecture Overview")
+* an app.js which serves as the main controller for tying together the models and views. 
+* an index.html with templates used for rendering individual views based on [Handlebars](http://handlebarsjs.com/).
+* a variety of utility classes for helping handling common functionality such as button presses, date formatting, event handling, etc.
+* views for rendering the different visible portions of the application, such as (but not limited to): category and video navigation, buttons, the video player, the video player onscreen controls, and purchase user interfaces.
+* the model, which connects the application's data to the Starter Kit project, which could simply use one of our pre-existing models for data formats such as: JSON, MRSS, and the YouTube API. These are described below and in the [Platforms Document](./platforms.md)
+* an init.js file which kick-starts the application and allows the developer to define application settings described below. The application settings are described in more detail below.
 
-## Navigation and button Handling
+The project aims to be JavaScript framework agnostic and makes minimal use of libraries.  [jQuery](http://jquery.com/) is used primarily for CSS related class/style changes and DOM manipulation, [Handlebars](http://handlebarsjs.com/) is used to combine HTML templates and model data into DOM content. [SASS](http://sass-lang.org) is used to style the Starter Kit as a css extender. All of the JS modules are AMD(Asynchronous Module Definition) friendly but are loaded manually.
+
+## User Interface Flow
+-------------------
+
+The user interface for the app is described as follows:
+
+* The main page contains a list of categories on the top left and horizontally scrolling poster elements in the middle. The user can navigate the horizontal list with the *LEFT*/*RIGHT* and *SELECT*/*PLAY* to play a respective video. *UP* or *DOWN* will select the vertical category menu which can be opened with *SELECT*/*RIGHT* or deselected with *LEFT*/*BACK*.
+
+* Video players are provided as part of the Starter Kit, with the simplest being a full screen HTML5-based video element, as well a YouTube player utilizing an embedded iframe. In all players, *BACK* exits and returns to the app (at the detail page), while other media controls vary depending on the feature set available from the embedded player. Continuous playback, which allows the user to watch videos back to back without interruption, is enabled for the sample projects, so if a user doesn't press *BACK* while in a video, and there are more videos available to play, it will show a preview of the next video before the video completes, and transition automatically into playing the next video when the video completes. If continuous playback is disabled, or there are no videos left to play in the dataset, the video will return to the main application view. 
+
+* The Starter Kit also supports subcategories, for building nested hierarchy of categories. If a user selects a subcategory, the current OneD View(see image below) content fades out and a new OneD fades in. The left navigation menu is removed and replaced by the subcategory title. The user pressing the *BACK* button fades out the subcategory OneD view and fades in the previous OneD view. Subcategories can be many levels deep, and exiting a subcategory will  fade into the previous subcategory, until you reach the highest level which is the initial main view.  
+
+![Template UI Diagram](./assets/template_views.png "Template UI Overview")
+
+## Navigation and Button Handling
 -------------------
  
 Navigation is primarily handled via button events, although there is some rudimentary touch support. The button event handling is provided by a buttons class.  The button set and best practices for behaviors are:
@@ -25,16 +45,6 @@ Navigation is primarily handled via button events, although there is some rudime
 
 *(Note: the HOME, MENU, and MICROPHONE buttons on the FireTV remote are not available to web applications. While the FireTV platform supports the analog game controller, this template does not yet work with the analog joysticks)*
 
-## User interface flow
--------------------
-
-The user interface for the app is described as follows:
-
-* The main page, contains a list of categories on the top left and horizontally scrolling poster elements in the middle, the user can navigate the horizontal list with the *LEFT*/*RIGHT* and *SELECT*/*PLAY* to play a respective video. *UP* or *DOWN* will bring up the vertical category menu which can be selected with *SELECT*/*RIGHT* or deselected with *LEFT*/*BACK*.
-
-* Several players are provided: the simplest is a full screen `<video>` tag with video API support, and there is a YouTube player that use the embeded `<iframe>` links, which include API hooks for controlling the playback.  In all players, *BACK* exits and returns to the app (at the detail page), other media controls vary depending on the feature set available from the embedded player.
-
-![Template UI Diagram](./assets/template_views.png "Template UI Overview")
 
 ## Code Organization
 -------------------
@@ -49,9 +59,9 @@ For more information on SCSS please refer to the [Styling Documentation](./styli
 
 model:
 
-* `src/common/js/model.js` : our generic model which supports a JSON format we have designed
+* `src/common/js/model-json.js` : our generic model which supports a JSON format specific to the Web App Starter Kit template
 * `src/common/js/model-mrss.js` : a model which supports Media RSS feeds, for more information please refer to the [Platform Documentation](./platforms.md)
-* `src/common/js/model-youtube-api.js` : a model which interacts with the YouTube API, for more information please read the [Platform Documentation](./platforms.md), an example can be found in the an example can be viewed in the `src/projects/youtube/` directory.
+* `src/common/js/model-youtube-api.js` : a model which interacts with the YouTube API, for more information please read the [Platform Documentation](./platforms.md), an example can be viewed in the `src/projects/youtube/` directory.
 
 views:
 
@@ -61,21 +71,24 @@ views:
 * `src/common/js/playlist-player-view.js` : a playlist player view, which acts as a player but load multiple videos with an intermediate screen
 * `src/common/js/player-view.js` : shows the video with a full screen `<video>` tag
 * `src/common/js/search-input-view.js` : the simple search widget for the left nav list
-* `src/common/js/embedded-player-view.js` : the simplest embedded player, uses an embed tag from JSON
+* `src/common/js/subcat-view.js` : the subcategory list view
+* `src/common/js/dialog-view.js` : the modal dialog view with up to two buttons
 * `src/common/js/controls-view.js` : the player controls view with timeline and description
-* `src/common/js/search-view.js` : the simple search input box view
+* `src/common/js/controls-view-live.js` : the player controls view for live streamed videos
+* `src/common/js/search-input-view.js` : the simple search input box view
 * `src/common/js/player-view-youtube.js` : a player that uses the YouTube JS API to embed video and control playback
 
 other:
 
 * `src/common/js/util.js` : some helper functions for handlebars and CSS style sheet manipulation
+* `src/common/js/error-handler.js` : the error handler class used for all error reporting
 * `src/common/js/events.js` : a very simple placeholder for event registry/dispatch
 * `src/common/js/buttons.js` : provides a very simple event flow for buttons on remote
-* `src/common/js/touches.js` : provices very simple and rudimentary touch support for tablets
+* `src/common/js/touches.js` : provides very simple and rudimentary touch support for tablets
 
 assets:
 
-* `src/common/assets/images/img_logo.png` : the application logo (can be overwritten through JSON theming)
+* `src/common/images/img_logo.png` : the application logo (can be overwritten through JSON theming)
 
 libraries:
 
@@ -96,6 +109,7 @@ The settings object has the following available properties:
 
    - PlayerView {ViewObject} = this is the player view used for playing media, some examples are: PlayerView and YouTubePlayerView
    - PlaylistView {ViewObject} = if this is set the app will use a PlaylistView in conjunction with a PlayerView for use in continuous playback situations. One PlaylistView is provided by the WebAppStarterKit, which is the PlaylistPlayerView. If this is not set continuous playback will be disabled. 
+   - entitlement {Boolean} - if true the Amazon In-App Purchase modules will be loaded. For more information on In-App Purchase refer to the inAppPurchase document.
    - previewTime {Number} - if using the PlaylistPlayerView you can set the preview time to tell the app how long the Preview Next Video View is shown before the current video completes. 
    - displayButtons {Boolean} = in the '1D' view (described below) there are optional buttons that appear under the content information. This is a flag to show/hide these buttons.
    - showSearch {Boolean} = enables Simple Search in the 1D menu, please note the model must implement the `getDataFromSearch` function for this to work correctly.
@@ -104,16 +118,15 @@ The settings object can also additionally have some options that are model speci
 
 - dataURL {String} = the URL for retrieving the application data.
 
-
 EXAMPLE :
    
-		var settings = {
-			dataURL: "./assets/genericMediaData.json",
-			displayButtons: true
-		};
-		var app = new App(settings);
+        var settings = {
+            dataURL: "./assets/genericMediaData.json",
+            displayButtons: true
+        };
+        var app = new App(settings);
 
-For more information on model specific settings please refer to the []Platforms Documentation](./platforms.md)
+For more information on model specific settings please refer to the [Platforms Documentation](./platforms.md)
 
 * `the views` : There is several view objects, `left-nav`, `1D`, `video player`, in addition there is a sub view `shoveler-view`. Views are created and handled by the app object. All views are encapsulated so all communication from one view to the other is handled by the view triggering an event, and the app object handling that event and doing the corresponding action. However in the case of a subview like the `shoveler view`, this is instantiated by its parent view, which in the sample application is the `1D view`, and the events of the shoveler view are handled by the `1D` view since it is its parent. The app object can be considered the global parent to the views.
 
@@ -140,12 +153,12 @@ We use handlebars templates for our template system. All of our handlebars templ
 
 We have a single handlebars helper function for determining the amount of content on the main content view, which is in `utils.js`. Each View object is responsible for pulling its own template, and populating it, and adding it to the DOM under the provided parent. This is handled in the view's render function, which takes the parent element to insert the DOM element into. The view will create a property on itself called $el which is a jQuery object referencing the views DOM element.
 
-The user interface flow is based around preserving the state of views you will return to by hiding them, and dispensing of screens that have been closed by destroying them. For example 1D view transitins to the player view, the 1D view exists in the DOM but is hidden, and the player view is shown, however on transitioning backwards, the player view would be removed from the DOM and cleaned up. 
+The user interface flow is based around preserving the state of views you will return to by hiding them, and dispensing of screens that have been closed by destroying them. For example 1D view transitions to the player view, the 1D view exists in the DOM but is hidden, and the player view is shown, however on transitioning backwards, the player view would be removed from the DOM and cleaned up. 
 
 
 ** Event structure **
 
-We use a simple event handling system which is implemented in `events.js`. Each view can trigger 6 events:
+We use a simple event handling system which is implemented in `events.js`. A component may trigger one of the following events:
 
 * `exit` - triggered when the view is exited
 * `startScroll` - triggered when scrolling has begun within the view(button held down)
@@ -157,7 +170,7 @@ We use a simple event handling system which is implemented in `events.js`. Each 
 * `bounce` - triggered when a boundary is hit when navigating a view
 * `makeActive` - triggered when an element is set as the active element
 * `noContent` - triggered when a no content is returned for a given search or category
-* `videoError` - triggered when there is a problem with loading or playing a video
+* `error` - triggered when an error occurs for a given view or component (see [Error Handling](#error-handling) for details)
 * `searchQueryEntered` - triggered when the user enters a search query  
 * `videoStatus` - triggered by the player view to update the video status
 
@@ -176,7 +189,7 @@ Event handlers are registered by calling the view's `on` method, passing a callb
 
 Event handlers can be removed with the `off` function passing the same arguments as the `on` function with a reference to the callback to remove:
 
-		 // inside app - deregister for the startScroll event from the container view
+         // inside app - deregister for the startScroll event from the container view
         app.mainContentView.off('startScroll', myCallBack, app);
 
 ** Button Handling **
@@ -198,7 +211,7 @@ Some helper functions are needed for edge cases:
 
 Throughout the template we use only two third party libraries.
 
-** HandleBars **
+** Handlebars **
 
 Handlebars is used by creating a template in the initial DOM tree in a script tag marked as handlebars like so:
 
@@ -207,7 +220,7 @@ Handlebars is used by creating a template in the initial DOM tree in a script ta
         <!-- TEMPLATE HERE -->
         </script>
 
-The view then takes that template and populates it with with a JSON object to create the DOM element dynamically to be displayed on the page, this is done in the view's `render` method. We have a utility method called `buildTemplate` which comes from the `utils.js` file. Here is an example:
+The view then takes that template and populates it with a JSON object to create the DOM element dynamically to be displayed on the page, this is done in the view's `render` method. We have a utility method called `buildTemplate` which comes from the `utils.js` file. Here is an example:
 
         var html = utils.buildTemplate(
         $("#left-nav-template-template"),
@@ -225,8 +238,8 @@ jQuery is the other third party library we use throughout the project. This libr
 
  * adding and removing classes from elements
  * searching for elements
- * adding css to multiple elements at the same time without a seperate loop.
- * some helper functions for retreiving element data like computed width
+ * adding css to multiple elements at the same time without a separate loop.
+ * some helper functions for retrieving element data like computed width
  * loading the initial JSON through its ajax handler
  * hiding/showing elements, toggling elements, and other quick helper functions to make the code more readable.
 
@@ -243,9 +256,12 @@ The JSON gets loaded by the application at the time of document load, and conver
 * `loadInitialData` - This function loads the initial data needed to start the app and calls the provided callback with the data when it is fully loaded.
 * `setCurrentCategory` - how the view sets the currently selected category, from the left nav
 * `getCategoryData` - gets the currently selected category data for loading into the horizontal 1D/Shoveler view. This function uses a callback to return the data so the data can potentially be loaded through an asynchronous request, although our template model provided does not load it asychronously. 
-* `getDataFromSearch` - gets the data from search results for the current search term for loading into the horizontal 1D/Shoveler view. This function uses a callback to return the data so the data can potentially be loaded through an asynchronous request, although our template model provided does not load it asychronously. This is necessary to be implemented for the search functionality in the left nav menu. See information on the settings object to remove this functionality. 
+* `setCurrentSubCategory` - how the application sets in the model the current subcategory that was selected so the model can fetch the correct subcategory contents to be displayed.
+* `getCurrentSubCategory` - the function which returns a subcategory object with `type: "subcategory"` and a `contents` property containing an array of the media objects similar to what is returned by `getCategoryData`, data is returned through a callback so it can be loaded asynchronously.
+* `getDataFromSearch` - gets the data from search results for the current search term for loading into the horizontal 1D/Shoveler view. This function uses a callback to return the data so the data can potentially be loaded through an asynchronous request, although our template model provided does not load it asynchronously. This is necessary to be implemented for the search functionality in the left nav menu. See information on the settings object to remove this functionality. 
 * `setCurrentItem` - how you set the currently selected media element, from the 1D view
 * `getCurrentItem` - gets the currently selected media element as an object with its meta data, for display on the 1D view
+
 
 The instance of the model is stored under the application  instance after the app init is called, it can be referenced by **app.data**
 
@@ -294,44 +310,98 @@ Example of changing the getCategoryData function to load data asynchronously wit
 
 ** JSON Format: **
 
-The model currently takes a specific JSON format which translates to filling out the data in the application.  The JSON consists of a single object containing a logo, a theme object, and a media object which contains an array of media records.  The categories end up seperating content through the left navigation menu.
+The model currently takes a specific JSON format which translates to filling out the data in the application.  The JSON consists of a single object containing a logo, a theme object, and a media object which contains an array of media records.  The categories end up separating content through the left navigation menu.
 
 The JSON Object Format is as follows:
-    
+ 
     {
-    "logoURL": "http://yourapp.com/new_logo.jpg",
-    "theme": {
-        "body": {
-            "background": "#272727"
-        },
-        ".maincontent-row-tombstone-selected" : {
-            "background": "#ede7e7",
-            "border": "none"
-        },
-    },
-    "media": [
-            {
-                "id": "id_1",
-                "title": "Your title here",
-                "pubDate": "Mon, 21 Apr 2014 04:55:06 GMT",
-                "releaseYear": "2014",
-                "imgURL": "http://your_umage_url.jpg",
-                "videoURL": "http://your_video_url.mp4",
-                "rated": "PG-13",
-                "rank": "4",
-                "rating": "4.5",
-                "description": "Your summary or description here",
-                "categories": [
-                    "Main Category 1",
-                    "Main Category 2",
-                    "Main Category 3",
-                ] 
+        "folders": [
+            { // the first folder is the root folder which translates to the top level folder which contains the contents of the left nav
+                "id": "folder_id1",   
+                "title": "root",
+                "contents": [
+                    {
+                        type: "folder",
+                        id: "folder_id2",
+                    },
+                    {
+                        type: "folder",
+                        id: "folder_id3",
+                    },
+                ]
             },
-            "id_2" : ...,
-            "id_3" : ...,
-        ]
-    }
+            {
+                "id": "folder_id2",   
+                "title": "Category 1",
+                "imgURL": "http://your-image",
+                "pubDate": "Mon, 21 Apr 2014 04:55:06 GMT",
+                "description": "Category description"
+                "contents": [
+                    {
+                        type: "media",
+                        id: "id_1",
+                    }
+                ]
+            },
+            {
+                "id": "folder_id3",   
+                "title": "Category 2",
+                "imgURL": "http://your-image",
+                "pubDate": "Mon, 21 Apr 2014 04:55:06 GMT",
+                "description": "Category description"
+                "contents": [
+                    {
+                        type: "media",
+                        id: "id_1",
+                    },
+                    {
+                        type: "folder",
+                        id: "folder_id3",
+                    }
+                ]
+            },
+            {
+                "id": "folder_id3",   
+                "title": "SubCategory",
+                "imgURL": "http://your-image",
+                "pubDate": "Mon, 21 Apr 2014 04:55:06 GMT",
+                "description": "Category descriptions"
+                "contents": [
+                    {
+                        type: "media",
+                        id: "id_1",
+                    },
+                ]
+            }
+
+        ], 
+        "media": [
+                {
+                    "id": "id_1",
+                    "title": "Your title here",
+                    "pubDate": "Mon, 21 Apr 2014 04:55:06 GMT",
+                    "releaseYear": "2014",
+                    "imgURL": "http://your_umage_url.jpg",
+                    "videoURL": "http://your_video_url.mp4",
+                    "rated": "PG-13",
+                    "rank": "4"
+                    "rating": "4.5",
+                    "description": "Your summary or description here",
+                    "categories": [
+                        "Main Category 1",
+                        "Main Category 2",
+                        "Main Category 3",
+                    ] 
+                },
+                "id_2" : ...,
+                "id_3" : ...,
+            ]
+        }
+    }   
     
+** Folder Media Metadata **
+
+The data for laying out the application structure. The first element of the folders array is the root folder, this corresponds to the left navigation menu of the application. The contents of this folder refer to the categories shown in the left navigation menu, **NOTE** these can only be folders and not media items at this time. The proceeding folder objects can have mixed contents of media and other folders, folders that parented by another folder will become a subcategory of that folder in the application. Folders aside from the root folder should have an `imgURL` for the thumbnail, and a `title`, `description`, and `pubDate` for correct viewing in the application. 
 
 **JSON Media Metadata:**
 
@@ -342,6 +412,7 @@ Some of the metadata is specific to our sample application, and some would be mo
 ** Universal media metadata: **
 
 * `id` : the unique id of the media element
+* `type` : the type of media element, currently has two types `video` and `video-live`
 * `categories` : the main categories this element will be shown under(more information discussed below)
 * `title` : the title to be displayed of the media element, i.e. video name
 * `pubDate` : the full date that the media element was published, to be displayed on the detail view
@@ -350,25 +421,96 @@ Some of the metadata is specific to our sample application, and some would be mo
 * `bgURL` : the large 1080p image to be displayed as the background of the detail view
 * `description` : the summary/description to be displayed on the 1D view and the detail view
 * `videoURL` : the html5 capable video to be used when playing the media element
-
+* `startTime` : *Live Streams Only* the start time in a valid JavaScript date string for the Date() constructor ([more info here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)) of when a live broadcast will begin
+* `endTime` : *Live Streams Only* the end time in a valid JavaScript date string for the Date() constructor ([more info here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)) of when a live broadcast will end
+* `alwaysLive` : *Live Streams Only* boolean to tell the app a stream is live 24/7 or not
 
 ** Sample app specific media metadata: **
 
 The rest of the metadata in the element object is used for the sample data, such as director, stars, rated, rating, rank. Any meta data can be added by the developer and used to their liking to display in different parts of the app. The data can be added to the individual media objects and it will be passed when queried from the model as part of the return object.
 
+** Live Streams **
+
+The template has some basic support for live streams. If a media element is set to have a type of `video-live`, then it must contain a videoURL which references a HLS stream URL. A live video element must also either contain a true `alwaysLive` flag, if the stream is live 24/7, or a `startTime` and `endTime` date/time, of when the stream will begin and end. These properties drive the user interface for displaying and launching live streams
+
 ** Categories **
 
-Categories are displayed in the left navigation menu. The app will automatically create a row in the left navigation menu for every unique category in the JSON data. From the above example there will be 3  left navigation rows:
+**Note** the `categories` in the media data will only be used if no `folders` object is in the JSON. If there is a `folders` object present it will take precedence in creating the category and subcategory structure of the application.
 
- * "Category 1"
- * "Category 2"
- * "Category 3"
+Categories are displayed in the left navigation menu. The app will automatically create a row in the left navigation menu for every unique category in the JSON data. From the above example there will be 3  left navigation rows.
 
+ * "Main Category 1"
+ * "Main Category 2"
+ * "Main Category 3"
+
+<a name="error-handling"></a>
+** Error Handling **
+
+The Starter Kit provides basic support for error handling through the `ErrorHandler` JavaScript object.  The `ErrorHandler` provides three basic ways of communicating errors: creating an error dialog, showing an error console message, and a mechanism for reporting the error back to the developer.
+
+The recommended way to deal with errors in the Starter Kit when developing a component is to try to deal with the error in the component, however if the error is not recoverable trigger an `error` event from the component to handle the error in the parent component, normally bubbling the event up to `app.js`. 
+
+Here is a short example of handling an unrecoverable error:
+		
+		**********************************
+		// inside the component which has encountered an unrecoverable error
+		// we will trigger an error using the global error enums, for this example we will use a parse error
+		
+		this.trigger("error", ErrorTypes.PARSING_ERROR, ErrorHandler.genStack());
+
+		
+		**********************************
+		// now we will move to the parent component that is handling the error 
+		
+		componentThatThrewError.on("error", function(type, stackTrace) {
+			var errorHandler = new ErrorHandler();
+			// here we will handle the parse error by showing a dialog, and writng a console log
+			if (type === ErrorTypes.PARSING_ERROR) {
+				// create the buttons for the error dialog with callbacks for the buttons
+				buttons = [{
+					text: "Ok",
+					id: "PARSE_ERROR_OK",
+					callback: function() {
+						// implement what the OK button should do when clicked. 
+					}.bind(this),
+				},
+				{
+					text: "Retry",
+					id: "PARSE_ERROR_RETRY",
+					callback: function() {
+						// implement what the Retry button should do when clicked.
+					}.bind(this),
+					
+				}];
+				errorDialog = errorHandler.createErrorDialog(type.errTitle, type.errToUser, buttons);
+				
+				// render the error dialog
+				errorDialog.render();
+				
+				// transition code to dialog should go here, this will vary based on component
+					...
+				// end  transition code
+				
+				// throw a console error with stack trace:
+				errorHandler.writeToConsole(type, type.errToDev, stackTrace);
+				
+				// inform the developer about the error here
+               	errorHandler.informDev(type, type.errToDev, stackTrace);
+			}
+		});
+
+Looking at the above example we can see some key points that are handled by the error handler. The Starter Kit error handler contains an enum of all errors supported, which contain `errorToDev` and `errorToUser` properties to allow for different messaging to users versus developers. Add new error types to this enum as necessary. The ErrorHandler also includes a helper function to generate a stack trace at the point the error occurred. The three main ErrorHander functions are:
+
+* `createErrorDialog` : creates the error dialog view, which is ready for rendering
+* `writeToConsole` : writes an error formatted in the Starter Kit format to the console
+* `informDev` : calls a stubbed out function in the errorHandler which can be filled out by the developer to receives errors through their own API.
+
+In the Starter Kit we have already created error handling for a variety of errors. In our example models we have handled errors for network requests, parsing, and timeouts. In our example players we have handled errors that affect video playback and performance. In our shoveler view we handle errors where the thumbnail images are unable to be loaded. In most of our error handling dialogs we have implemented retry cases to give the user a chance to attempt to fix the problem. The existing error handling implementation can be used as a reference for new or potentially unhandled error cases. It should also be noted that even if an error is recoverable, you may still want to report the error or log it, in which case you can handle the recoverable error and call the `writeToConsole` or `informDev`.
 
 
 ** Performance Considerations **
 
-This project intends to demonstrate best practices for creating a fluid user experiene with HTML.  We have found several issues along the way where effort was required to achieve good performance, summarized below:
+This project intends to demonstrate best practices for creating a fluid user experience with HTML.  We have found several issues along the way where effort was required to achieve good performance, summarized below:
 
 * For the scrolling views, we use the CSS translate3d transform and transitions to animate movement and elements. Particularly on the 1D view and Main Content view, we position each element individually and only move the elements on the screen.  This allows Chromium to put each item in its own render layer, moves most of the work of compositing to the GPU.  We keep the other elements off screen to the sides of the scroll direction in a "stack" to be retrieved. This has considerably helped performance, and Chromium DevTools "show composited layer borders" feature was very helpful in optimizing this structure.
 * We use inline style changes through JavaScript many times instead of changing classes to select style sheets, this is to minimize the amount of "relayout" events on the page, which has helped much with performance in many situations. When performance is not an issue the app does modify class names to keep most of the styling in the style sheet.

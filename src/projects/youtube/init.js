@@ -6,6 +6,8 @@
         PlayerView: YouTubePlayerView,
         PlaylistView: PlaylistPlayerView,
         showSearch: true,
+        skipLength: 30,
+        controlsHideTime: 3000,
         user: "amazonwebservices",
         devKey: "PUT-YOUTUBE-API-DEV-KEY-HERE",
         showLatestChannel: true,
@@ -39,6 +41,5 @@
         displayButtons: false
     };
 
-    var app = new App(settings);
-    exports.app = app;
+    exports.app = new App(settings);
 }(window));

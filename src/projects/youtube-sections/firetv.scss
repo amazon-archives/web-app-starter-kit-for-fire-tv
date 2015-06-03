@@ -1,0 +1,17 @@
+@import "../../common/scss/variables";
+
+@import "../../common/scss/mixins";
+
+@import "../../common/scss/common";
+
+// override for logo for youtube placement
+.app-logo {
+    position : absolute;
+    bottom   : -10px;
+    right    : 60px;
+    @include transform(scale(0.75));
+    img {
+        height: 240px;
+        width: 240px;
+    }
+}

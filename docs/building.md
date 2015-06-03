@@ -15,7 +15,7 @@ Why use a build system?
 Prerequisites
 -------------
 
-You need to first install Node/NPM and Gulp on your system - accessible globally -then install the build system support libraries to the directory where you cloned/downloaded the Starter Kit.
+You need to first install Node/NPM and Gulp on your system - accessible globally - then install the build system support libraries to the directory where you cloned/downloaded the Starter Kit.
 
 #### Step 1: Install Node/NPM Globally
 
@@ -52,25 +52,23 @@ Building
 ----------------
 
 The Gulp default task explains what other Gulp tasks are available
-<code><pre>
-$ gulp
-[12:08:24] Using gulpfile ~/work/web-app-starer-kit-for-fire-tv/gulpfile.js
-[12:08:24] Starting 'help'...
 
-Usage
-  gulp [task]
-
-Available tasks
-  build         minimal build and copy (default) Aliases: b, debug, d
-  clean         remove all config.dest directories Aliases: c
-  help          Display this Aliases: h, ?
-  inline        minify js and inline it and css into final html Aliases: i
-  inline-watch  execute inline when any source file changes
-  minify        generate html with minified js Aliases: m
-  minify-watch  execute minify when any source file changes
-  watch         execute the build task when any source file changes Aliases: w
-
-</pre></code>
+	$ gulp
+	[12:08:24] Using gulpfile ~/work/web-app-starer-kit-for-fire-tv/gulpfile.js
+	[12:08:24] Starting 'help'...
+	
+	Usage
+	  gulp [task]
+	
+	Available tasks
+	  build         minimal build and copy (default) Aliases: b, debug, d
+	  clean         remove all config.dest directories Aliases: c
+	  help          Display this Aliases: h, ?
+	  inline        minify js and inline it and css into final html Aliases: i
+	  inline-watch  execute inline when any source file changes
+	  minify        generate html with minified js Aliases: m
+	  minify-watch  execute minify when any source file changes
+	  watch         execute the build task when any source file changes Aliases: w
 
 
 #### Tasks
@@ -104,7 +102,7 @@ Config files
 Each project (directory in src/projects) has a `build.json` configuration file that describes that particular project.
 Each entry in the configuration lists the files needed for one part of the build
 
-* **dest** - optional, specifies output director, defaults to ./out/<em>project</em>, replace to write output files to another location
+* **dest** - optional, specifies output directory, defaults to ./out/<em>project</em>, replace to write output files to another location
 <code><pre>
     "dest" : "./example",
 </pre></code>

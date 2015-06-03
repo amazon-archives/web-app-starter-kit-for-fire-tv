@@ -18,28 +18,41 @@ see what else you can do:
 
 */
 
-var gulp = require('gulp-help')(require('gulp'), { description: 'Display this', aliases: ['h', '?'] });
-var uglify = require('gulp-uglifyjs');
-var sass = require('gulp-sass-binaries');
-var sourcemaps = require('gulp-sourcemaps');
-var inlinesource = require('gulp-inline-source');
-var htmlreplace = require('gulp-html-replace');
-var debug = require('gulp-debug');
-var merge = require('merge-stream');
-var del = require('del');
-var vinylPaths = require('vinyl-paths');
-var rename = require("gulp-rename");
-var fs = require('fs');
-var package = require('./package.json');
-var template_info = '<!-- \n   Web App Starter Kit for Fire TV \n\n   Name: ' + package.name + '\n   Version: ' + package.version +
-    '\n\n   https://github.com/amzn/web-app-starter-kit-for-fire-tv \n\n   The project is released as open source under the Creative Commons License CC0 \n\n   http://creativecommons.org/publicdomain/zero/1.0/\n-->';
+try {
+    var gulp = require('gulp-help')(require('gulp'), { description: 'Display this', aliases: ['h', '?'] });
+    var jshint = require('gulp-jshint');
+    var uglify = require('gulp-uglifyjs');
+    var sass = require('gulp-sass');
+    var jsdoc = require("gulp-jsdoc");
+    //var sourcemaps = require('gulp-sourcemaps');
+    var inlinesource = require('gulp-inline-source');
+    var htmlreplace = require('gulp-html-replace');
+    var debug = require('gulp-debug');
+    var merge = require('merge-stream');
+    var del = require('del');
+    var vinylPaths = require('vinyl-paths');
+    var rename = require("gulp-rename");
+    var fs = require('fs');
+    var packageJSON = require('./package.json');
+    var template_info = '<!-- \n   Web App Starter Kit for Fire TV \n\n   Name: ' + packageJSON.name + '\n   Version: ' + packageJSON.version +
+        '\n\n   https://github.com/amzn/web-app-starter-kit-for-fire-tv \n\n   The project is released as open source under the Creative Commons License CC0 \n\n   http://creativecommons.org/publicdomain/zero/1.0/\n-->';
 
-var path = require('path');
+    var path = require('path');
+} catch (e) {
+    if (e.code && e.code === "MODULE_NOT_FOUND") {
+        // one of the dependencies couldn't be found, suggest that the user run npm install
+        console.log(e.message + ". Please try the command 'npm install' to resolve this dependency.");
+        process.exit();
+    } else {
+        // unknown error occurred, rethrow
+        throw e;
+    }
+}
 
 // from https://github.com/gulpjs/gulp/blob/master/docs/recipes/using-external-config-file.md
 
 var config = {};
-var pathSettings = ["html", "sass", "assets", "appJS", "libJS"];
+var pathSettings = ["html", "sass", "assets", "root", "appJS", "libJS"];
 var projectsPath = "./src/projects";
 var projectDirs = fs.readdirSync(projectsPath);
 for (var i = 0; i < projectDirs.length; i++) {
@@ -73,18 +86,18 @@ for (var i = 0; i < projectDirs.length; i++) {
 
 gulp.task('default', false, ['help']);
 
-gulp.task('build', 'minimal build and copy (default)', ['copy-assets', 'sass-css', 'copy-js', 'build-html'],
+gulp.task('build', 'minimal build and copy (default) - ', ['copy-assets', 'copy-root', 'sass-css', 'copy-js', 'build-html'],
     function(){}, {aliases: ['b', 'debug', 'd']});
-gulp.task('watch', 'execute the build task when any source file changes', ['copy-assets-watch', 'sass-css-watch', 'copy-js-watch', 'build-html-watch'],
+gulp.task('watch', 'execute the build task when any source file changes - ', ['copy-assets-watch', 'copy-root-watch', 'sass-css-watch', 'copy-js-watch', 'build-html-watch'],
     function(){}, {aliases: ['w']});
 
-gulp.task('minify', 'generate html with minified js', ['copy-assets', 'sass-css', 'minify-js', 'minify-html'],
+gulp.task('minify', 'generate html with minified js - ', ['copy-assets', 'copy-root', 'sass-css', 'minify-js', 'minify-html'],
     function(){}, {aliases: ['m']});
-gulp.task('minify-watch', 'execute minify when any source file changes', ['copy-assets-watch', 'sass-css-watch', 'minify-js-watch', 'minify-html-watch']);
+gulp.task('minify-watch', 'execute minify when any source file changes - ', ['copy-assets-watch', 'copy-root-watch', 'sass-css-watch', 'minify-js-watch', 'minify-html-watch']);
 
-gulp.task('inline', 'minify js and inline it and css into final html', ['copy-assets', 'sass-css', 'minify-js', 'inline-html'],
+gulp.task('inline', 'minify js and inline it and css into final html - ', ['copy-assets', 'copy-root', 'sass-css', 'minify-js', 'inline-html'],
     function(){}, {aliases: ['i']});
-gulp.task('inline-watch', 'execute inline when any source file changes', ['copy-assets-watch', 'sass-css-watch', 'minify-js-watch', 'inline-html-watch']);
+gulp.task('inline-watch', 'execute inline when any source file changes - ', ['copy-assets-watch', 'copy-root-watch', 'sass-css-watch', 'minify-js-watch', 'inline-html-watch']);
 
 // see https://github.com/gulpjs/gulp/blob/master/docs/recipes/delete-files-folder.md
 gulp.task('clean', 'remove all config.dest directories', forAllTargets(doClean), {aliases: ['c']});
@@ -180,19 +193,42 @@ function doMinifyJS(cfg) {
         .pipe(gulp.dest(cfg.dest));
 }
 
+gulp.task('jshint', false, forAllTargets(doJSHint));
+function doJSHint(cfg) {
+    return gulp.src(cfg.appJS)
+      .pipe(jshint())
+      .pipe(jshint.reporter('jshint-stylish'));
+}
 
-// task to copy all assets named in target.assets to target.dest directory
+gulp.task('jsdoc', false, forAllTargets(doJSDoc));
+function doJSDoc(cfg) {
+    return gulp.src(cfg.appJS)
+        .pipe(jsdoc('./jsdoc'))
+}
+
+
+// task to copy all assets named in target.assets to target.dest/assets directory
 gulp.task('copy-assets', false, forAllTargets(doCopyAssets));
 gulp.task('copy-assets-watch', false, forAllTargetsWatch(getSrcAssets, ['copy-assets']));
 function getSrcAssets(cfg) {
-    return cfg.assets;
+    return cfg.assets || [];
 }
 function doCopyAssets(cfg) {
-    return gulp.src(cfg.assets)
+    return gulp.src(getSrcAssets(cfg))
         .pipe(rename({dirname: 'assets'}))
         .pipe(gulp.dest(cfg.dest));
 }
 
+// task to copy all files named in target.root to target.dest directory
+gulp.task('copy-root', false, forAllTargets(doCopyRoot));
+gulp.task('copy-root-watch', false, forAllTargetsWatch(getSrcRoot, ['copy-root']));
+function getSrcRoot(cfg) {
+    return cfg.root || [];
+}
+function doCopyRoot(cfg) {
+    return gulp.src(getSrcRoot(cfg))
+        .pipe(gulp.dest(cfg.dest));
+}
 
 // task to run sass processor on target.sass sources, putting result in target.dest directory
 gulp.task('sass-css', false, forAllTargets(doSassCSS));

@@ -1,0 +1,23 @@
+{
+    "sample.theme.red" : {
+        "itemType" : "ENTITLED",
+        "price" : "0.99",
+        "title": "Red Theme",
+        "description": "Upgrade to red theme",
+        "smallIconUrl": "./assets/sample.theme.red.jpg"
+    },
+    "sample.theme.blue" : {
+        "itemType" : "ENTITLED",
+        "price" : "0.99",
+        "title": "Blue Theme",
+        "description": "Upgrade to blue theme",
+        "smallIconUrl": "./assets/sample.theme.blue.jpg"
+    },
+    "sample.theme.green" : {
+        "itemType" : "ENTITLED",
+        "price" : "0.99",
+        "title": "Green Theme",
+        "description": "Upgrade to green theme",
+        "smallIconUrl": "./assets/sample.theme.green.jpg"
+    }
+}

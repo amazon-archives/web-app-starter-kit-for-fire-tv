@@ -11,20 +11,20 @@
      * Events provides a VERY simple event manager, with just the minimum needed to support this app, if you're
      * doing anything interesting, replace this with the event system from a framework.
      *
-     * @param eventSet : optional, pass an array of event types and the class will throw if an unknown event is
+     * @param {array} eventSet : optional, pass an array of event types and the class will throw if an unknown event is
      * mentioned, useful for catching typos in event names
      * @constructor
      */
-    var Events = function(eventSet) {
+    function Events(eventSet) {
 
         this.eventSet = eventSet;
         this.eventHandlers = {};
 
         /**
          * register for an event
-         * @param event : the event (string) to listen for
-         * @param callback : function to call when event is triggered, args will be whatever is passed to trigger
-         * @param context : optional, context for callback function
+         * @param {string} event to listen for
+         * @param {function} callback function to call when event is triggered, args will be whatever is passed to trigger
+         * @param {object} context, 'this' for callback function, optional
          */
         this.on = function(event, callback, context) {
             if (this.eventSet && this.eventSet.indexOf(event) === -1) {
@@ -36,28 +36,32 @@
 
         /**
          * unregister for (an) event(s)
-         * @param event : event (string) to stop listening, or undefined to match all events
-         * @param callback : function to remove, or undefined to match all functions
-         * @param context : context to remove, optional
+         * @param {string} event to stop listening, or undefined to match all events
+         * @param {function} callback function to remove, or undefined to match all functions
+         * @param {object} context for function to remove, must match context passed to on
          * Note: implication is that calling off() with no args removes all handlers for all events
          */
         this.off = function(event, callback, context) {
             for (var evt in this.eventHandlers) {
-                if (!event || event == evt) {
-                    this.eventHandlers[evt] = this.eventHandlers[evt].filter(function(element) {
-                        return (callback && callback != element.callback) || (context && context != element.context)
-                    });
+                if (!event || event === evt) {
+                    this.eventHandlers[evt] = this.eventHandlers[evt].filter(this.createEventHandler(callback, context));
                 }
             }
 
         };
 
         /**
-         * triggers an event, calling all the handlers
-         * @param event : the event (string) to trigger
-         * @param args : any/all remaining arguments to trigger will be passed to the handlers
+         * creates event handler function
          */
-        this.trigger = function(event, args) {
+        this.createEventHandler = function(callback, context) {
+            return function(element) {return (callback && callback !== element.callback) || (context && context !== element.context);};
+        };
+
+        /**
+         * triggers an event, calling all the handlers
+         * @param {string} event to trigger
+         */
+        this.trigger = function(event) {
             if (this.eventSet && this.eventSet.indexOf(event) === -1) {
                 throw "Unknown event: " + event;
             }
@@ -68,7 +72,7 @@
                 }
             }
         };
-    };
+    }
 
     exports.Events = Events;
 }(window));

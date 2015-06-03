@@ -57,7 +57,7 @@ div {
     top    : 0;
     left   : 0;
     height : 100%;
-    width  : 40%;
+    width  : 44%;
     margin : 0;
 }
 
@@ -67,7 +67,6 @@ div {
     height   : 100%;
     padding  : 0px;
     overflow : hidden;
-    font-family  : $font-family-light;
     background-color : $color-menu-base-bg;
 }
 
@@ -85,6 +84,13 @@ div {
     z-index: 10;
 }
 
+.leftnav-collapsed-highlight {
+    @include box-shadow(0px 10px 18px 3px rgba(0,0,0,0.44));
+    border: solid;
+    border-width: 1px;
+    border-color: $color-app-dialog-head-border;
+}
+
 .leftnav-menulist-collapsed .leftnav-menu-scrolling-list {
     margin-top : -$pos-top-leftnav-content;
 }
@@ -93,12 +99,20 @@ div {
     color : $color-menu-item-text;
 }
 
+.leftnav-list-item-static.leftnav-list-item-chosen.subcat-header {
+    position: absolute;
+    top: 148px;
+    width: 40%;
+    background: none;
+    border: none;
+}
+
 .leftnav-list-item-static {
     word-wrap    : break-word;
     line-height  : $size-leftnav-line-height;
     font-weight: lighter;
     font-size: 1.7em;
-    font-family: $font-family-light;
+    min-height : 90px;
     padding      : 0 50px 0 $pos-left-content-position;
     overflow     : hidden;
     margin-bottom    : 2px;
@@ -116,9 +130,9 @@ div {
 
 .leftnav-list-item-highlighted {
     color     : $color-menu-item-highlight-text;
-    border: 1px $color-menu-item-highlight-text solid;
     border-width: 1px 1px 1px 0px;
     background: $color-menu-item-highlight-bg $img-icon-leftnav no-repeat $pos-right-leftnav-arrow-icon center;
+    @include filter(brightness(200%));
 }
 
 .leftnav-list-item-container .leftnav-list-item-selected {
@@ -127,8 +141,9 @@ div {
 }
 
 .leftnav-list-item-chosen {
-    border: 1px solid $color-menu-item-chosen-bg;
-    border-width: 1px 1px 1px 0px;
+    border-color : $color-menu-item-chosen-bg;
+    border-style : solid;
+    border-width : 1px 1px 1px 0px;
     color      : $color-menu-item-chosen-text;
     background : $color-menu-item-chosen-bg $img-icon-leftnav no-repeat $pos-right-leftnav-arrow-icon center;
 }
@@ -155,14 +170,12 @@ div {
 
 .leftnav-search-box.leftnav-list-item-highlighted {
     color     : $color-menu-item-highlight-text;
-    border: 1px $color-menu-item-highlight-text solid;
+    border-color: $color-menu-item-highlight-text;
+    border-style: solid;
     border-width: 1px 1px 1px 0px;
     background: $color-menu-item-highlight-bg $img-icon-leftnav no-repeat $pos-right-leftnav-arrow-icon center;
 }
 
-.leftnav-search-box::-webkit-input-placeholder {
-    font-family : $font-family-light;
-}
 
 //
 // Full Row View
@@ -182,6 +195,17 @@ div {
     left   : 0;
     width  : 100%;
     height : 100%;
+    @include transition-property(visibility);
+    @include transition-duration($ani-duration-maincontent-opacity);
+    @include transition-timing-function(linear);
+}
+
+.subcategory-container {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
     @include transition-property(opacity);
     @include transition-duration($ani-duration-maincontent-opacity);
     @include transition-timing-function(linear);
@@ -195,39 +219,51 @@ div {
     color    : $color-title-text;
     .one-D-summary-title {
         line-height: 1.4;
-        font-size: 1.4em;
-        font-weight: $font-family-bold;
-        height     : 51px;
-        overflow   : hidden;
-        margin-top : 10px;
+        color       : $color-title-text;
+        font-size   : 1.8em;
+        font-family : $font-family-medium;
+        height      : 62px;
+        overflow    : hidden;
+        margin-top  : 10px;
         @include display-box;
         @include box-orient(vertical);
         @include line-clamp(1);
     }
     .one-D-summary-pubdate {
         font-weight: 200;
+        height : 30px;
         font-size: 1em;
-        font-family: $font-family-light;
         color : $color-meta-secondary-text;
+        .time-now-live {
+            color: $color-time-live-text;
+        }
+        .time-upcoming {
+            color: $color-time-upcoming-text;
+        }
     }
     .one-D-summary-description {
-        font-size: 1.2em;
-        font-family : $font-family-light;
-        margin-top  : 20px;
+        color       : $color-description-text;
+        font-style  : italic;
+        font-size   : 1.1em;
         overflow    : hidden;
-        height      : 80px;
-        color    : $color-description-text;
+        align-items : center;
         @include display-box;
         @include box-orient(vertical);
         @include line-clamp(2);
     }
+    .one-D-live-icon {
+        background-image: url(assets/live.png);
+        height: 44px;
+        width: 93px;
+        background-position-y: 5px;
+        margin-right: 15px;
+        background-repeat: no-repeat;
+    }
 }
 
 .detail-row-container-buttons {
-    position : absolute;
-    bottom   : 100px;
-    left     : $pos-left-content-position;
-    height   : 75px;
+    height : 75px;
+    margin : 20px 0;
 }
 
 .detail-item-button {
@@ -237,8 +273,7 @@ div {
     padding  : 15px;
     float    : left;
     font-size    : 1.4em;
-    font-family:  $font-family-light;
-    margin-right : 10px;
+    margin-right : 20px;
     text-align   : center;
     border       : 1px solid transparent;
 }
@@ -248,14 +283,18 @@ div {
     overflow   : hidden;
     margin-top : 0px;
     color            : $color-btn-selected-text;
-    border-color     : $color-btn-selected-border;
     background-color : $color-btn-selected-bg;
+    border: solid;
+    border-color: $color-app-dialog-head-border;
+    border-width: 1px;
+    @include box-shadow(0px 10px 18px 3px $color-box-shadow);
 }
 
 .detail-item-button-static{
     @extend .detail-item-button;
     color      : $color-btn-text;
     background-color : $color-btn-bg;
+      line-height: 45px;
 }
 
 #one-D-shoveler-container {
@@ -267,6 +306,8 @@ div {
     z-index  : 20;
     @include transform(translateZ(0));
     @include transition-property-transform-plus(opacity);
+    @include transition-property-transform-plus(visibility);
+    @include transition-duration(1s);
     @include transition-timing-function(linear);
 }
 
@@ -295,7 +336,6 @@ div {
     position : absolute;
     left     : $pos-left-content-position;
     height   : 100%;
-    background-color:gray;
     @include transition-property-transform-plus(opacity);
     @include transition-duration(0.25s);
     @include transition-timing-function(linear);
@@ -308,10 +348,19 @@ div {
 
 //selected elements in the shoveler view
 .shoveler-rowitem-selected {
+    @include box-shadow(0px 10px 18px 3px rgba(0,0,0,0.44));
     img {
         background-blend-mode : overlay;
         display : inline-block;
     }
+}
+
+.shoveler-subcat-bg {
+    width: 91px;
+    height: 100%;
+    margin-left: -10px;
+    display: inline-block;
+    background-image: $img-subcat-bg;
 }
 
 //
@@ -329,6 +378,7 @@ div {
     position : absolute;
     width    : 100%;
     height   : 100%;
+    background: black;
 }
 
 .player-controls-container {
@@ -382,6 +432,8 @@ div {
     background-image: $img-skip-indicator;
     min-width: 200px;
     margin-left: -20px;
+    transition: 0.05s;
+
 
     img {
         height : 22px;
@@ -419,7 +471,6 @@ div {
 .player-controls-timestamp {
     margin-top  : 10px;
     font-size        : 1.6em;
-    font-family: $font-family-light;
 }
 
 .player-controls-timestamp-curtime {
@@ -462,7 +513,6 @@ div {
     color    : $color-description-text;
     font-style: italic;
     font-size: 1.1em;
-    font-family: $font-family-light;
     @include display-box;
     @include box-orient(vertical);
     @include line-clamp(2);
@@ -547,8 +597,8 @@ div {
     color: $color-description-text;
     text-overflow : ellipsis;
     display       : -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
+    @include line-clamp(5);
+    @include box-orient(vertical)
 }
 
 //
@@ -571,58 +621,67 @@ div {
 }
 
 .content-load-spinner {
-    position: absolute;
-    top   : 0;
-    left  : 0;
-    bottom: 0;
-    right : 0;
-    width : 120px;
-    height: 160px;
-    margin: 25% auto;
-    z-index    : 600;
-    text-align : center;
+  margin: 6em auto;
+  font-size: 10px;
+  position: absolute;
+  top: 400px;
+  left: 900px;
+  z-index: 600;
+  text-indent: -9999em;
+  border-top: 1.2em solid rgba(255, 255, 255, 0.2);
+  border-right: 1.2em solid #ffffff;
+  border-bottom: 1.2em solid #ffffff;
+  border-left: 1.2em solid #ffffff;
+  @include animation(spin 1.3s infinite linear);
 }
 
-.content-load-spinner > div {
-    height  : 100%;
-    width   : 12px;
-    display : inline-block;
-    background-color : $color-spinner-bg;
-    @include animation(stretchdelay 1.2s infinite ease-in-out);
-    animation: stretchdelay 1.2s infinite ease-in-out;
+.content-load-spinner,
+.content-load-spinner:after {
+  border-radius: 50%;
+  width: 15em;
+  height: 15em;
 }
 
-.content-load-spinner .rect2 {
-    @include animation-delay(-1.1s);
+.modal-dialog {
+  z-index: 650;
+  background-color: $color-app-dialog-bg;
+  color: $color-app-dialog-btn-text;
+  position: absolute;
+  left: 515px;
+  top: 30%;
+  width: 890px;
+  min-height: 500px;
+  padding: 60px;
+    .dialog-title {
+        margin-bottom: 30px;
+        font-size   : 48pt;
+        font-family : $font-family-medium;
+    }
+    .dialog-message {
+        margin-bottom: 60px;
+        font-size   : 36pt;
+    }
+    .dialog-buttons-container {
+        justify-content: center;
+        display: flex;
+    }
 }
 
-.content-load-spinner .rect3 {
-    @include animation-delay(-1.0s);
-}
-
-.content-load-spinner .rect4 {
-    @include animation-delay(-0.9s);
-}
-
-.content-load-spinner .rect5 {
-    @include animation-delay(-0.8s);
-}
-
-@-webkit-keyframes stretchdelay {
-  0%, 40%, 100% {
-    @include transform(scaleY(0.4));
+@-webkit-keyframes spin {
+  0% {
+    @include transform(rotate(0deg));
   }
-  20% {
-    @include transform(scaleY(1.0))
+  100% {
+    @include transform(rotate(360deg));
   }
 }
 
-@keyframes stretchdelay {
-  0%, 40%, 100% {
-    @include transform(scaleY(0.4));
+@keyframes spin {
+  0% {
+    @include transform(rotate(0deg));
   }
-  20% {
-    @include transform(scaleY(1.0));
+  100% {
+    @include transform(rotate(360deg));
   }
 }
 

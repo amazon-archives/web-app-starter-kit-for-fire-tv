@@ -19,10 +19,14 @@
 $img-app-background : url('assets/bg_app.jpg') !default;
 $img-icon-leftnav   : url('assets/icon_leftnav_arrowDown.png') !default;
 $img-icon-search    : url('assets/search.png') !default;
+$img-icon-lock      : url('assets/icon_lock.png') !default;
 $img-player-indicator-forward : url('assets/forward-arrow.png') !default;
 $img-player-indicator-reverse : url('assets/rewind-arrow.png') !default;
 $img-nextvideo-preview-play   : url('assets/btn_previewPlay.png') !default;
-$img-skip-indicator: url('assets/skip_indicator.png') !default;
+$img-skip-indicator : url('assets/skip_indicator.png') !default;
+$img-left-arrow     : url('assets/icon_subcat_arrowLeft.png') !default;
+$img-subcat-bg     : url('assets/bg_subcat.png') !default;
+$img-live     : url('assets/live.png') !default;
 
 
 //
@@ -33,25 +37,37 @@ $img-skip-indicator: url('assets/skip_indicator.png') !default;
 $font-base-size : 20pt !default;
 
 //font-family
-$font-family-default : 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
-$font-family-light   : 'Helvetica Neue Light' !default;
-$font-family-medium  : 'Helvetica Neue Medium' !default;
-$font-family-bold    : 'Helvetica Neue Bold' !default;
+$font-family-light   : 'Helvetica Neue Light', 'HelveticaNeue-Light', Helvetica, Arial, sans-serif !default;
+$font-family-medium  : 'Helvetica Neue Medium', 'HelveticaNeue-Medium', Helvetica, Arial, sans-serif !default;
+$font-family-bold    : 'Helvetica Neue Bold', 'HelveticaNeue-Bold', Helvetica, Arial, sans-serif !default;
 
 
 //Colors
 //
 
-$color-app-base-bg      : #5a656f !default;
-$color-app-header-bg    : rgba(#000000, 0.1) !default;
+$color-app-base-bg   : #5a656f !default;
+$color-app-header-bg : rgba(#000000, 0.1) !default;
 
-$color-overlay-bg    : #000000 !default;
+$color-overlay-bg   : #000000 !default;
 $color-overlay-text : #e8e8e8 !default;
+
+$color-app-dialog-container-bg : rgba(0, 0, 0, 0.8);
+$color-app-dialog-bg           : #242527;
+$color-app-dialog-border       : #303539;
+$color-app-dialog-head-border  : #dadada;
+$color-app-dialog-btn-text     : #dadada;
+$color-app-dialog-btn-bg       : #393b3d;
+$color-dialog-btn-highlight-start : #eca21e;
+$color-dialog-btn-highlight-end :  #f0bb58;
+$color-dialog-entitlement-text  : #949393;
+$color-dialog-entitlement-price : #464646;
+$color-dialog-button-hightlight-text : black;
 
 $color-title-text : #e8e8e8 !default;
 $color-meta-primary-text : #e8e8e8 !default;
 $color-meta-secondary-text: #b9bbbd !default;
 $color-description-text : #e8e8e8 !default;
+$color-box-shadow : rgba(0,0,0,0.44) !default;
 
 $color-menu-base-bg : rgba(#000000, 0.9) !default;
 
@@ -69,7 +85,7 @@ $color-menu-search-bg: rgba(#e8e8e8, 0.1) !default;
 
 $color-btn-text: #b9bbbd !default;
 $color-btn-bg : #394149 !default;
-$color-btn-selected-text: #b9bbbd !default;
+$color-btn-selected-text: #e8e8e8 !default;
 $color-btn-selected-bg: #000000 !default;
 $color-btn-selected-border: #ffffff !default;
 
@@ -82,6 +98,8 @@ $color-playhead-border : #394149 !default;
 $color-playhead-bg   : #e8e8e8 !default;
 
 $color-thumbnail-border: #ffffff !default;
+$color-time-live-text: #FF704D !default;
+$color-time-upcoming-text: #66E066 !default;
 
 
 

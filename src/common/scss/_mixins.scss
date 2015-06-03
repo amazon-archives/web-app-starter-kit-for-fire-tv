@@ -15,11 +15,10 @@
 }
 
 @mixin display-box {
-  display: -webkit-flex;     /* NEW - Chrome */
-  display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
-  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -webkit-box;     /* NEW - Chrome */
   display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: box;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
 @mixin box-sizing($value) {
@@ -33,6 +32,12 @@
           box-orient: $value;
 }
 
+@mixin filter($value) {
+    -webkit-filter: $value;
+       -moz-filter: $value;
+            filter: $value;
+}
+
 @mixin line-clamp($value) {
   -webkit-line-clamp: $value;
      -moz-line-clamp: $value;
@@ -43,6 +48,12 @@
   -webkit-transition: $value;
      -moz-transition: $value;
           transition: $value;
+}
+
+@mixin box-shadow($value) {
+  -webkit-box-shadow: $value;
+     -moz-box-shadow: $value;
+          box-shadow: $value;
 }
 
 @mixin transform($value) {

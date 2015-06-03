@@ -13,7 +13,7 @@
      * @class ShovelerView
      * @description The shoveler view object, this handles everything about the shoveler.
      */
-    var ShovelerView = function () {
+    function ShovelerView() {
         // mixin inheritance, initialize this as an event handler for these events:
         Events.call(this, ['loadComplete', 'exit', 'bounce', 'startScroll', 'indexChange', 'stopScroll', 'select', 'bounce']);
 
@@ -25,15 +25,22 @@
         this.loadingImages = 0;
 
         //global jquery variables 
-        this.$parentEle = null;
         this.$el = null;
         this.$rowElements = null;
         this.rowsData = null;
 
         //constants
         this.MARGIN_WIDTH = 40;
-        this.STARTING_SIZE = 216;
+        this.DEFAULT_IMAGE = "assets/default-image.png";
         this.transformStyle = utils.vendorPrefix('Transform');
+
+        this.fadeOut = function() {
+            this.$el.css("opacity", "0");
+        };
+
+        this.fadeIn = function() {
+            this.$el.css("opacity", "");
+        };
 
         /**
          * Removes the main content view dom
@@ -47,14 +54,14 @@
          * Hides the shoveler view
          */
         this.hide = function () {
-            this.$el.hide();
+            this.$el.css("opacity", "0");
         };
 
         /**
          * Shows the shoveler view
          */
         this.show = function () {
-            this.$el.show();
+            this.$el.css("opacity", "");
         };
 
        /**
@@ -94,7 +101,7 @@
             this.$el = el.children().last();
 
             //hide the element until we are done with layout
-            this.$el.css('opacity', 0);
+            this.$el.css('opacity', "0");
 
             // select the first element
             this.$rowElements = this.$el.children();
@@ -104,6 +111,9 @@
 
             //register touch handlers for items 
             touches.registerTouchHandler("shoveler-full-img", this.handleContentItemSelection);
+
+            this.on("stopScroll", this.finalizeSelection);
+            this.on("startScroll", this.prepareSelectionForAnimation);
         };
 
        /**
@@ -118,26 +128,44 @@
                 var $currElt = $(this.$rowElements[i]);
                 var $currImage = $currElt.children("img.shoveler-full-img");
                 if ($currImage.length === 0) {
-                     $currElt.prepend('<img class = "shoveler-full-img" src="'+ this.rowsData[i].imgURL + '" style="visibility:hidden"/>');
+                     $currElt.prepend('<img class = "shoveler-full-img" src="'+ this.rowsData[i].imgURL + '" style="opacity:0"/>');
                      $currImage = $currElt.children("img.shoveler-full-img");
                 }
 
                 //set a callback to make sure all images are loaded 
-                (function($elt) {
-                    $currImage.on("load", function () {
-                        $elt.children("img.shoveler-full-img")[0].style.visibility = "visible";
-                        this.relayoutOnLoadedImages();
-                    }.bind(this));
-                    // handle error case for loading screen
-                    $currImage.on("error", function () {
-                        $elt.children("img.shoveler-full-img")[0].style.visibility = "visible";
-                        this.relayoutOnLoadedImages();
-                    }.bind(this));
-                }.bind(this))($currElt);
+                this.createImageLoadHandlers($currElt, $currImage, i);
 
                 this.loadingImages++;
             }
         };
+
+        this.createImageLoadHandlers = function($elt, $currImage, index) {
+            $currImage.on("load", this.imageLoadHandler($elt, this.rowsData[index].type));
+            // handle error case for loading screen
+            $currImage.on("error", this.imageLoadErrorHandler(this.rowsData[index].type));
+        }.bind(this);
+
+        this.imageLoadHandler = function($elt, itemType) {
+            return function () {
+                if (itemType === "subcategory") {
+                    // add the 'stacks' asset if this is a subcategory type
+                    $elt.append('<div class = "shoveler-subcat-bg"></div>');
+                }
+                $elt.children("img.shoveler-full-img")[0].style.opacity = "";
+                this.relayoutOnLoadedImages();
+            }.bind(this);
+        };
+
+        this.imageLoadErrorHandler = function(itemType) {
+            return function (event) {
+                var $elt = $(event.currentTarget).parent();
+                $elt.children("img.shoveler-full-img").remove();
+                $elt.prepend('<img class = "shoveler-full-img" src="'+ this.DEFAULT_IMAGE + '" style="opacity:0"/>');
+                var $currImage = $elt.children("img.shoveler-full-img");
+                $currImage.on("load", this.imageLoadHandler($elt, itemType));
+                errorHandler.writeToConsole(ErrorTypes.IMAGE_LOAD_ERROR, ErrorTypes.IMAGE_LOAD_ERROR.errorToDev,  errorHandler.genStack());
+            }.bind(this);
+        }.bind(this);
 
        /**
         * Performs secondary layout of the elements of the row, after images load for the first time
@@ -149,7 +177,7 @@
                 this.elementWidths[i] = $currElt.width();
 
                 if ($currElt.children("img.shoveler-full-img").length > 0) {
-                     $currElt.children("img.shoveler-full-img")[0].style.visibility = "visible";
+                     $currElt.children("img.shoveler-full-img")[0].style.opacity = "";
                 }
             }
 
@@ -177,6 +205,8 @@
         this.relayoutOnLoadedImages = function () {
             if (--this.loadingImages === 0) {
                 this.layoutElements();
+                // finalize selection on the first element in the shoveler
+                this.finalizeSelection(0);
             }
         };
 
@@ -185,7 +215,6 @@
         * @param {Number} dir the direction of the move
         */
         this.shovelMove = function (dir) {
-            $(this.$rowElements[this.currSelection]).removeClass(SHOVELER_ROW_ITEM_SELECTED);
             this.trigger("startScroll", dir);
             this.selectRowElement(dir);
         }.bind(this);
@@ -199,9 +228,7 @@
          * @param {event} the keydown event
          */
         this.handleControls = function (e) {
-            if (e.type === 'touch') {
-                //do nothing for now
-            } else if (e.type === 'swipe') {
+            if (e.type === 'swipe') {
                 if(e.keyCode === buttons.RIGHT) {
                     if(this.currSelection !== 0) {
                         this.shovelMove(-1);
@@ -267,12 +294,31 @@
                     case buttons.LEFT:
                     case buttons.RIGHT:
                         this.trigger("stopScroll", this.currSelection);
-                        // add the shiner to the new element
-                        $(this.$rowElements[this.currSelection]).addClass(SHOVELER_ROW_ITEM_SELECTED);
+
 
                         break;
                 }
             }
+        }.bind(this);
+
+        /**
+         * Does any necessary changes before the scrolling animation begins
+         */
+        this.prepareSelectionForAnimation = function() {
+            // remove drop shadow and z-index before moving to speed up FPS on animation
+            $(this.$rowElements[this.currSelection]).removeClass(SHOVELER_ROW_ITEM_SELECTED);
+            $(this.$rowElements[this.currSelection]).css("z-index", "");
+        }.bind(this);
+
+        /**
+         * Does all final element necessary changes once the selection is finalized by user input(ie stop scrolling completely)
+         * @param {number} the currently selected index.
+         */
+        this.finalizeSelection = function(currSelection) {
+            // add drop shadow to inner image
+            $(this.$rowElements[currSelection]).addClass(SHOVELER_ROW_ITEM_SELECTED);
+            // raise the outermost selected element div for the drop shadow to look right
+            $(this.$rowElements[currSelection]).css("z-index", "100");
         }.bind(this);
 
         /**
@@ -420,7 +466,7 @@
 
             this.setRightItemPositions(selected + 1, currX);
         }.bind(this);
-    };
+    }
 
     exports.ShovelerView = ShovelerView;
 }(window));
