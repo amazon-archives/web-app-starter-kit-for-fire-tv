@@ -1,8 +1,8 @@
 
 /* YouTube API Model
  *
- * Model for using the YouTube v3 Data API, pulls channel/playlist/user info from YouTube 
- * and changes it to the data format for the template. 
+ * Model for using the YouTube v3 Data API, pulls channel/playlist/user info from YouTube
+ * and changes it to the data format for the template.
  */
 
 (function (exports) {
@@ -128,9 +128,9 @@
                             this.categoryData.push("");
                             this.nameRequestRequired++;
                             $.ajax({
-                                url: "https://www.googleapis.com/youtube/v3/playlists?part=snippet&id= " + contentDetails.playlists[0] + "&key=" + this.devKey, 
-                                youtubeModel: this, 
-                                currentCatIndex: this.channelData.length - 1, 
+                                url: "https://www.googleapis.com/youtube/v3/playlists?part=snippet&id= " + contentDetails.playlists[0] + "&key=" + this.devKey,
+                                youtubeModel: this,
+                                currentCatIndex: this.channelData.length - 1,
                                 dataLoadedCallback: dataLoadedCallback,
                                 nameCheckCallback: this.checkAllNamesFound,
                                 success: function(jsonData) {
@@ -182,7 +182,7 @@
                             this.categoryData.push(snippet.title);
                         }
                     }
-                        
+
                     if (this.nameRequestRequired === 0){
                         dataLoadedCallback();
                     }
@@ -251,6 +251,14 @@
                     });
                     this.categoryData.push(this.premadeChannels[i].title);
                 }
+                else if (this.premadeChannels[i].type === "multiPlaylists") {
+                    this.channelData.push({
+                        type: "multiPlaylists",
+                        ids: this.premadeChannels[i].ids,
+                        title: "All Playlists"
+                    });
+                    this.categoryData.push(this.premadeChannels[i].title);
+                }
             }
             dataLoadedCallback();
         }.bind(this);
@@ -278,7 +286,7 @@
                         this.categoryData.push(snippet.title);
                      }
 
-                    dataLoadedCallback(); 
+                    dataLoadedCallback();
                 }.bind(this),
                 error: function(jqXHR, textStatus) {
                     if (jqXHR === 0) {
@@ -322,10 +330,10 @@
             this.currSubCategory = data;
          };
 
-        /** 
+        /**
          * Return the highest res available thumbnail for a YouTube object, also handles error cases with empty image(to not crash the app)
          * @param {Object} thumbnails YouTube thumbnail object.
-         */  
+         */
          this.getHighestResThumb = function(thumbnails) {
             if (!thumbnails) {
                 return "";
@@ -347,13 +355,13 @@
             }
          };
 
-        /** 
+        /**
          * Get and return data for a selected sub category, in YouTube's case a subcategory is a playlist.
          * @param {Function} subCategoryCallback method to call with returned requested data
-         */  
+         */
          this.getSubCategoryData = function(subCategoryCallback) {
             utils.ajaxWithRetry({
-                url: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults="+ 
+                url: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults="+
                     this.MAX_RESULTS_PER_CATEGORY +
                     "&playlistId="+ this.currSubCategory.id +
                     "&key=" + this.devKey,
@@ -368,10 +376,10 @@
                     var currObj = {};
                     for (var i = 0; i < items.length; i++) {
                         var snippet = items[i].snippet;
-                        if (snippet.resourceId.kind === "youtube#video" && snippet.title !== "Deleted video" && snippet.title !== "Private video") { 
+                        if (snippet.resourceId.kind === "youtube#video" && snippet.title !== "Deleted video" && snippet.title !== "Private video") {
                             currObj = {
                                 id: snippet.id,
-                                title: snippet.title, 
+                                title: snippet.title,
                                 description: snippet.description,
                                 pubDate: exports.utils.formatDate(snippet.publishedAt),
                                 imgURL: this.getHighestResThumb(snippet.thumbnails),
@@ -423,7 +431,7 @@
          this.getCategoryData = function (categoryCallback) {
             switch (this.channelData[this.currentCategory].type) {
                 case "latest":
-                    this.getDataFromSearch("", categoryCallback, "date", this.MAX_RESULTS_PER_CATEGORY);  
+                    this.getDataFromSearch("", categoryCallback, "date", this.MAX_RESULTS_PER_CATEGORY);
                     break;
                 case "popular":
                     this.getDataFromSearch("", categoryCallback, "viewCount", this.MAX_RESULTS_PER_CATEGORY);
@@ -433,13 +441,13 @@
                     break;
                 case "playlist":
                     this.getPlaylistData(this.MAX_RESULTS_PER_CATEGORY, categoryCallback);
-                    break;  
+                    break;
                 case "searchterm":
                     this.getDataFromSearch(this.channelData[this.currentCategory].query, categoryCallback);
                     break;
                 case "multiPlaylists":
                     this.getMultiPlaylists(this.channelData[this.currentCategory].ids, this.MAX_RESULTS_PER_CATEGORY, this.channelId, categoryCallback);
-                    break;   
+                    break;
             }
          }.bind(this);
 
@@ -474,7 +482,7 @@
                     var currObj = {};
                     for (var i = 0; i < items.length; i++) {
                         var snippet = items[i].snippet;
-                        if (items[i].kind === "youtube#playlist") { 
+                        if (items[i].kind === "youtube#playlist") {
                             currObj = {
                                 id: items[i].id,
                                 title: snippet.title,
@@ -516,9 +524,9 @@
          */
          this.getPlaylistData = function (maxResults, categoryCallback) {
             utils.ajaxWithRetry({
-                url: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults="+ 
-                maxResults +"&playlistId="+ 
-                this.channelData[this.currentCategory].id +"&key=" + 
+                url: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults="+
+                maxResults +"&playlistId="+
+                this.channelData[this.currentCategory].id +"&key=" +
                 this.devKey,
                 type: 'GET',
                 dataType: 'json',
@@ -530,11 +538,11 @@
                     var items = jsonData.items;
                     var currObj = {};
                     for (var i = 0; i < items.length; i++) {
-                        var snippet = items[i].snippet;                  
-                        if (snippet.resourceId.kind === "youtube#video" && snippet.title !== "Deleted video" && snippet.title !== "Private video") { 
+                        var snippet = items[i].snippet;
+                        if (snippet.resourceId.kind === "youtube#video" && snippet.title !== "Deleted video" && snippet.title !== "Private video") {
                             currObj = {
                                 id: snippet.id,
-                                title: snippet.title, 
+                                title: snippet.title,
                                 description: snippet.description,
                                 pubDate: exports.utils.formatDate(snippet.publishedAt),
                                 imgURL: this.getHighestResThumb(snippet.thumbnails),
@@ -593,10 +601,10 @@
                         var currObj = {};
                         for (var i = 0; i < items.length; i++) {
                             var snippet = items[i].snippet;
-                            if (items[i].id.kind === "youtube#video") { 
+                            if (items[i].id.kind === "youtube#video") {
                                 currObj = {
                                     id: items[i].id.videoId,
-                                    title: snippet.title, 
+                                    title: snippet.title,
                                     description: snippet.description,
                                     pubDate: exports.utils.formatDate(snippet.publishedAt),
                                     imgURL: this.getHighestResThumb(snippet.thumbnails),
@@ -645,11 +653,11 @@
 
             if (order) {
                 searchURL = "https://www.googleapis.com/youtube/v3/search?part=snippet&order=" +
-                order + "&maxResults=" + maxResults + "&q=" + encodeURIComponent(searchTerm) + 
+                order + "&maxResults=" + maxResults + "&q=" + encodeURIComponent(searchTerm) +
                 "&channelId=" + this.channelId + "&key=" + this.devKey;
             }
             else {
-                searchURL = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=" + maxResults + "&q=" + 
+                searchURL = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=" + maxResults + "&q=" +
                 encodeURIComponent(searchTerm) + "&channelId="+ this.channelId + "&key=" + this.devKey;
             }
 
@@ -666,10 +674,10 @@
                     var currObj = {};
                     for (var i = 0; i < items.length; i++) {
                         var snippet = items[i].snippet;
-                        if (items[i].id.kind === "youtube#video" && snippet.title !== "Deleted video" && snippet.title !== "Private video") { 
+                        if (items[i].id.kind === "youtube#video" && snippet.title !== "Deleted video" && snippet.title !== "Private video") {
                             currObj = {
                                 id: items[i].id.videoId,
-                                title: snippet.title, 
+                                title: snippet.title,
                                 description: snippet.description,
                                 pubDate: exports.utils.formatDate(snippet.publishedAt),
                                 imgURL: this.getHighestResThumb(snippet.thumbnails),
@@ -686,7 +694,7 @@
                         this.trigger("error", ErrorTypes.NETWORK_ERROR, errorHandler.genStack());
                         return;
                     }
-                    
+
                     switch (textStatus) {
                         case "timeout" :
                             this.trigger("error", ErrorTypes.SEARCH_TIMEOUT, errorHandler.genStack());
@@ -723,4 +731,3 @@
     exports.YouTubeAPIModel = YouTubeAPIModel;
 
 })(window);
-
