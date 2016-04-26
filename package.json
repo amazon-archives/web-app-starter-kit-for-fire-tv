@@ -4,6 +4,9 @@
   "description": "Web App Starter Kit for Fire TV",
   "license": "CC0-1.0",
   "repository": "https://github.com/amzn/web-app-starter-kit-for-fire-tv",
+  "engines": {
+    "node": ">= ??"
+  },
   "files": [
     "src/**/*",
     "docs/**/*",
