@@ -39,7 +39,7 @@ Both of these methods should result in you being able to access the template in 
 
 We recommend testing the template with Chrome when developing on a desktop computer.  While any browser should work except for Internet Explorer, the web view in FireTV is based on the Chromium project and Chrome offers excellent emulation and debugging support
 
-The template is designed for a 1080p display, and will be most accurately viewed by using Chrome's emulation to specify the screen size. Insructions to enable this can be found here: [Device Mode & Mobile Emulation](https://developer.chrome.com/devtools/docs/device-mode) The resolution should be set to 1920x1080 and the Device Pixel Ratio should be 1. (Use "Shrink to fit" on smaller screens.)
+The template is designed for a 1080p display, and will be most accurately viewed by using Chrome's emulation to specify the screen size. Instructions to enable this can be found here: [Device Mode & Mobile Emulation](https://developer.chrome.com/devtools/docs/device-mode) The resolution should be set to 1920x1080 and the Device Pixel Ratio should be 1. (Use "Shrink to fit" on smaller screens.)
 
 To test this app on a FireTV device, please refer to the [Web App Tester](https://developer.amazon.com/public/solutions/platforms/webapps/docs/tester.html).
 
@@ -140,4 +140,3 @@ New Features:
 ## License
 -------------------
 The template is released as open source under the Creative Commons License. For more information on this license please refer to the following link: [Creative Commons License CC0](http://creativecommons.org/publicdomain/zero/1.0/)
-
