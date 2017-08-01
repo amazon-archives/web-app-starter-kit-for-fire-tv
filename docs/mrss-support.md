@@ -1,8 +1,8 @@
-##MRSS
+## MRSS
 ---------------------------
 The Web App Starter Kit has an mrss project which supports MRSS feeds.
 
-###Setting the MRSS Feed URL
+### Setting the MRSS Feed URL
 To point the app to your content feed, you must edit the `init.js` in your project directory. The file contains a very simple object for application settings. Set the `dataURL` parameter to point to your MRSS feed URL.
 
     //initialize the app
@@ -15,7 +15,7 @@ To point the app to your content feed, you must edit the `init.js` in your proje
         displayButtons:false
     };
 
-###Editing the model-mrss
+### Editing the model-mrss
 There may be data transformation needed to get your content working in the application, these changes will need to be made in the model-mrss.js file that is located in the /src/common/js/directory.
 In the model-mrss file you will find a method called `handleXMLData`, which is where you will make your adjustments. Note that this function casts the object as a jQuery object, this is so that we can take advantage of jQuery methods to easily traverse the XML DOM.
 In the below example you will see the data object that the application expects, to map your data, change any of the DOM references needed.
