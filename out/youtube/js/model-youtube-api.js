@@ -251,6 +251,13 @@
                     });
                     this.categoryData.push(this.premadeChannels[i].title);
                 }
+                else if (this.premadeChannels[i].type === "multiPlaylists") {
+                    this.channelData.push({
+                        type: "multiPlaylists",
+                        ids: this.premadeChannels[i].ids
+                    });
+                    this.categoryData.push(this.premadeChannels[i].title);
+                }
             }
             dataLoadedCallback();
         }.bind(this);
