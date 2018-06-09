@@ -68,6 +68,7 @@ For more information about developing web apps for Amazon devices, please see:
 * [Amazon HTML5 Web Apps Developer Portal](https://developer.amazon.com/public/solutions/platforms/webapps)
 * [Web App Tester](http://www.amazon.com/Amazon-Digital-Services-Inc-Tester/dp/B00DZ3I1W8)
 * [Amazon Fire TV Developer Portal](https://developer.amazon.com/public/solutions/devices/fire-tv)
+* [Infomation On How To Use Web App Tester](https://developer.amazon.com/public/solutions/platforms/webapps/docs/tester.html)
 
 
 ## Discussion
