@@ -1,16 +1,16 @@
-##YouTube
+## YouTube
 ---------------------------
 The Web App Starter Kit currently supports making a Web App based on YouTube content through the provided [YouTube Developer API's](https://developers.google.com/youtube/getting_started).
 
-There is a working YouTube example in the `src/projects/youtube` directory. ***NOTE:** You will need to add your YouTube Developer Key for the example to work (see below).*
+There is a working YouTube example in the `src/projects/youtube` directory. * **NOTE:** You will need to add your YouTube Developer Key for the example to work (see below).*
 
 Here are the steps to getting a YouTube based application up and running:
 
-###Acquire a YouTube Developer Key
+### Acquire a YouTube Developer Key
 
 To utilize the YouTube functionality of the starter kit you must acquire a valid YouTube Developer key. This is a string hash which uniquely identifies your application to YouTube. All you need to acquire this key is a valid Google account. To obtain the key please view the video on the [Getting Started Guide from Google](https://developers.google.com/youtube/v3/getting-started#before-you-start).
 
-###Customizing the YouTube Project
+### Customizing the YouTube Project
 
 In the `init.js` file you will find a settings object similar to:
 
