@@ -102,7 +102,7 @@
                 });
             });
 
-            $.unique(cats); // purge duplicates.
+            $.unique(cats.sort()); // purge duplicates.
             this.categories = cats;
             this.categoryData = cats;
             this.mediaData = itemsInCategory;
