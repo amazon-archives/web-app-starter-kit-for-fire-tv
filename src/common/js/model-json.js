@@ -315,6 +315,7 @@
          */
          this.getDataFromSearch = function (searchTerm, searchCallback) {
             this.currData = [];
+            searchTerm = searchTerm.toLowerCase();
             for (var i = 0; i < this.mediaData.length; i++) {
                 if (this.mediaData[i].title.toLowerCase().indexOf(searchTerm) >= 0 || this.mediaData[i].description.toLowerCase().indexOf(searchTerm) >= 0) {
                     //make sure the date is in the correct format
