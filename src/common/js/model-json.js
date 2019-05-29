@@ -317,7 +317,13 @@
             this.currData = [];
             searchTerm = searchTerm.toLowerCase();
             for (var i = 0; i < this.mediaData.length; i++) {
-                if (this.mediaData[i].title.toLowerCase().indexOf(searchTerm) >= 0 || this.mediaData[i].description.toLowerCase().indexOf(searchTerm) >= 0) {
+                if (
+                    (this.mediaData && this.mediaData[i]) &&
+                    (
+                        (this.mediaData[i].title && this.mediaData[i].title.toLowerCase().indexOf(searchTerm) >= 0)||
+                        (this.mediaData[i].description && this.mediaData[i].description.toLowerCase().indexOf(searchTerm) >= 0)
+                    )
+                ) {
                     //make sure the date is in the correct format
                     if(this.mediaData[i].pubDate) {
                         this.mediaData[i].pubDate = exports.utils.formatDate(this.mediaData[i].pubDate);
